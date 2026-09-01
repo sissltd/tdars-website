@@ -46,7 +46,6 @@ export type Post = {
   category: Exclude<Category, "All">;
   /** `/images/blog/<slug>.jpg` once exported — see the note above. */
   image: string | null;
-  // image: "/images/blog/air-gapped-deployments.jpg";
 };
 
 /** The large post at the top of the page. */
@@ -68,7 +67,7 @@ export const POSTS: Post[] = [
     excerpt:
       "From retention schedules to audit trails, learn the most common compliance mistakes agencies make and how to avoid them.",
     category: "Insights",
-    image: null,
+    image: "/images/blog/compliance-pitfalls.jpg",
   },
   {
     slug: "digital-archives-retrieval-time",
@@ -76,7 +75,7 @@ export const POSTS: Post[] = [
     excerpt:
       "Manual filing systems cost agencies thousands of hours annually. See how digitising personnel dossiers changes the day-to-day.",
     category: "Archives",
-    image: null,
+    image: "/images/blog/digital-archives-retrieval-time.jpg",
   },
   {
     slug: "securing-personnel-records",
@@ -84,7 +83,7 @@ export const POSTS: Post[] = [
     excerpt:
       "Military and security organisations handle some of the most sensitive data. This guide covers best practice from intake to archive.",
     category: "Security",
-    image: null,
+    image: "/images/blog/securing-personnel-records.jpg",
   },
   {
     slug: "tenant-isolation",
@@ -92,7 +91,7 @@ export const POSTS: Post[] = [
     excerpt:
       "When multiple agencies share a platform, data boundaries matter. Learn how tenant isolation keeps each command's records its own.",
     category: "Security",
-    image: null,
+    image: "/images/blog/tenant-isolation.jpg",
   },
   {
     slug: "tdars-2-scanner-console",
@@ -100,7 +99,7 @@ export const POSTS: Post[] = [
     excerpt:
       "Our latest release brings a redesigned scanner console, faster batch queuing, and improved document classification.",
     category: "Updates",
-    image: null,
+    image: "/images/blog/tdars-2-scanner-console.jpg",
   },
   {
     slug: "audit-trails",
@@ -108,7 +107,31 @@ export const POSTS: Post[] = [
     excerpt:
       "Every access, edit, and export logged. Discover how immutable audit trails help agencies meet regulatory expectations.",
     category: "Archives",
-    image: null,
+    image: "/images/blog/audit-trails.jpg",
+  },
+  {
+    slug: "migration-playbook",
+    title: "From Paper to Digital: A Migration Playbook",
+    excerpt:
+      "Planning a large-scale digitisation project? This step-by-step playbook covers scanning, indexing, quality assurance, and go-live strategies.",
+    category: "Archives",
+    image: "/images/blog/migration-playbook.jpg",
+  },
+  {
+    slug: "data-sovereignty-nigeria",
+    title: "Understanding Data Sovereignty for Nigerian Agencies",
+    excerpt:
+      "Where your data lives matters. We explore Nigeria's data residency requirements and how on-premises deployments ensure full sovereignty.",
+    category: "Security",
+    image: "/images/blog/data-sovereignty-nigeria.jpg",
+  },
+  {
+    slug: "unauthorised-access-prevention",
+    title: "How Pending Approvals Workflow Prevents Unauthorised Access",
+    excerpt:
+      "TDARS built-in approval gates ensure no document is published or shared without proper authorisation from designated reviewers.",
+    category: "Security",
+    image: "/images/blog/unauthorised-access-prevention.jpg",
   },
   {
     slug: "scaling-across-state-commands",
@@ -116,7 +139,7 @@ export const POSTS: Post[] = [
     excerpt:
       "Deploying a unified archive system across multiple state offices brings unique challenges. Here's how to plan the rollout.",
     category: "News",
-    image: null,
+    image: "/images/blog/scaling-across-state-commands.jpg",
   },
   {
     slug: "hidden-cost-of-lost-records",
@@ -124,7 +147,7 @@ export const POSTS: Post[] = [
     excerpt:
       "Missing files delay promotions, stall investigations, and erode institutional trust. Learn the real cost — and how to stop it.",
     category: "Insights",
-    image: null,
+    image: "/images/blog/hidden-cost-of-lost-records.jpg",
   },
 ];
 

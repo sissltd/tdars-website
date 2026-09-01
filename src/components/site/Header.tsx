@@ -76,12 +76,15 @@ export function Header() {
 
             {/* Desktop actions */}
             <div className="hidden items-center gap-6 lg:flex">
-              <Link
+              {/* Plain <a>: LOGIN_HREF is the TDARS app on another host. */}
+              <a
                 href={LOGIN_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="rounded-sm text-sm font-medium text-primary hover:text-primary-hover"
               >
                 Log In
-              </Link>
+              </a>
               <Button href={REQUEST_ACCESS_HREF} className="px-7">
                 Request Access
                 <ArrowRightIcon className="size-4" />
@@ -157,13 +160,15 @@ export function Header() {
               </ul>
             </nav>
 
-            <Link
+            <a
               href={LOGIN_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={closeMenu}
               className="mt-8 inline-block rounded-sm px-3 text-base font-semibold text-primary"
             >
               Log In
-            </Link>
+            </a>
           </Container>
         </div>
       ) : null}

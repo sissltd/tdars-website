@@ -138,6 +138,19 @@
   background-image: var(--gradient-hero);
 }
 
+/*
+  Hides the scrollbar on the "Read other articles" rail, which the frame draws
+  without one. The rail keeps its own visible affordance (the prev/next buttons)
+  plus keyboard focus, so nothing is lost by hiding the bar itself.
+*/
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @layer base {
   body {
     background: var(--background);

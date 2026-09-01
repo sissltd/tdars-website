@@ -34,7 +34,7 @@ export default function HomePage() {
         <Solutions />
       </Section>
 
-      <Section aria-labelledby="how-it-works-title">
+      <Section id="how-it-works" aria-labelledby="how-it-works-title">
         <HowItWorks />
       </Section>
 

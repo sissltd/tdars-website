@@ -40,7 +40,7 @@ function RequiredMark() {
 
 function ContactCard() {
   return (
-    <div className="rounded-md border border-white/10 bg-footer-card p-5 md:p-8">
+    <div id="contact" className="scroll-mt-24 rounded-md border border-white/10 bg-footer-card p-5 md:p-8">
       <p className="text-xs font-medium tracking-widest text-footer-foreground uppercase">
         Contact us
       </p>
