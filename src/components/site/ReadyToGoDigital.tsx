@@ -1,5 +1,5 @@
-import { Badge } from "@/components/site/Badge";
-import { Button } from "@/components/site/Button";
+import { Badge } from "./Badge";
+import { Button } from "./Button";
 
 /*
   design/site/web/home-web9.png · design/site/mobile/home-mobile17-18.png

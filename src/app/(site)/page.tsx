@@ -4,7 +4,7 @@ import { Audiences } from "@/components/site/home/Audiences";
 import { Hero } from "@/components/site/home/Hero";
 import { HowItWorks } from "@/components/site/home/HowItWorks";
 import { MockExamsCbt } from "@/components/site/home/MockExamsCbt";
-import { ReadyToGoDigital } from "@/components/site/home/ReadyToGoDigital";
+import { ReadyToGoDigital } from "@/components/site/ReadyToGoDigital";
 import { Solutions } from "@/components/site/home/Solutions";
 import { StillOnPaper } from "@/components/site/home/StillOnPaper";
 import { TrustStrip } from "@/components/site/home/TrustStrip";

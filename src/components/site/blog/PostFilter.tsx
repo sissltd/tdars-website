@@ -1,0 +1,99 @@
+"use client";
+
+import { useMemo, useState, type ReactNode } from "react";
+
+import { cn } from "@/lib/cn";
+import { CATEGORIES, type Category, type Post } from "@/content/posts";
+
+import { PostCard } from "./PostCard";
+
+/*
+  design/site/web/home-web-Blog-page1..3.png · design/site/mobile/home-mobile-Blog1..5.png
+
+  The chips and the grid are one client island so the rest of the page stays a
+  server component — only the part that actually needs state ships JS.
+
+  The frame draws the chips with "All" selected and never shows another state, so
+  the selected treatment (rust hairline + rust label) is taken from the "All"
+  chip as drawn and applied to whichever chip is active.
+
+  Chips wrap to a second row on mobile at exactly Archives/Updates — that falls
+  out of `flex-wrap` at 375px rather than being forced, so it stays correct at
+  the widths between the two frames.
+*/
+export function PostFilter({
+  posts,
+  featured,
+}: {
+  posts: Post[];
+  /*
+    The featured article sits BETWEEN the chips and the grid in the frame, and
+    the chips have to drive the grid — so it comes through as a slot rather than
+    splitting this into two components that would need shared state hoisted
+    above both. Passed from the server page, so it stays server-rendered even
+    though it lands inside a client component.
+
+    It does not filter: the frame shows one fixed featured post above chips that
+    plainly govern the "Latest insights and trends" grid below.
+  */
+  featured: ReactNode;
+}) {
+  const [active, setActive] = useState<Category>("All");
+
+  const visible = useMemo(
+    () => (active === "All" ? posts : posts.filter((p) => p.category === active)),
+    [posts, active],
+  );
+
+  return (
+    <>
+      <div
+        role="group"
+        aria-label="Filter articles by category"
+        className="flex flex-wrap gap-2"
+      >
+        {CATEGORIES.map((category) => {
+          const selected = category === active;
+          return (
+            <button
+              key={category}
+              type="button"
+              onClick={() => setActive(category)}
+              aria-pressed={selected}
+              className={cn(
+                "h-9 rounded-full border px-4 text-sm transition-colors",
+                selected
+                  ? "border-primary text-primary"
+                  : "border-border bg-surface text-body hover:border-primary hover:text-primary",
+              )}
+            >
+              {category}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-10 md:mt-14">{featured}</div>
+
+      <div className="mt-10 rounded-lg bg-surface-subtle p-4 md:mt-14 lg:rounded-xl lg:p-8">
+        <h2 id="latest-title" className="font-heading text-h3 text-heading lg:text-h3-lg">
+          Latest insights and trends
+        </h2>
+
+        {visible.length > 0 ? (
+          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:mt-8 lg:grid-cols-3">
+            {visible.map((post) => (
+              <PostCard key={post.slug} post={post} />
+            ))}
+          </div>
+        ) : (
+          // Not in the frame — but a filter that can return nothing needs to say
+          // so, otherwise the grid silently empties and reads as a broken page.
+          <p className="mt-6 text-sm text-body">
+            No articles in this category yet.
+          </p>
+        )}
+      </div>
+    </>
+  );
+}
