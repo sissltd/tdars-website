@@ -1,26 +1,153 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────────────────
+   TDARS marketing-site design tokens (from Yemi's Figma — see design/TOKENS.md).
+   Components reference the SEMANTIC tokens below (bg-surface, text-heading,
+   text-primary, …), never raw hex — so a design tweak is a one-file change.
+
+   Every value here is either straight from the Figma inspector (TOKENS.md) or
+   sampled off the exported screenshots; nothing is invented. Anything new goes
+   into design/TOKENS.md FIRST, then here.
+   ────────────────────────────────────────────────────────────────────────── */
+
 :root {
+  /* ── Brand ─────────────────────────────────────────────────────────────── */
+  --primary: #b93a2c; /* Primary/Primary 1 — CTAs, active nav, links */
+  --primary-hover: #9c3025;
+  --primary-foreground: #ffffff;
+  --primary-soft: #faeceb; /* eyebrow pills, active nav pill */
+  --primary-wash: #fdf7f7; /* light button sitting on the rust CTA card */
+
+  /* ── Gray ramp (Figma Gray/1–4) ────────────────────────────────────────── */
+  --heading: #373737; /* Gray/Gray 1 */
+  --body: #4d4d4d; /* Gray/Gray 2 */
+  --muted: #999999; /* Gray/Gray 3 — step numerals, chips, placeholders */
+  --border: #e6e6e6; /* Gray/Gray 4 */
+
+  /* ── Surfaces ──────────────────────────────────────────────────────────── */
   --background: #ffffff;
-  --foreground: #171717;
+  --surface: #ffffff;
+  --surface-subtle: #f8f8f8; /* section bg / mockup frame */
+  --dark-panel: #2d2d2d; /* "How it works" card, "Still running on paper" */
+  --footer: #151515; /* footer / contact section */
+  --footer-card: #1a1a1a; /* contact-form card inside the footer */
+  --footer-foreground: #ffffff;
+  --cta-border: #334155; /* rust CTA card border */
+
+  /* ── Feedback ──────────────────────────────────────────────────────────── */
+  --success: #0e9f6e;
+  --success-soft: #cdffcc; /* halo behind the "Request submitted" check */
+
+  /* ── Hero wash ─────────────────────────────────────────────────────────── */
+  /* TODO(review): exact Figma gradient stops. Modelled from a pixel sweep of
+     design/site/web/home-web1.png — white at the edges, peaking #eef5fd
+     top-centre, back to white before the trust strip. */
+  --hero-tint: #eef5fd;
+  --hero-tint-soft: #f7fafd;
+  --gradient-hero: radial-gradient(
+    120% 100% at 52% 0%,
+    var(--hero-tint) 0%,
+    var(--hero-tint-soft) 45%,
+    var(--background) 78%
+  );
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-wash: var(--primary-wash);
+
+  --color-heading: var(--heading);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-border: var(--border);
+
+  --color-dark-panel: var(--dark-panel);
+  --color-footer: var(--footer);
+  --color-footer-card: var(--footer-card);
+  --color-footer-foreground: var(--footer-foreground);
+  --color-cta-border: var(--cta-border);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  /* Bricolage Grotesque for headings, Inter for body/UI (loaded in layout.tsx) */
+  --font-heading: var(--font-bricolage);
+  --font-sans: var(--font-inter);
+
+  /* Type ramp — added per element as each section is built (see TOKENS.md).
+     Sizes are read off the screenshots, never guessed as a global scale. */
+  --text-h1: 2rem; /* 32px — mobile */
+  --text-h1--line-height: 2.3125rem; /* 37px */
+  --text-h1--font-weight: 700;
+  --text-h1-lg: 3.75rem; /* 60px — desktop */
+  --text-h1-lg--line-height: 4.5rem; /* 72px */
+  --text-h1-lg--font-weight: 700;
+
+  /* H2 — section headings ("Four modules…", "Access controls that actually work."). */
+  --text-h2: 1.75rem; /* 28px — mobile */
+  --text-h2--line-height: 2.125rem; /* 34px */
+  --text-h2--font-weight: 700;
+  --text-h2-lg: 2.25rem; /* 36px — desktop */
+  --text-h2-lg--line-height: 2.75rem; /* 44px */
+  --text-h2-lg--font-weight: 700;
+
+  /* H3 — column headings ("Practice with TDARS Mock…", "Capture from anywhere"). */
+  --text-h3: 1.125rem; /* 18px — mobile */
+  --text-h3--line-height: 1.625rem; /* 26px */
+  --text-h3--font-weight: 600;
+  --text-h3-lg: 1.25rem; /* 20px — desktop */
+  --text-h3-lg--line-height: 1.75rem; /* 28px */
+  --text-h3-lg--font-weight: 600;
+
+  /* H4 — card titles ("Scan", "Government", "Capture"); same at both breakpoints. */
+  --text-h4: 1.125rem; /* 18px */
+  --text-h4--line-height: 1.5rem; /* 24px */
+  --text-h4--font-weight: 600;
+
+  /* Micro — 11px chrome: the audience chips and the product mock-up UI in the
+     "Access controls" / "Still running on paper" sections. Below Tailwind's 12px
+     `text-xs`, and the mock-up rows do not fit their column without it. */
+  --text-micro: 0.6875rem; /* 11px */
+  --text-micro--line-height: 1rem; /* 16px */
+
+  /* Display — the rust CTA card heading, a touch smaller than H1 on desktop. */
+  --text-display: 2rem; /* 32px — mobile */
+  --text-display--line-height: 2.375rem; /* 38px */
+  --text-display--font-weight: 700;
+  --text-display-lg: 3.375rem; /* 54px — desktop */
+  --text-display-lg--line-height: 3.75rem; /* 60px */
+  --text-display-lg--font-weight: 700;
+
+  /* Content container: max 1440px, 80px desktop gutter / 16px mobile. */
+  --container-site: 1440px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px; /* buttons */
+  --radius-lg: 20px; /* CTA card */
+  --radius-xl: 32px; /* dark "How it works" panel + CTA card, desktop */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@utility bg-hero {
+  background-image: var(--gradient-hero);
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--body);
+    font-family: var(--font-inter), system-ui, sans-serif;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Visible focus for keyboard users on every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
 }
