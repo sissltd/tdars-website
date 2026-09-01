@@ -34,7 +34,8 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <>
-      <Section aria-labelledby="blog-title" className="pb-0 pt-10 md:pt-14 lg:pt-16">
+      {/* Tightened: the frame runs the heading close under the header rule. */}
+      <Section aria-labelledby="blog-title" className="pb-0 pt-8 lg:pt-10">
         <h1 id="blog-title" className="font-heading text-h1 text-heading lg:text-h1-lg">
           Blog &amp; articles
         </h1>
@@ -44,7 +45,8 @@ export default function BlogPage() {
         </div>
       </Section>
 
-      <Section aria-labelledby="ready-title" className="pt-0">
+      {/* 80px above and below: the frame hugs at 598 = 438 card + 80 + 80. */}
+      <Section aria-labelledby="ready-title" className="py-14 lg:py-20">
         <ReadyToGoDigital />
       </Section>
     </>

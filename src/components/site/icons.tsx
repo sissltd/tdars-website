@@ -30,10 +30,26 @@ export function ArrowUpIcon(props: IconProps) {
   );
 }
 
+/**
+ * The mobile menu button, from Yemi's export.
+ *
+ * Note this glyph DRAWS ITS OWN 34x34 rounded-rect border, so the button around
+ * it must not add one of its own. It is also FILL-based (three bars of differing
+ * length, indented top and bottom) rather than the even stroked rule the other
+ * icons use — so it deliberately does not spread `base`.
+ *
+ * Yemi's export hardcodes #4D4D4D on both the rect and the bars; both are
+ * swapped for `currentColor` so the control tints from a text token and can
+ * invert. Same rule as the app's topbar icons.
+ */
 export function MenuIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
-      <path d="M4 7h16M4 12h16M4 17h16" />
+    <svg viewBox="0 0 34 34" fill="none" aria-hidden="true" {...props}>
+      <rect x="0.5" y="0.5" width="33" height="33" rx="7.5" stroke="currentColor" />
+      <path
+        d="M8.25 17C8.25 16.586 8.586 16.25 9 16.25H25C25.414 16.25 25.75 16.586 25.75 17C25.75 17.414 25.414 17.75 25 17.75H9C8.586 17.75 8.25 17.414 8.25 17ZM11.25 10C11.25 9.586 11.586 9.25 12 9.25H22C22.414 9.25 22.75 9.586 22.75 10C22.75 10.414 22.414 10.75 22 10.75H12C11.586 10.75 11.25 10.414 11.25 10ZM12 23.25H22C22.414 23.25 22.75 23.586 22.75 24C22.75 24.414 22.414 24.75 22 24.75H12C11.586 24.75 11.25 24.414 11.25 24C11.25 23.586 11.586 23.25 12 23.25Z"
+        fill="currentColor"
+      />
     </svg>
   );
 }

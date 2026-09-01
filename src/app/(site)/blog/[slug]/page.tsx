@@ -60,7 +60,7 @@ export default async function BlogDetailPage({ params }: Params) {
         contributed their own vertical rhythm on top of that, which was the extra
         gap at the top.
       */}
-      <Section className="pb-0 pt-15">
+      <Section className="pb-0 pt-8 lg:pt-10">
         {/*
           "Go Back" is a link to the index, not `history.back()`. The frame gives
           it a fixed destination, and a history call would send someone who
@@ -68,7 +68,7 @@ export default async function BlogDetailPage({ params }: Params) {
         */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm text-heading transition-colors hover:text-primary"
+          className="inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-primary lg:text-base"
         >
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-5">
             <path
@@ -92,10 +92,12 @@ export default async function BlogDetailPage({ params }: Params) {
         <article className="mt-10 lg:rounded-lg lg:bg-surface-subtle lg:py-10">
           <div className="mx-auto w-full lg:max-w-[907px]">
           {article ? (
-            <p className="text-sm text-body">{article.date}</p>
+            <p className="text-sm font-medium leading-5 text-body lg:text-base lg:leading-6">
+              {article.date}
+            </p>
           ) : null}
 
-          <h1 className="mt-2 max-w-3xl font-heading text-h1 text-heading lg:text-h1-lg">
+          <h1 className="mt-2 font-heading text-h2 font-semibold text-heading lg:text-h2-lg">
             {post.title}
           </h1>
 
@@ -103,20 +105,20 @@ export default async function BlogDetailPage({ params }: Params) {
             src={post.image}
             alt={post.title}
             sizes="(min-width: 1024px) 60vw, 100vw"
-            className="mt-6 aspect-[746/464] w-full lg:mt-8"
+            className="mt-6 aspect-[358/216] w-full lg:mt-8 lg:aspect-[907/525]"
             priority
           />
 
           {article ? (
             article.sections.map((section) => (
               <section key={section.heading} className="mt-8 lg:mt-10">
-                <h2 className="font-heading text-h3 text-heading lg:text-h3-lg">
+                <h2 className="font-heading text-h2 font-semibold text-heading lg:text-h2-lg">
                   {section.heading}
                 </h2>
                 {section.paragraphs.map((paragraph) => (
                   <p
                     key={paragraph.slice(0, 48)}
-                    className="mt-4 max-w-3xl text-sm leading-relaxed text-body"
+                    className="mt-4 text-sm leading-[1.4] tracking-[-0.02em] text-prose"
                   >
                     {paragraph}
                   </p>
@@ -130,7 +132,7 @@ export default async function BlogDetailPage({ params }: Params) {
               page is never blank, and the article renders in full the moment
               copy is added.
             */
-            <p className="mt-8 max-w-3xl text-sm leading-relaxed text-body lg:mt-10">
+            <p className="mt-8 text-sm leading-[1.4] tracking-[-0.02em] text-prose lg:mt-10">
               {post.excerpt}
             </p>
           )}
@@ -142,7 +144,8 @@ export default async function BlogDetailPage({ params }: Params) {
         <ReadOtherArticles posts={others} />
       </Section>
 
-      <Section aria-labelledby="ready-title" className="pt-0">
+      {/* 80px above and below: the frame hugs at 598 = 438 card + 80 + 80. */}
+      <Section aria-labelledby="ready-title" className="py-14 lg:py-20">
         <ReadyToGoDigital />
       </Section>
     </>

@@ -26,7 +26,13 @@ export function Badge({ children, tone = "soft", className }: BadgeProps) {
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium md:text-sm",
+        // Hug 90 x 26 · radius 12 · padding 4 top/bottom, 12 left/right.
+        // A rounded rectangle, NOT a pill — `rounded-full` read as a capsule and
+        // sat taller than the 26px the frame draws.
+        // TODO(review): measured on the CTA's "Get started". Home's lighter
+        // eyebrows are almost certainly the same component, but were not
+        // measured — worth confirming they are 12px too.
+        "inline-flex items-center rounded-md px-3 py-1 text-xs font-medium",
         toneClass[tone],
         className,
       )}

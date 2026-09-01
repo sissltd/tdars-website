@@ -102,9 +102,10 @@ export function Header() {
                 aria-label="Open menu"
                 aria-expanded={menuOpen}
                 aria-controls="mobile-menu"
-                className="inline-flex size-9 items-center justify-center rounded-md border border-border text-heading"
+                /* No border or rounding here — MenuIcon draws its own 34x34 frame. */
+                className="inline-flex items-center justify-center text-text-2"
               >
-                <MenuIcon className="size-5" />
+                <MenuIcon className="size-[34px]" />
               </button>
             </div>
           </div>

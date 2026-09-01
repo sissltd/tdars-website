@@ -40,108 +40,163 @@ function RequiredMark() {
 
 function ContactCard() {
   return (
-    <div id="contact" className="scroll-mt-24 rounded-md border border-white/10 bg-footer-card p-5 md:p-8">
-      <p className="text-xs font-medium tracking-widest text-footer-foreground uppercase">
-        Contact us
-      </p>
+    <div id="contact" className="scroll-mt-24 flex flex-col rounded-md border-2 border-footer-border bg-footer-card px-3 pt-3 pb-5 lg:justify-between lg:rounded-lg lg:p-5">
+      {/*
+        The label, heading and form are ONE child of the card's space-between
+        column; only the Privacy / Terms row is the second. Leaving all four as
+        siblings made `justify-between` spread every one of them down the card,
+        which is what blew out the gaps under "CONTACT US" and the heading.
 
-      <h2 className="mt-4 font-heading text-2xl leading-snug font-semibold md:text-3xl">
-        <span className="text-white/50">Looking for tailored assistance?</span>{" "}
-        <span className="text-footer-foreground">Make a contact with our team.</span>
-      </h2>
+        Inside, the frame's `top` block is Fill 526 x Hug 564 with a 32px gap.
+      */}
+      <div>
+        <p className="text-base font-semibold text-primary-3">CONTACT US</p>
+
+        {/* 526 x 88 — two lines, breaking after "assistance?". The max-width is
+            the frame's own text box; without it the line breaks somewhere else. */}
+        <h2 className="mt-8 max-w-[526px] font-heading text-h2 font-medium lg:text-h2-footer">
+          <span className="text-muted">Looking for tailored assistance?</span>{" "}
+          <span className="text-footer-foreground">Make a contact with our team.</span>
+        </h2>
+
+        {/*
+          TODO(review): this form has no endpoint — the brief is a static marketing
+          site with no API calls, and the Figma has no success/error state for it
+          (unlike Request access). Left as a plain, unwired form; tell me where the
+          submission should go and I will wire it up.
+
+          The name field is RESPONSIVE, not inconsistent between frames: the
+          desktop footer is one "Full Name" beside "Email Address", while the
+          mobile footer stacks separate "First Name" and "Last Name". Both are
+          rendered and swapped at `lg`.
+        */}
+        <form className="mt-8 space-y-4">
+          {/*
+            Mobile: First Name and Last Name as separate stacked fields.
+            Desktop: a single Full Name beside Email Address.
+
+            Both are in the markup and swapped at `lg` rather than one being
+            relabelled, because they are genuinely different fields — a desktop
+            submission carries `name`, a mobile one carries `firstName` +
+            `lastName`. `hidden` also removes them from the tab order and from the
+            form's submitted values, so the inactive pair cannot post empty
+            strings alongside the active one.
+          */}
+          <div className="grid gap-4 lg:hidden">
+            <div>
+              <label htmlFor="footer-first-name" className={labelClass}>
+                First Name
+                <RequiredMark />
+              </label>
+              <input
+                id="footer-first-name"
+                name="firstName"
+                type="text"
+                placeholder="Placeholder"
+                className={fieldClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="footer-last-name" className={labelClass}>
+                Last Name
+                <RequiredMark />
+              </label>
+              <input
+                id="footer-last-name"
+                name="lastName"
+                type="text"
+                placeholder="Placeholder"
+                className={fieldClass}
+              />
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="hidden lg:block">
+              <label htmlFor="footer-name" className={labelClass}>
+                Full Name
+                <RequiredMark />
+              </label>
+              <input
+                id="footer-name"
+                name="name"
+                type="text"
+                placeholder="Placeholder"
+                className={fieldClass}
+              />
+            </div>
+            <div>
+              <label htmlFor="footer-email" className={labelClass}>
+                Email Address
+                <RequiredMark />
+              </label>
+              <input
+                id="footer-email"
+                name="email"
+                type="email"
+                required
+                placeholder="Placeholder"
+                className={fieldClass}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="footer-phone" className={labelClass}>
+              Phone Number
+              <RequiredMark />
+            </label>
+            <div className="flex w-full overflow-hidden rounded-md bg-surface-subtle sm:w-2/3">
+              <div className="relative flex shrink-0 items-center border-r border-border">
+                <select
+                  id="footer-phone-country"
+                  name="phoneCountry"
+                  aria-label="Country dialling code"
+                  className="h-11 appearance-none bg-transparent pr-8 pl-3 text-sm text-heading"
+                >
+                  <option value="US">US</option>
+                </select>
+                <ChevronDownIcon className="pointer-events-none absolute right-2 size-4 text-heading" />
+              </div>
+              <input
+                id="footer-phone"
+                name="phone"
+                type="tel"
+                required
+                placeholder="Placeholder"
+                className="h-11 w-full bg-transparent px-3 text-sm text-heading placeholder:text-muted"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="footer-message" className={labelClass}>
+              Message
+              <RequiredMark />
+            </label>
+            <textarea
+              id="footer-message"
+              name="message"
+              required
+              rows={4}
+              placeholder="Enter your message here"
+              className="w-full resize-y rounded-md bg-surface-subtle p-3 text-sm text-heading placeholder:text-muted"
+            />
+          </div>
+
+          <Button type="submit" fullWidth className="mt-2">
+            Send Message
+          </Button>
+        </form>
+      </div>
 
       {/*
-        TODO(review): this form has no endpoint — the brief is a static marketing
-        site with no API calls, and the Figma has no success/error state for it
-        (unlike Request access). Left as a plain, unwired form; tell me where the
-        submission should go and I will wire it up.
-
-        TODO(review): the Home frame (home-web10) splits this into First Name /
-        Last Name, while the Terms and Blog frames (home-web-T&C5,
-        home-web-Blog-page4) use a single "Full Name". Using the two-frame
-        majority — confirm which is canonical.
-      */}
-      <form className="mt-6 space-y-4">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor="footer-name" className={labelClass}>
-              Full Name
-              <RequiredMark />
-            </label>
-            <input
-              id="footer-name"
-              name="name"
-              type="text"
-              required
-              placeholder="Placeholder"
-              className={fieldClass}
-            />
-          </div>
-          <div>
-            <label htmlFor="footer-email" className={labelClass}>
-              Email Address
-              <RequiredMark />
-            </label>
-            <input
-              id="footer-email"
-              name="email"
-              type="email"
-              required
-              placeholder="Placeholder"
-              className={fieldClass}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="footer-phone" className={labelClass}>
-            Phone Number
-            <RequiredMark />
-          </label>
-          <div className="flex w-full overflow-hidden rounded-md bg-surface-subtle sm:w-2/3">
-            <div className="relative flex shrink-0 items-center border-r border-border">
-              <select
-                id="footer-phone-country"
-                name="phoneCountry"
-                aria-label="Country dialling code"
-                className="h-11 appearance-none bg-transparent pr-8 pl-3 text-sm text-heading"
-              >
-                <option value="US">US</option>
-              </select>
-              <ChevronDownIcon className="pointer-events-none absolute right-2 size-4 text-heading" />
-            </div>
-            <input
-              id="footer-phone"
-              name="phone"
-              type="tel"
-              required
-              placeholder="Placeholder"
-              className="h-11 w-full bg-transparent px-3 text-sm text-heading placeholder:text-muted"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="footer-message" className={labelClass}>
-            Message
-            <RequiredMark />
-          </label>
-          <textarea
-            id="footer-message"
-            name="message"
-            required
-            rows={4}
-            placeholder="Enter your message here"
-            className="w-full resize-y rounded-md bg-surface-subtle p-3 text-sm text-heading placeholder:text-muted"
-          />
-        </div>
-
-        <Button type="submit" fullWidth className="mt-2">
-          Send Message
-        </Button>
-      </form>
-
-      <div className="mt-10 flex items-center justify-between text-sm text-footer-foreground">
+          125px below the button at desktop. In the frame the card is
+          `Fill 747 · space-between`, so this gap is what falls out of pinning
+          this row to the bottom — measured rather than derived, because the
+          column only stretches to 747 when the taller right-hand column says so.
+        */}
+        <div className="mt-10 flex items-center justify-between text-xs leading-[18px] text-footer-foreground lg:mt-0">
         <Link href="/privacy" className="rounded-sm hover:text-white/70">
           Privacy
         </Link>
@@ -163,7 +218,7 @@ function SiteInfo() {
         markClassName="h-8"
       />
 
-      <p className="mt-5 max-w-md text-sm leading-relaxed text-footer-foreground">
+      <p className="mt-5 max-w-[478px] text-base leading-6 text-footer-body">
         Secure digital archive and career dossier systems engineered specifically for
         national agencies, military commands, and security structures.
       </p>
@@ -173,7 +228,7 @@ function SiteInfo() {
           <li key={link.label}>
             <Link
               href={link.href}
-              className="rounded-sm text-sm font-semibold text-footer-foreground hover:text-white/70"
+              className="rounded-sm text-base leading-6 font-semibold text-primary-soft hover:opacity-80"
             >
               {link.label}
             </Link>
@@ -181,40 +236,57 @@ function SiteInfo() {
         ))}
       </ul>
 
-      <h3 className="mt-12 text-sm font-semibold text-footer-foreground">Contact Us</h3>
-      <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
-        <a href="tel:+19998887766" className="block rounded-sm hover:text-white/70">
-          +1 (999) 888-77-66
-        </a>
-        <a href="mailto:hello@cK.com" className="block rounded-sm hover:text-white/70">
-          hello@cK.com
-        </a>
-      </address>
-
-      {/* Location left / Languages right stays side-by-side on mobile too — see
-          design/site/mobile/home-mobile21.png. */}
-      <div className="mt-10 flex items-start justify-between gap-6">
+      {/*
+        Contact Us and Location are ONE block in the frame — 632 x 200 with
+        space-between — NOT two siblings separated by a gap. That block sits
+        120px below the Platform./Solutions./How it works. block above it, and
+        145px above the social row below it. Treating them as siblings put the
+        spacing between them instead of around them.
+      */}
+      <div className="mt-12 lg:mt-[120px] lg:flex lg:h-[200px] lg:flex-col lg:justify-between">
         <div>
-          <h3 className="text-sm font-semibold text-footer-foreground">Location</h3>
+          <h3 className="text-base leading-6 font-semibold text-footer-foreground">
+            Contact Us
+          </h3>
           <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
-            483920, Abuja, Nigeria
-            <br />
-            22/2/5, Office 4
+            <a href="tel:+19998887766" className="block rounded-sm hover:text-white/70">
+              +1 (999) 888-77-66
+            </a>
+            <a href="mailto:hello@cK.com" className="block rounded-sm hover:text-white/70">
+              hello@cK.com
+            </a>
           </address>
         </div>
 
-        <div className="text-right">
-          <h3 className="text-xs text-footer-foreground">Languages</h3>
-          <ul className="mt-3 flex gap-3 text-sm whitespace-nowrap text-footer-foreground md:gap-4">
-            {LANGUAGES.map((language) => (
-              <li key={language}>{language}</li>
-            ))}
-          </ul>
+        {/* Location left / Languages right stays side-by-side on mobile too — see
+            design/site/mobile/home-mobile21.png. */}
+        <div className="mt-10 flex items-start justify-between gap-6 lg:mt-0">
+          <div>
+            <h3 className="text-base leading-6 font-semibold text-footer-foreground">
+              Location
+            </h3>
+            <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
+              483920, Abuja, Nigeria
+              <br />
+              22/2/5, Office 4
+            </address>
+          </div>
+
+          <div className="text-right">
+            <h3 className="text-xs text-footer-foreground">Languages</h3>
+            <ul className="mt-3 flex gap-3 text-sm whitespace-nowrap text-footer-foreground md:gap-4">
+              {LANGUAGES.map((language) => (
+                <li key={language}>{language}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div className="mt-14 flex flex-wrap items-end justify-between gap-6">
-        <ul className="grid grid-cols-2 gap-3">
+      {/* 145px below the address at desktop — the same space-between result on the
+          right-hand column. */}
+      <div className="mt-14 flex flex-wrap items-end justify-between gap-6 lg:mt-[145px]">
+        <ul className="grid grid-cols-2 gap-3 [--chip:32.73px]">
           {SOCIALS.map(({ label, href, Icon }, index) => (
             <li
               key={label}
@@ -225,7 +297,7 @@ function SiteInfo() {
               <a
                 href={href}
                 aria-label={label}
-                className="inline-flex size-8 items-center justify-center rounded-full border border-white/30 text-footer-foreground hover:border-white/70"
+                className="inline-flex size-[var(--chip)] items-center justify-center rounded-full border-[0.79px] border-footer-foreground text-footer-foreground hover:opacity-70"
               >
                 <Icon className="size-4" />
               </a>
@@ -233,7 +305,7 @@ function SiteInfo() {
           ))}
         </ul>
 
-        <p className="text-right text-xs leading-relaxed text-footer-foreground">
+        <p className="text-right text-xs leading-[18px] text-footer-foreground">
           © 2025 — Copyright
           <br />
           All Rights reserved
@@ -246,8 +318,10 @@ function SiteInfo() {
 export function Footer() {
   return (
     <footer className="bg-footer text-footer-foreground">
-      <Container className="py-12 lg:py-16">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+      {/* 64px top/bottom; the 80px side gutter is Container's own. */}
+      <Container className="py-8 lg:py-16">
+        {/* 566 + 82 + 632 = 1280 — space-between, not an even split. */}
+        <div className="grid items-stretch gap-[60px] lg:grid-cols-[566fr_632fr] lg:gap-[82px]">
           <ContactCard />
           <SiteInfo />
         </div>

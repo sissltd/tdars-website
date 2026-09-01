@@ -6,25 +6,37 @@ import type { Post } from "@/content/posts";
 /*
   design/site/web/home-web-Blog-page2.png · design/site/mobile/home-mobile-Blog3.png
 
-  Hairline card, photo on top, then title and excerpt. The frame truncates the
-  excerpt mid-sentence with an ellipsis at two lines on both breakpoints —
-  `line-clamp-2` rather than a shortened string, so the full text stays in the
-  content file and the truncation is the browser's job at whatever width it gets.
+  Measured off the frame:
+    Card    372 x 376 fixed · radius 12 · 1px Gray/Gray 4 (#E6E6E6)
+            · padding 4 · gap 10 · fill Gray/Gray 5 (#FAFAFA)
+    Image   362 x 243 · radius 12
+    Title   354 x 48 (desktop) / 316 x 40 (mobile) — Body 1/Semi Bold, INTER
+    Body    354 x 49 — Body 2/Regular, Gray/Gray 2 (#4D4D4D)
+
+  Two things this corrects. The card is #FAFAFA, not white — it sits on the
+  #F7F7F7 panel, so white made it float rather than settle. And the title is
+  Inter Semi Bold, NOT the Bricolage heading face: Yemi uses the body family for
+  card titles and reserves the display face for section headings.
+
+  Both title and excerpt clamp to two lines, which is what holds every card to
+  the same height without pinning one in CSS.
 */
 export function PostCard({ post }: { post: Post }) {
   return (
     // `relative` is load-bearing: the title's stretched link positions against it.
-    <article className="group relative flex flex-col overflow-hidden rounded-md border border-border bg-surface transition-colors hover:border-primary/40">
+    <article className="group relative flex flex-col gap-2.5 rounded-md border border-border bg-surface-subtle p-1 transition-colors hover:border-primary/40">
       <PostImage
         src={post.image}
         alt={post.title}
-        // One column below md, two at md, three at lg — matches the grid below.
+        // One column below md, two at md, three at lg — matches the grid.
         sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-        className="aspect-[4/3] w-full rounded-none"
+        className="aspect-[362/243] w-full"
       />
 
-      <div className="flex flex-1 flex-col p-4">
-        <h3 className="font-heading text-h4 text-heading">
+      {/* The copy is inset a little further than the card's 4px: the frame has
+          the text at 354 inside a 372 card. */}
+      <div className="flex flex-1 flex-col gap-2 px-1.5 pb-1.5">
+        <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-heading lg:text-base lg:leading-6">
           {/* Stretched link: the whole card is the target, but only the title is
               the accessible name — a card with several links reads as noise. */}
           <Link href={`/blog/${post.slug}`} className="after:absolute after:inset-0">
@@ -32,9 +44,7 @@ export function PostCard({ post }: { post: Post }) {
           </Link>
         </h3>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-body">
-          {post.excerpt}
-        </p>
+        <p className="line-clamp-2 text-sm leading-5 text-text-2">{post.excerpt}</p>
       </div>
     </article>
   );

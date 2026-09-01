@@ -61,7 +61,7 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
       <div className="flex items-center justify-between gap-4">
         <h2
           id="other-articles-title"
-          className="font-heading text-h3 text-heading lg:text-h3-lg"
+          className="font-heading text-h2 font-semibold text-heading lg:text-h2-lg"
         >
           Read other articles
         </h2>

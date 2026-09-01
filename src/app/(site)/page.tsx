@@ -55,7 +55,8 @@ export default function HomePage() {
         <StillOnPaper />
       </Section>
 
-      <Section aria-labelledby="ready-title">
+      {/* 80px above and below: the frame hugs at 598 = 438 card + 80 + 80. */}
+      <Section aria-labelledby="ready-title" className="py-14 lg:py-20">
         <ReadyToGoDigital />
       </Section>
     </>

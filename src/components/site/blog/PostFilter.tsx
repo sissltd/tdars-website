@@ -60,8 +60,19 @@ export function PostFilter({
               type="button"
               onClick={() => setActive(category)}
               aria-pressed={selected}
+              /*
+                Hug x 30 · radius 8 · 1px border · 4px top/bottom, 10px
+                left/right. Not a pill: the frame's 8px corner on a 30px chip
+                reads as a rounded rectangle, and `rounded-full` was rendering
+                these noticeably taller and more capsule-shaped than drawn.
+
+                8px is `rounded-sm` HERE — this project overrides Tailwind's
+                radius scale (sm 8 / md 12 / lg 20 / xl 32), so `rounded-lg`
+                would be 20px, not the 8 you would expect from stock Tailwind.
+                Selected carries the Primary/Primary 1 (#B93A2C) hairline.
+              */
               className={cn(
-                "h-9 rounded-full border px-4 text-sm transition-colors",
+                "h-[30px] rounded-sm border px-2.5 text-xs transition-colors",
                 selected
                   ? "border-primary text-primary"
                   : "border-border bg-surface text-body hover:border-primary hover:text-primary",
@@ -75,13 +86,25 @@ export function PostFilter({
 
       <div className="mt-10 md:mt-14">{featured}</div>
 
-      <div className="mt-10 rounded-lg bg-surface-subtle p-4 md:mt-14 lg:rounded-xl lg:p-8">
-        <h2 id="latest-title" className="font-heading text-h3 text-heading lg:text-h3-lg">
+      {/*
+        Panel: Fill 1280 · radius 32 · padding 40 · gap 40 · #F7F7F7.
+        `rounded-xl` IS 32 here (this project overrides Tailwind's radius scale).
+      */}
+      <div className="mt-10 rounded-lg bg-surface-subtle p-4 md:mt-14 lg:rounded-xl lg:p-10">
+        {/*
+          368 x 38 desktop, 249 x 26 mobile — the same H3 as the featured
+          headline (38px line at desktop), NOT the 20/28 `--text-h3-lg` that
+          Home's column headings use.
+        */}
+        <h2
+          id="latest-title"
+          className="font-heading text-h3 text-heading lg:text-h3-feature"
+        >
           Latest insights and trends
         </h2>
 
         {visible.length > 0 ? (
-          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:mt-8 lg:grid-cols-3">
+          <div className="mt-6 grid gap-5 md:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-10">
             {visible.map((post) => (
               <PostCard key={post.slug} post={post} />
             ))}

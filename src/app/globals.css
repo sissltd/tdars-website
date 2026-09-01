@@ -15,13 +15,15 @@
   --primary: #b93a2c; /* Primary/Primary 1 — CTAs, active nav, links */
   --primary-hover: #9c3025;
   --primary-foreground: #ffffff;
-  --primary-soft: #faeceb; /* eyebrow pills, active nav pill */
-  --primary-wash: #fdf7f7; /* light button sitting on the rust CTA card */
+  --primary-soft: #faecea; /* Primary/Primary 4 — eyebrow pills, active nav, footer links */
+  --primary-wash: #fdf7f7; /* Primary/Primary 5 — light button on the rust CTA card */
+  --primary-3: #ebb3ad; /* Primary/Primary 3 — the footer's "CONTACT US" label */
 
   /* ── Gray ramp (Figma Gray/1–4) ────────────────────────────────────────── */
   --heading: #373737; /* Gray/Gray 1 */
   --body: #4d4d4d; /* Gray/Gray 2 */
   --muted: #999999; /* Gray/Gray 3 — step numerals, chips, placeholders */
+  --prose: #606060; /* Grey 11/Text2 — long-form article body, lighter than --body */
   --border: #e6e6e6; /* Gray/Gray 4 */
 
   /* ── Surfaces ──────────────────────────────────────────────────────────── */
@@ -31,8 +33,15 @@
   --dark-panel: #2d2d2d; /* "How it works" card, "Still running on paper" */
   --footer: #151515; /* footer / contact section */
   --footer-card: #1a1a1a; /* contact-form card inside the footer */
-  --footer-foreground: #ffffff;
+  /* Gray/Gray 5. The footer's copy is NOT pure white — measured #FAFAFA. */
+  --footer-foreground: #fafafa;
+  --footer-body: #e6e6e6; /* Gray/Gray 4 — the description under the wordmark */
+  --footer-border: #242424; /* 2px rule around the contact card */
   --cta-border: #334155; /* rust CTA card border */
+  /* The wave texture stroked across the rust CTA card. LIGHTER than --primary,
+     so at low opacity it lifts the rust rather than darkening it — which is what
+     makes the waves read as pale rather than as shadow. */
+  --cta-wave: #ff8e75;
 
   /* ── Feedback ──────────────────────────────────────────────────────────── */
   --success: #0e9f6e;
@@ -62,6 +71,7 @@
   --color-heading: var(--heading);
   --color-body: var(--body);
   --color-muted: var(--muted);
+  --color-prose: var(--prose);
 
   --color-background: var(--background);
   --color-surface: var(--surface);
@@ -72,7 +82,11 @@
   --color-footer: var(--footer);
   --color-footer-card: var(--footer-card);
   --color-footer-foreground: var(--footer-foreground);
+  --color-footer-body: var(--footer-body);
+  --color-footer-border: var(--footer-border);
+  --color-primary-3: var(--primary-3);
   --color-cta-border: var(--cta-border);
+  --color-cta-wave: var(--cta-wave);
 
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
@@ -91,12 +105,29 @@
   --text-h1-lg--font-weight: 700;
 
   /* H2 — section headings ("Four modules…", "Access controls that actually work."). */
-  --text-h2: 1.75rem; /* 28px — mobile */
-  --text-h2--line-height: 2.125rem; /* 34px */
+  /* ⚠️ TODO(review): mobile corrected 28/34 -> 24/30 on 2026-09-01. THREE frames
+     on the blog detail agree on a 30px line: the article title (358 x 60, two
+     lines), "Redesigned Scanner Console" (358 x 30, one line) and "Read other
+     articles" (288 x 30). At 28px the section headings wrap, which they do not
+     in the frames. Home's H2s were measured at 28/34 before the type variables
+     were retuned — worth re-checking Home at 390px. */
+  --text-h2: 1.5rem; /* 24px — mobile */
+  --text-h2--line-height: 1.875rem; /* 30px */
   --text-h2--font-weight: 700;
   --text-h2-lg: 2.25rem; /* 36px — desktop */
   --text-h2-lg--line-height: 2.75rem; /* 44px */
   --text-h2-lg--font-weight: 700;
+
+  /* The footer contact heading.
+     ⚠️ TODO(review): the frame labels this H2, but it does not fit --text-h2-lg.
+     Measured 526 x 88 over TWO lines breaking after "assistance?" — that first
+     line needs ~600px at 36px, so it cannot be 36. Back-solving from the 526
+     box gives ~32px on the same 44px line. Home's H2 headings genuinely measured
+     36/44, so either H2 desktop is 32 and Home is something else, or the footer
+     overrides it. Kept separate rather than changing --text-h2-lg under Home. */
+  --text-h2-footer: 2rem; /* 32px */
+  --text-h2-footer--line-height: 2.75rem; /* 44px */
+  --text-h2-footer--font-weight: 500;
 
   /* H3 — column headings ("Practice with TDARS Mock…", "Capture from anywhere"). */
   --text-h3: 1.125rem; /* 18px — mobile */
@@ -105,6 +136,26 @@
   --text-h3-lg: 1.25rem; /* 20px — desktop */
   --text-h3-lg--line-height: 1.75rem; /* 28px */
   --text-h3-lg--font-weight: 600;
+
+  /* Feature title — the blog page's featured article headline.
+     ⚠️ TODO(review): Figma labels this `H3/Semi Bold`, the SAME style as the
+     column headings above, but it does not resolve to the same size. Measured on
+     the frame: 494 x 114 over three lines = 38px line height (~30px type) at
+     desktop, against `--text-h3-lg`'s 20/28. MOBILE agrees exactly — 358 x 78
+     over three lines = 26px, which is `--text-h3`.
+     So either the H3 desktop variable is ~30/38 and the Home column headings are
+     really H4, or this frame overrides it. Kept as its own token rather than
+     changing `--text-h3-lg`, which Home depends on. Worth asking Yemi. */
+  --text-h3-feature: 1.875rem; /* 30px — desktop only; mobile uses --text-h3 */
+  --text-h3-feature--line-height: 2.375rem; /* 38px */
+  --text-h3-feature--font-weight: 600;
+
+  /* H5 — the CTA card's supporting line. Bricolage MEDIUM (500), not the 600/700
+     the other headings use, which is what keeps it reading as body copy set in
+     the display face. Measured 640 x 60 over two lines on the CTA frame. */
+  --text-h5: 1.25rem; /* 20px */
+  --text-h5--line-height: 1.875rem; /* 30px */
+  --text-h5--font-weight: 500;
 
   /* H4 — card titles ("Scan", "Government", "Capture"); same at both breakpoints. */
   --text-h4: 1.125rem; /* 18px */
@@ -132,6 +183,9 @@
   --radius-md: 12px; /* buttons */
   --radius-lg: 20px; /* CTA card */
   --radius-xl: 32px; /* dark "How it works" panel + CTA card, desktop */
+  /* The rust CTA card. Measured 54px on the blog frame's CTA — noticeably
+     rounder than the 32px this file previously recorded for it. */
+  --radius-2xl: 54px;
 }
 
 @utility bg-hero {

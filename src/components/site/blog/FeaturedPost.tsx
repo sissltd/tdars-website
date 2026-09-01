@@ -33,20 +33,32 @@ export function FeaturedPost({ post }: { post: Post }) {
       />
 
       <div className="lg:pt-10">
-        <h2 className="font-heading text-h2 text-heading lg:text-h2-lg">
+        {/*
+          H3, not H2. The frame measures the headline at 494 x 114 (desktop) and
+          358 x 78 (mobile) — three lines at both. H2 was a size too large, which
+          pushed it to four lines and dragged the whole copy block down until
+          "Read more" sat level with the bottom of the photo.
+        */}
+        <h2 className="font-heading text-h3 text-heading lg:text-h3-feature">
           {post.title}
         </h2>
 
-        <p className="mt-4 text-sm leading-relaxed text-body lg:text-base">
+        {/* Body 2/Regular, Gray/Gray 2. 18px leading on mobile (358 x 108 over
+            six lines), 20px at desktop (494 x 100 over five). */}
+        <p className="mt-4 text-sm leading-[18px] text-text-2 lg:leading-5">
           {post.excerpt}
         </p>
 
-        {/* 40px from the copy above it — the container's `Gap 40`. */}
+        {/*
+          Hug 164 x 48 · radius 12 · 1.5px #B93A2C border · 12/24 padding · 10px
+          gap. `size="lg"` is the 48px height; the border weight and the rust
+          hairline are this frame's, so they are set here.
+        */}
         <Button
           href={`/blog/${post.slug}`}
           variant="outline"
-          size="md"
-          className="mt-6 text-primary lg:mt-10"
+          size="lg"
+          className="mt-6 gap-2.5 border-[1.5px] border-primary text-primary lg:mt-10"
         >
           Read more
           <ArrowRightIcon className="size-4" />
