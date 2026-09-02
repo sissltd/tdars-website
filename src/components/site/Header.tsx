@@ -128,9 +128,11 @@ export function Header() {
                 onClick={closeMenu}
                 aria-label="Close menu"
                 autoFocus
-                className="inline-flex size-9 items-center justify-center rounded-md border border-border text-heading"
+                /* No border — CloseIcon draws its own 34x34 frame, the
+                   hamburger's twin, so the two swap without the header moving. */
+                className="inline-flex items-center justify-center text-text-2"
               >
-                <CloseIcon className="size-5" />
+                <CloseIcon className="size-[34px]" />
               </button>
             </div>
           </Container>

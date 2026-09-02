@@ -17,9 +17,26 @@ export function Hero() {
       <div className="pr-4 md:pr-10 lg:pr-0">
         <h1
           id="hero-title"
-          className="max-w-xl font-heading text-h1 text-heading lg:max-w-2xl lg:text-h1-lg"
+          /*
+            587 x 216 — three lines at the 72px H1 line, breaking after
+            "Platform" and after "Record".
+
+            The breaks are EXPLICIT rather than left to the box width. Figma
+            exposes H1/fontSize as a variable, not a number, and our 60px renders
+            wider than the frame does: at 587px it broke into four lines, and at
+            672px it pulled "That" up and stranded "Matters". Guessing the size
+            to make the wrap land correctly is how that ping-pongs. A `<br>` that
+            only exists from `lg` pins the desktop break exactly as drawn and
+            leaves mobile to flow, where the frame gives it 358px and two lines.
+
+            The width is generous enough that the longest line never wraps on its
+            own; the breaks, not the box, do the work.
+          */
+          className="max-w-xl font-heading text-h1 text-heading lg:max-w-[680px] lg:text-h1-lg"
         >
-          One Secure Platform for Every Record That Matters
+          One Secure Platform
+          <br className="hidden lg:inline" /> for Every Record
+          <br className="hidden lg:inline" /> That Matters
         </h1>
 
         <p className="mt-5 max-w-xl text-base leading-relaxed text-body lg:mt-6">

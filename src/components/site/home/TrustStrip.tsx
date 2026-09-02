@@ -2,15 +2,25 @@ import type { ComponentType, SVGProps } from "react";
 
 import { Container } from "@/components/site/Container";
 import { cn } from "@/lib/cn";
-import { CloudNodeIcon, LayersIcon, RecordLinesIcon } from "./icons";
+import {
+  AuditableIcon,
+  CloudDeploymentIcon,
+  TenantIsolatedIcon,
+} from "@/components/site/icons";
 
 /*
   design/site/web/home-web1.png (band) · design/site/mobile/home-mobile3.png
 
-  A 105px #FAFAFA band closing the hero — too tight for <Section>'s 56/80/96px
-  rhythm, so it renders its own <section>. Desktop is four cells split by hairlines,
-  each with 16px of inner padding (the frame's first label sits at x = 96 = the 80px
-  gutter + 16). Mobile drops the rules and puts the first cell on its own row.
+  Measured: the band is 1440 x 112 with only **8px** of vertical padding and a
+  #FAFAFA (Gray/Gray 5) fill; each cell is Fill 279.5 x **96** with a 1px
+  #E6E6E6 rule on its right.
+
+  Those two numbers are why the hairlines nearly touch the band's edges — 8px of
+  clearance top and bottom, no more. Earlier padding of 24/28px left the rules
+  looking short and floating in the middle of the band.
+
+  Labels are Body 2/Semi Bold (Inter 600) in Gray/Gray 2, not the heading grey.
+  Mobile drops the rules and puts the first cell on its own row.
 */
 type TrustItem = {
   label: string;
@@ -19,18 +29,18 @@ type TrustItem = {
 
 const TRUST_ITEMS: TrustItem[] = [
   { label: "Designed for controlled environments" },
-  { label: "Tenant-isolated", Icon: LayersIcon },
-  { label: "Auditable", Icon: RecordLinesIcon },
-  { label: "Cloud / on-premises / air-gapped", Icon: CloudNodeIcon },
+  { label: "Tenant-isolated", Icon: TenantIsolatedIcon },
+  { label: "Auditable", Icon: AuditableIcon },
+  { label: "Cloud / on-premises / air-gapped", Icon: CloudDeploymentIcon },
 ];
 
 export function TrustStrip() {
   return (
-    <section aria-label="Why teams trust TDARS" className="bg-surface-subtle py-6 lg:py-7">
+    <section aria-label="Why teams trust TDARS" className="bg-gray-5 py-6 lg:py-2">
       <Container>
         {/* Mobile columns hug their labels so "Cloud / on-premises / air-gapped" keeps
             the two lines the frame gives it; desktop is four even cells. */}
-        <ul className="grid grid-cols-[auto_auto_1fr] gap-x-6 gap-y-8 lg:grid-cols-4 lg:gap-y-0 lg:divide-x lg:divide-border">
+        <ul className="grid grid-cols-[auto_auto_1fr] gap-x-6 gap-y-8 lg:h-24 lg:grid-cols-4 lg:gap-y-0 lg:divide-x lg:divide-border">
           {TRUST_ITEMS.map(({ label, Icon }, index) => (
             <li
               key={label}
@@ -39,8 +49,19 @@ export function TrustStrip() {
                 index === 0 && "col-span-3 lg:col-span-1",
               )}
             >
-              {Icon ? <Icon className="size-6 text-heading" /> : null}
-              <span className="text-sm font-medium text-heading">{label}</span>
+              {Icon ? <Icon className="size-6 text-body" /> : null}
+              <span
+                className={cn(
+                  "text-sm font-semibold leading-5 text-body",
+                  // The frame gives this label a 166px text box (166 x 40), which
+                  // is what breaks it over two lines. The cell is 279.5 wide, so
+                  // without the cap it sits on one line and reads longer than
+                  // every other label in the row.
+                  index === 0 && "lg:block lg:max-w-[166px]",
+                )}
+              >
+                {label}
+              </span>
             </li>
           ))}
         </ul>

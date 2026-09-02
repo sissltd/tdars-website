@@ -24,10 +24,14 @@ export const metadata: Metadata = {
 */
 export default function RequestAccessPage() {
   return (
+    /*
+      The card lives INSIDE the form component, not here: on success the form is
+      replaced by a standalone 369px card, and that card must not inherit the
+      684px bordered box the form sits in — otherwise it renders as a small card
+      floating inside a large empty one.
+    */
     <main className="flex min-h-dvh justify-center px-5 py-12 md:py-20">
-      <div className="w-full max-w-[684px] rounded-md border-border bg-surface sm:border sm:p-8">
-        <RequestAccessForm />
-      </div>
+      <RequestAccessForm />
     </main>
   );
 }

@@ -87,10 +87,10 @@ export function RequestAccessForm() {
         : [...current, module],
     );
 
-  if (submitted) return <SuccessCard />;
-
   return (
     <>
+      {/* Hug 684 · 32px padding · 12px radius · hairline. Full-bleed below `sm`. */}
+      <div className="w-full max-w-[684px] rounded-md border-border bg-surface sm:border sm:p-8">
       <Link
         href="/"
         className="inline-flex items-center gap-2 text-sm text-heading transition-colors hover:text-primary"
@@ -107,7 +107,13 @@ export function RequestAccessForm() {
         Close
       </Link>
 
-      <h1 className="mt-4 font-heading text-h2 text-heading">Request access</h1>
+      {/* 358 x 26 — H3/Semi Bold.
+          TODO(review): the frame gives this #1D2939, a blue-tinted near-black
+          that is not in the grey ramp (Gray/Gray 1 is #373737). One heading is
+          not worth its own token — confirm whether it is intentional. */}
+      <h1 className="mt-4 font-heading text-h3 font-semibold text-heading">
+        Request access
+      </h1>
       <p className="mt-2 text-sm text-body">
         Tell us about your organisation and we&apos;ll get back to you within 2 business
         days.
@@ -184,11 +190,11 @@ export function RequestAccessForm() {
         </div>
 
         <fieldset className="mt-4">
-          <legend className="text-sm text-heading">
+          <legend className="text-sm font-medium leading-[18px] text-heading">
             Which modules are you interested in? <Required />
           </legend>
 
-          <div className="mt-3 flex flex-wrap gap-x-6 gap-y-3">
+          <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6">
             {MODULES.map((module) => (
               <label
                 key={module}
@@ -224,6 +230,9 @@ export function RequestAccessForm() {
           Submit
         </Button>
       </form>
+      </div>
+
+      {submitted ? <SuccessModal /> : null}
     </>
   );
 }
@@ -297,39 +306,72 @@ function Select({
 }
 
 /*
-  369 x hug, 12px radius, 32px padding, 24px gap — measured off the frame.
+  Measured: 369 x Hug 264 · radius 12 · padding 32 · gap 24 · #FFFFFF.
+  Title is H4/Semi Bold on a 32px line; the body is Body/Regular 14/20 in
+  Gray/Gray 2. Both centred.
 
-  TODO(review): the tick is a multi-colour illustration (green ring on a mint
-  disc, with confetti) that was not exported. Rebuilt from tokens: the ring and
-  disc are right, the confetti is not reproduced. Drop the asset into
-  `public/images/` and swap this block for it.
+  The burst is the SAME icon and the same `grow-shrink` loop as the TDARS app's
+  payment-success modal — one product, so the two success moments should not
+  animate differently. Its 64px #CCFFCC disc is drawn inside the SVG, which is
+  why there is no separate halo element here.
 */
-function SuccessCard() {
+function SuccessModal() {
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="mx-auto flex w-full max-w-[369px] flex-col items-center gap-6 rounded-md bg-surface p-8 text-center"
-    >
-      <span className="flex size-24 items-center justify-center rounded-full bg-success-soft">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-12">
-          <circle cx="12" cy="12" r="9" stroke="var(--success)" strokeWidth="2" />
-          <path
-            d="m8 12.5 2.5 2.5L16 9.5"
-            stroke="var(--success)"
-            strokeWidth="2.25"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </span>
+    /*
+      A real modal: a scrim over the form, with the card floating centred above
+      it. The form stays mounted underneath — the frame shows it dimmed behind
+      the card, and replacing the page instead made this read as a new screen
+      rather than a confirmation.
 
-      <h1 className="font-heading text-h2 text-heading">Request submitted</h1>
+      `role="dialog"` + `aria-modal` announce it as a dialog; `aria-live` makes a
+      screen reader speak it without needing focus, which matters because it
+      dismisses itself after 1200ms and there is nothing to interact with.
+    */
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-5">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-live="polite"
+        className="flex w-full max-w-[369px] flex-col items-center gap-6 rounded-md bg-surface p-8 text-center shadow-[0_8px_32px_0_rgba(0,0,0,0.12)]"
+      >
+      <SuccessBurstIcon className="animate-grow-shrink" />
 
-      <p className="text-base leading-relaxed text-body">
+      <h1 className="font-heading text-h4 leading-8 text-heading">Request submitted</h1>
+
+      <p className="text-sm leading-5 text-body">
         Thank you for your interest in TDARS. Our team will review your request and
         reach out within 2 business days to schedule a walkthrough.
-      </p>
+        </p>
+      </div>
     </div>
+  );
+}
+
+/** Yemi's confetti burst, shared with the app's payment-success modal. */
+function SuccessBurstIcon({ className }: { className?: string }) {
+  return (
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className={className} aria-hidden="true">
+      <rect width="64" height="64" rx="32" fill="#CCFFCC" />
+      <path d="M31.9998 50.3337C42.0832 50.3337 50.3332 42.0837 50.3332 32.0003C50.3332 21.917 42.0832 13.667 31.9998 13.667C21.9165 13.667 13.6665 21.917 13.6665 32.0003C13.6665 42.0837 21.9165 50.3337 31.9998 50.3337Z" stroke="#008500" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M24.2085 31.9999L29.3968 37.1882L39.7918 26.8115" stroke="#008500" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="32.0001" cy="27.0061" r="0.881327" transform="rotate(-170.986 32.0001 27.0061)" fill="#4DD9BF" fillOpacity="0.85" />
+      <rect x="10.1611" y="15" width="4.28544" height="2.22139" rx="0.5" transform="rotate(31.5177 10.1611 15)" fill="#FF4D59" fillOpacity="0.85" />
+      <rect x="38.7539" y="36.0146" width="4.28544" height="2.22139" rx="0.5" transform="rotate(31.5177 38.7539 36.0146)" fill="#FF4D59" fillOpacity="0.85" />
+      <circle cx="51.2863" cy="30.2859" r="0.926434" transform="rotate(-34.0527 51.2863 30.2859)" fill="#D966E6" fillOpacity="0.85" />
+      <rect x="13" y="35.2227" width="3.64848" height="2.40934" rx="0.5" transform="rotate(-62.0319 13 35.2227)" fill="#4DD9BF" fillOpacity="0.85" />
+      <circle cx="14.3656" cy="24.3658" r="0.995997" transform="rotate(59.1506 14.3656 24.3658)" fill="#4DD9BF" fillOpacity="0.85" />
+      <circle cx="11.1295" cy="41.1294" r="1.60596" transform="rotate(-65.3439 11.1295 41.1294)" fill="#D966E6" fillOpacity="0.85" />
+      <circle cx="21.4411" cy="35.4416" r="1.02528" transform="rotate(141.297 21.4411 35.4416)" fill="#66D966" fillOpacity="0.85" />
+      <circle cx="29.4411" cy="43.4416" r="1.02528" transform="rotate(141.297 29.4411 43.4416)" fill="#66D966" fillOpacity="0.85" />
+      <circle cx="32.2782" cy="13.278" r="0.914245" transform="rotate(36.2961 32.2782 13.278)" fill="#FF4D59" fillOpacity="0.85" />
+      <circle cx="40.2782" cy="21.278" r="0.914245" transform="rotate(36.2961 40.2782 21.278)" fill="#FF4D59" fillOpacity="0.85" />
+      <circle cx="44.7143" cy="27.7141" r="1.38686" transform="rotate(-74.0679 44.7143 27.7141)" fill="#FF4D59" fillOpacity="0.85" />
+      <circle cx="52.7143" cy="35.7141" r="1.38686" transform="rotate(-74.0679 52.7143 35.7141)" fill="#FF4D59" fillOpacity="0.85" />
+      <rect x="20.7671" y="19.8047" width="2.19533" height="2.08013" rx="0.5" transform="rotate(112.745 20.7671 19.8047)" fill="#4DD9BF" fillOpacity="0.85" />
+      <rect x="48.8545" y="21.2598" width="4.0694" height="1.33713" rx="0.5" transform="rotate(-102.121 48.8545 21.2598)" fill="#66D966" fillOpacity="0.85" />
+      <circle cx="30.9295" cy="44.9298" r="0.759742" transform="rotate(104.881 30.9295 44.9298)" fill="#FFBF1A" fillOpacity="0.85" />
+      <circle cx="38.9295" cy="52.9298" r="0.759742" transform="rotate(104.881 38.9295 52.9298)" fill="#FFBF1A" fillOpacity="0.85" />
+      <circle cx="44.4915" cy="42.4911" r="1.355" transform="rotate(-173.898 44.4915 42.4911)" fill="#FFBF1A" fillOpacity="0.85" />
+    </svg>
   );
 }

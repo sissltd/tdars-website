@@ -30,6 +30,8 @@
   --background: #ffffff;
   --surface: #ffffff;
   --surface-subtle: #f8f8f8; /* section bg / mockup frame */
+  --gray-5: #fafafa; /* Gray/Gray 5 — trust strip band, post cards. 2/255 off
+                        --surface-subtle, but Figma names them separately. */
   --dark-panel: #2d2d2d; /* "How it works" card, "Still running on paper" */
   --footer: #151515; /* footer / contact section */
   --footer-card: #1a1a1a; /* contact-form card inside the footer */
@@ -76,6 +78,7 @@
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-subtle: var(--surface-subtle);
+  --color-gray-5: var(--gray-5);
   --color-border: var(--border);
 
   --color-dark-panel: var(--dark-panel);
@@ -206,6 +209,24 @@
 }
 
 @layer base {
+  /*
+    Smooth anchor navigation for /#solutions, /#how-it-works and /#contact.
+    `scroll-padding-top` keeps the sticky header from covering whatever you land
+    on — without it the target sits UNDER the nav bar, which reads as the link
+    being broken.
+  */
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  /* Honour the OS setting: smooth scrolling is a vestibular trigger for some. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     background: var(--background);
     color: var(--body);
@@ -216,5 +237,40 @@
   :focus-visible {
     outline: 2px solid var(--primary);
     outline-offset: 2px;
+  }
+}
+
+/*
+  The success burst on Request access — grows in, holds, then vanishes at full
+  size and repeats. Lifted from the TDARS app's payment-success modal so the two
+  surfaces animate identically (same product, same brand).
+*/
+@keyframes grow-shrink {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  65% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@utility animate-grow-shrink {
+  animation: grow-shrink 2.6s ease-in-out infinite;
+
+  /* Reduced motion gets the end state, not the loop. */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
   }
 }
