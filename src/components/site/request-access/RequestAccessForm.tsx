@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/site/Button";
 import { cn } from "@/lib/cn";
+import { CircleCloseIcon, SuccessBurstIcon } from "@/components/site/icons";
 
 /*
   design/site/web/home-web-request-access.png
@@ -93,17 +94,9 @@ export function RequestAccessForm() {
       <div className="w-full max-w-[684px] rounded-md border-border bg-surface sm:border sm:p-8">
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-sm text-heading transition-colors hover:text-primary"
+        className="inline-flex items-center gap-2 text-sm text-heading transition-colors hover:text-accent"
       >
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-5">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
-          <path
-            d="m9 9 6 6m0-6-6 6"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-          />
-        </svg>
+        <CircleCloseIcon className="size-5" />
         Close
       </Link>
 
@@ -239,7 +232,7 @@ export function RequestAccessForm() {
 
 function Required() {
   return (
-    <span className="text-primary" aria-hidden="true">
+    <span className="text-accent" aria-hidden="true">
       *
     </span>
   );
@@ -327,7 +320,9 @@ function SuccessModal() {
       screen reader speak it without needing focus, which matters because it
       dismisses itself after 1200ms and there is nothing to interact with.
     */
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-5">
+    <div /* A 30% scrim reads clearly over the light page but barely registers
+             over a dark one, so it deepens in dark mode. */
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-5 dark:bg-black/70">
       <div
         role="dialog"
         aria-modal="true"
@@ -347,31 +342,3 @@ function SuccessModal() {
   );
 }
 
-/** Yemi's confetti burst, shared with the app's payment-success modal. */
-function SuccessBurstIcon({ className }: { className?: string }) {
-  return (
-    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className={className} aria-hidden="true">
-      <rect width="64" height="64" rx="32" fill="#CCFFCC" />
-      <path d="M31.9998 50.3337C42.0832 50.3337 50.3332 42.0837 50.3332 32.0003C50.3332 21.917 42.0832 13.667 31.9998 13.667C21.9165 13.667 13.6665 21.917 13.6665 32.0003C13.6665 42.0837 21.9165 50.3337 31.9998 50.3337Z" stroke="#008500" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M24.2085 31.9999L29.3968 37.1882L39.7918 26.8115" stroke="#008500" strokeWidth="2.75" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="32.0001" cy="27.0061" r="0.881327" transform="rotate(-170.986 32.0001 27.0061)" fill="#4DD9BF" fillOpacity="0.85" />
-      <rect x="10.1611" y="15" width="4.28544" height="2.22139" rx="0.5" transform="rotate(31.5177 10.1611 15)" fill="#FF4D59" fillOpacity="0.85" />
-      <rect x="38.7539" y="36.0146" width="4.28544" height="2.22139" rx="0.5" transform="rotate(31.5177 38.7539 36.0146)" fill="#FF4D59" fillOpacity="0.85" />
-      <circle cx="51.2863" cy="30.2859" r="0.926434" transform="rotate(-34.0527 51.2863 30.2859)" fill="#D966E6" fillOpacity="0.85" />
-      <rect x="13" y="35.2227" width="3.64848" height="2.40934" rx="0.5" transform="rotate(-62.0319 13 35.2227)" fill="#4DD9BF" fillOpacity="0.85" />
-      <circle cx="14.3656" cy="24.3658" r="0.995997" transform="rotate(59.1506 14.3656 24.3658)" fill="#4DD9BF" fillOpacity="0.85" />
-      <circle cx="11.1295" cy="41.1294" r="1.60596" transform="rotate(-65.3439 11.1295 41.1294)" fill="#D966E6" fillOpacity="0.85" />
-      <circle cx="21.4411" cy="35.4416" r="1.02528" transform="rotate(141.297 21.4411 35.4416)" fill="#66D966" fillOpacity="0.85" />
-      <circle cx="29.4411" cy="43.4416" r="1.02528" transform="rotate(141.297 29.4411 43.4416)" fill="#66D966" fillOpacity="0.85" />
-      <circle cx="32.2782" cy="13.278" r="0.914245" transform="rotate(36.2961 32.2782 13.278)" fill="#FF4D59" fillOpacity="0.85" />
-      <circle cx="40.2782" cy="21.278" r="0.914245" transform="rotate(36.2961 40.2782 21.278)" fill="#FF4D59" fillOpacity="0.85" />
-      <circle cx="44.7143" cy="27.7141" r="1.38686" transform="rotate(-74.0679 44.7143 27.7141)" fill="#FF4D59" fillOpacity="0.85" />
-      <circle cx="52.7143" cy="35.7141" r="1.38686" transform="rotate(-74.0679 52.7143 35.7141)" fill="#FF4D59" fillOpacity="0.85" />
-      <rect x="20.7671" y="19.8047" width="2.19533" height="2.08013" rx="0.5" transform="rotate(112.745 20.7671 19.8047)" fill="#4DD9BF" fillOpacity="0.85" />
-      <rect x="48.8545" y="21.2598" width="4.0694" height="1.33713" rx="0.5" transform="rotate(-102.121 48.8545 21.2598)" fill="#66D966" fillOpacity="0.85" />
-      <circle cx="30.9295" cy="44.9298" r="0.759742" transform="rotate(104.881 30.9295 44.9298)" fill="#FFBF1A" fillOpacity="0.85" />
-      <circle cx="38.9295" cy="52.9298" r="0.759742" transform="rotate(104.881 38.9295 52.9298)" fill="#FFBF1A" fillOpacity="0.85" />
-      <circle cx="44.4915" cy="42.4911" r="1.355" transform="rotate(-173.898 44.4915 42.4911)" fill="#FFBF1A" fillOpacity="0.85" />
-    </svg>
-  );
-}

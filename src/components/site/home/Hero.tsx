@@ -57,7 +57,7 @@ export function Hero() {
         >
           <label htmlFor="hero-email" className="block text-sm text-body">
             Enter your work email to get started
-            <span aria-hidden="true" className="text-primary">
+            <span aria-hidden="true" className="text-accent">
               {" "}
               *
             </span>

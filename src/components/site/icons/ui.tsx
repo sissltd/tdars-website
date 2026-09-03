@@ -1,9 +1,22 @@
 import type { SVGProps } from "react";
 
-/**
- * Inline icons traced from the Figma screenshots. All of them inherit
- * `currentColor` so colour always comes from a text token on the parent.
- */
+/*
+  UI GLYPHS — every icon in this file inherits `currentColor`.
+
+  This is one of exactly two icon files. The split is not arbitrary and matters
+  for theming:
+
+    ui.tsx     — single-colour glyphs. Colour comes from a text token on the
+                 parent, so they follow light/dark automatically.
+    brand.tsx  — fixed-palette illustrations. They keep their literal hex on
+                 purpose and do NOT follow the theme.
+
+  When adding an icon, ask which of those two it is. If it can be tinted from a
+  text token, it belongs here.
+
+  Everything is re-exported from `@/components/site/icons`, so call sites import
+  from the folder rather than reaching into either file.
+*/
 type IconProps = SVGProps<SVGSVGElement>;
 
 const base = {
@@ -163,6 +176,155 @@ export function CloudDeploymentIcon(props: IconProps) {
       <path d="M21.8995 13.9607C22.1695 15.6307 21.6995 17.4207 20.2695 18.6807C19.2795 19.5907 17.9795 20.0907 16.6295 20.0807H5.53945C0.869454 19.7407 0.859454 12.9407 5.53945 12.6007H5.58945C3.39945 6.47071 9.08945 2.87071 13.3795 4.25071" />
       <path d="M7.25984 13.0096C6.73984 12.7496 6.16984 12.6096 5.58984 12.5996" />
       <path d="M21.9707 8.5C21.9707 9.6 21.4607 10.59 20.6507 11.23C20.0607 11.71 19.2907 12 18.4707 12C16.5407 12 14.9707 10.43 14.9707 8.5C14.9707 7.54 15.3607 6.67 16.0007 6.04V6.03C16.6307 5.39 17.5107 5 18.4707 5C20.4007 5 21.9707 6.57 21.9707 8.5Z" />
+    </svg>
+  );
+}
+
+const stroked = {
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.5,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+} as const;
+
+/** Trust strip — "Tenant-isolated": three stacked plates. */
+export function LayersIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <path d="M12 3.5 3 8l9 4.5L21 8l-9-4.5Z" />
+      <path d="m3 12.5 9 4.5 9-4.5" />
+      <path d="m3 16.75 9 4.5 9-4.5" />
+    </svg>
+  );
+}
+
+/** Trust strip — "Auditable": a record card, one field plus two ruled lines. */
+export function RecordLinesIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <rect x="3" y="4" width="6" height="5" rx="1.5" />
+      <path d="M12 5.5h9M12 8h6" />
+      <path d="M3 13.5h18M3 17.5h13" />
+    </svg>
+  );
+}
+
+/** Trust strip — "Cloud / on-premises / air-gapped": a cloud with a detached node. */
+export function CloudNodeIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <path d="M16 18.5H7a4 4 0 0 1-.4-7.98A5.5 5.5 0 0 1 16.9 9.4" />
+      <circle cx="18.5" cy="7.5" r="2.75" />
+    </svg>
+  );
+}
+
+/* ── Product mock-up icons (home-web7 / home-web8) ────────────────────────── */
+
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <path d="m9 5 7 7-7 7" />
+    </svg>
+  );
+}
+
+/** Green tick used against each permitted policy row. */
+export function CheckCircleIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8 12.2 2.6 2.6L16 9.4" />
+    </svg>
+  );
+}
+
+/** Rust minus used against "Delete record — Not permitted". */
+export function MinusCircleIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.25 12h7.5" />
+    </svg>
+  );
+}
+
+export function SearchIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <circle cx="11" cy="11" r="6.5" />
+      <path d="m16 16 4.5 4.5" />
+    </svg>
+  );
+}
+
+/** Back / previous. The mirror of ArrowRightIcon, drawn rather than rotated so
+    it can sit inline with text without a transform. */
+export function ArrowLeftIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M19 12H5m0 0 6-6m-6 6 6 6" />
+    </svg>
+  );
+}
+
+/** Dismiss, ringed. Distinct from CloseIcon, which draws the mobile menu's
+    34x34 framed button. */
+export function CircleCloseIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} strokeWidth={1.5} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="m9 9 6 6m0-6-6 6" />
+    </svg>
+  );
+}
+
+/** Light mode is active — offer dark. */
+export function MoonIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+    </svg>
+  );
+}
+
+/** Dark mode is active — offer light. */
+export function SunIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} {...props}>
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+    </svg>
+  );
+}
+
+
+/*
+  The wave texture stroked across the "Ready to go digital" card.
+
+  An SVG <pattern> rather than an export: it stays crisp at any width and costs
+  ~300 bytes, where a PNG would band on these shallow curves and need a 2x
+  variant. Purely decorative, so it is aria-hidden and sits behind the content.
+*/
+export function WaveTexture() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 size-full text-cta-wave opacity-[0.08]"
+    >
+      <defs>
+        <pattern id="cta-wave" width="40" height="11" patternUnits="userSpaceOnUse">
+          {/* One cycle. `T` mirrors the control point, so tiles meet seamlessly. */}
+          <path
+            d="M0 5.5Q10 2 20 5.5T40 5.5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.39"
+          />
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#cta-wave)" />
     </svg>
   );
 }

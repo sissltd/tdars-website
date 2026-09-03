@@ -15,7 +15,7 @@ import {
   QuestionLibraryIcon,
   ReadinessInsightsIcon,
   SecureExamSessionsIcon,
-} from "./featureIcons";
+} from "@/components/site/icons";
 import { StepCard } from "./StepCard";
 
 /*

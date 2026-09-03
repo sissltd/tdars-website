@@ -11,7 +11,7 @@ import {
   LinkedInIcon,
   WhatsAppIcon,
   XIcon,
-} from "./icons";
+} from "@/components/site/icons";
 import { FOOTER_LINKS } from "./nav-links";
 
 const LANGUAGES = ["Eng", "Yor", "Igb", "Hau", "Fre"];
@@ -31,7 +31,7 @@ const labelClass = "mb-1.5 block text-sm font-medium text-footer-foreground";
 
 function RequiredMark() {
   return (
-    <span aria-hidden="true" className="text-primary">
+    <span aria-hidden="true" className="text-accent">
       {" "}
       *
     </span>
@@ -197,10 +197,10 @@ function ContactCard() {
           column only stretches to 747 when the taller right-hand column says so.
         */}
         <div className="mt-10 flex items-center justify-between text-xs leading-[18px] text-footer-foreground lg:mt-0">
-        <Link href="/privacy" className="rounded-sm hover:text-white/70">
+        <Link href="/privacy" className="rounded-sm hover:text-footer-foreground/70">
           Privacy
         </Link>
-        <Link href="/terms" className="rounded-sm hover:text-white/70">
+        <Link href="/terms" className="rounded-sm hover:text-footer-foreground/70">
           Terms and Conditions
         </Link>
       </div>
@@ -228,7 +228,7 @@ function SiteInfo() {
           <li key={link.label}>
             <Link
               href={link.href}
-              className="rounded-sm text-base leading-6 font-semibold text-primary-soft hover:opacity-80"
+              className="rounded-sm text-base leading-6 font-semibold text-on-rust-body hover:opacity-80"
             >
               {link.label}
             </Link>
@@ -249,10 +249,10 @@ function SiteInfo() {
             Contact Us
           </h3>
           <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
-            <a href="tel:+19998887766" className="block rounded-sm hover:text-white/70">
+            <a href="tel:+19998887766" className="block rounded-sm hover:text-footer-foreground/70">
               +1 (999) 888-77-66
             </a>
-            <a href="mailto:hello@cK.com" className="block rounded-sm hover:text-white/70">
+            <a href="mailto:hello@cK.com" className="block rounded-sm hover:text-footer-foreground/70">
               hello@cK.com
             </a>
           </address>

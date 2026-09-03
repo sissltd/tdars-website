@@ -44,7 +44,7 @@ export function PostCard({ post }: { post: Post }) {
           </Link>
         </h3>
 
-        <p className="line-clamp-2 text-sm leading-5 text-text-2">{post.excerpt}</p>
+        <p className="line-clamp-2 text-sm leading-5 text-prose">{post.excerpt}</p>
       </div>
     </article>
   );

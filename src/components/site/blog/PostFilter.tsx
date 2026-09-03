@@ -74,8 +74,8 @@ export function PostFilter({
               className={cn(
                 "h-[30px] rounded-sm border px-2.5 text-xs transition-colors",
                 selected
-                  ? "border-primary text-primary"
-                  : "border-border bg-surface text-body hover:border-primary hover:text-primary",
+                  ? "border-primary text-accent"
+                  : "border-border bg-surface text-body hover:border-primary hover:text-accent",
               )}
             >
               {category}

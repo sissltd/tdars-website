@@ -33,8 +33,13 @@ export function StepCard({ number, title, description, tone = "solid" }: StepCar
   return (
     <li
       className={cn(
-        "flex flex-col justify-between rounded-md border border-border bg-surface lg:p-5",
-        tone === "solid" ? "h-[157px] p-3 lg:h-[231px]" : "h-[162px] p-5 lg:h-[231px]",
+        "flex flex-col justify-between rounded-md border lg:p-5",
+        tone === "solid"
+          // On the dark panel, so it takes the panel-relative surface: in dark
+          // mode --surface is darker than the panel and the card would sink
+          // into it rather than sitting on it.
+          ? "h-[157px] border-panel-border bg-panel-surface p-3 lg:h-[231px]"
+          : "h-[162px] border-border bg-surface p-5 lg:h-[231px]",
       )}
     >
       {/* H3/Bold — 18/26 mobile, 30/38 desktop. Not `--text-h3-lg` (20/28); see

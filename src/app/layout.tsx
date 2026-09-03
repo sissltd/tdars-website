@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
+import { Providers } from "./providers";
 
 // Inter — body / UI. Bricolage Grotesque — headings (matches the TDARS brand).
 const inter = Inter({
@@ -54,13 +55,40 @@ export const metadata: Metadata = {
   },
 };
 
+/*
+  Colours the browser chrome around the page — the address bar on Android, the
+  status bar on iOS. Two entries keyed to the OS preference rather than one, so
+  the chrome is never the opposite of the page.
+
+  It keys off `prefers-color-scheme` because that is all a <meta> tag can do; the
+  in-page toggle cannot drive it. A visitor whose OS is light but who chooses
+  dark here gets light chrome. That is the honest limit of the tag, and it is
+  still better than a single hardcoded colour.
+*/
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#121212" },
+  ],
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
+    /*
+      `suppressHydrationWarning` is REQUIRED here, not optional tidying:
+      next-themes writes `class="dark"` onto <html> from a blocking inline
+      script before paint (which is what prevents a white flash), so the
+      server-rendered markup and the first client render legitimately differ on
+      this one element. Without it React logs a hydration mismatch on every load.
+    */
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${bricolage.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col bg-background">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

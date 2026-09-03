@@ -1,35 +1,7 @@
 import Link from "next/link";
 
 import { cn } from "@/lib/cn";
-
-/*
-  TODO(review): the TDARS lockup is traced from the Figma exports (the shield in
-  public/images/hero-desktop.png at 4x is the sharpest copy available) — a rust
-  heater shield with a centre peak and a white "T", set next to an extrabold
-  grotesque wordmark. Please drop the official logo SVG into public/ and this
-  component swaps to it. Drawn rather than cropped so the wordmark can flip to
-  white on the dark footer without a second asset.
-*/
-
-type LogoMarkProps = {
-  className?: string;
-};
-
-export function LogoMark({ className }: LogoMarkProps) {
-  return (
-    <svg
-      viewBox="0 0 24 29"
-      aria-hidden="true"
-      className={cn("h-7 w-auto text-primary", className)}
-    >
-      <path
-        d="M12 0.6 1 6.5v9.1c0 5.6 4.2 10 11 12.8 6.8-2.8 11-7.2 11-12.8V6.5L12 .6Z"
-        fill="currentColor"
-      />
-      <path d="M6.4 8.9h11.2v3.4h-3.9v8.9h-3.4v-8.9H6.4z" className="fill-surface" />
-    </svg>
-  );
-}
+import { LogoMark } from "@/components/site/icons";
 
 type LogoProps = {
   /** Wrap the lockup in a link home. Pass `null` for the footer's static lockup. */
@@ -50,9 +22,26 @@ export function Logo({
   const lockup = (
     <>
       <LogoMark className={markClassName} />
+      {/*
+        Measured on the header lockup: Bricolage Grotesque, BOLD 700, 27.17px,
+        line-height 120%, letter-spacing 0%, Gray/Gray 1.
+
+        Three of those were wrong. It was inheriting INTER (the body font) at
+        EXTRABOLD 800 with `tracking-tight` — a different family, a heavier
+        weight and negative tracking, where the frame specifies none.
+
+        Figma reports the box as 88 x 18 because it trims to CAP HEIGHT; 18px is
+        the cap height of 27px Bricolage Bold, not the line box. Sizing to 18
+        would have produced a wordmark two-thirds too small.
+
+        ⚠️ The 27px is measured at 1440 only — Yemi drew no mobile lockup. Mobile
+        holds 20px because the header there also carries the Request Access
+        button, the theme toggle and the menu button; at 27px that row has
+        roughly 17px of slack left, which is not enough to trust.
+      */}
       <span
         className={cn(
-          "text-xl font-extrabold tracking-tight md:text-2xl",
+          "font-heading text-xl leading-[1.2] font-bold md:text-[27px]",
           wordmarkClassName,
         )}
       >

@@ -1,4 +1,4 @@
-import { CheckCircleIcon, ChevronRightIcon, MinusCircleIcon } from "./icons";
+import { CheckCircleIcon, ChevronRightIcon, MinusCircleIcon } from "@/components/site/icons";
 
 /*
   design/site/web/home-web7.png · design/site/mobile/home-mobile13-14.png
@@ -158,7 +158,7 @@ function AccessReviewMockup() {
                   {permission.allowed ? (
                     <CheckCircleIcon className="size-4 shrink-0 text-success" />
                   ) : (
-                    <MinusCircleIcon className="size-4 shrink-0 text-primary" />
+                    <MinusCircleIcon className="size-4 shrink-0 text-accent" />
                   )}
                 </li>
               ))}
@@ -176,7 +176,7 @@ function AccessReviewMockup() {
       */}
       <div className="absolute -bottom-11 left-[59%] w-[45.6%] rounded-sm border-[2.5px] border-dashed border-primary-2 bg-primary-wash p-3">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-[8px] text-primary uppercase">Audit event · 09:42</span>
+          <span className="text-[8px] text-accent uppercase">Audit event · 09:42</span>
           <span className="rounded-full bg-success-soft px-2 py-0.5 text-[8px] text-success uppercase">
             Recorded
           </span>

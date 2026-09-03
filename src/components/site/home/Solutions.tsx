@@ -4,7 +4,7 @@ import {
   MockExamModuleIcon,
   RecordsModuleIcon,
   ScanModuleIcon,
-} from "./moduleIcons";
+} from "@/components/site/icons";
 
 /*
   design/site/web/home-web2.png · design/site/mobile/home-mobile3-4.png

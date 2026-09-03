@@ -18,9 +18,11 @@ type ButtonSize = "sm" | "md" | "lg";
 const variantClass: Record<ButtonVariant, string> = {
   primary:
     "bg-primary text-primary-foreground hover:bg-primary-hover disabled:bg-primary/30",
-  wash: "bg-primary-wash text-primary hover:bg-primary-soft",
+  // The light button that sits ON the rust card — theme-invariant, same reason
+  // as the badge above it.
+  wash: "bg-on-rust-button text-on-rust-button-text hover:opacity-90",
   outline:
-    "border border-border bg-surface text-heading hover:border-primary hover:text-primary",
+    "border border-border bg-surface text-heading hover:border-primary hover:text-accent",
 };
 
 const sizeClass: Record<ButtonSize, string> = {

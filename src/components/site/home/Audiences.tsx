@@ -9,7 +9,7 @@ import {
   HealthcareIcon,
   LargeEnterprisesIcon,
   PensionsBenefitsIcon,
-} from "./audienceIcons";
+} from "@/components/site/icons";
 
 /*
   design/site/web/home-web6.png · design/site/mobile/home-mobile10-13.png

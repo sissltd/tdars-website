@@ -1,5 +1,6 @@
 import { cn } from "@/lib/cn";
 import type { LegalDocument as LegalDocumentType } from "@/content/legal";
+import { ArrowUpIcon } from "@/components/site/icons";
 
 /*
   design/site/web/home-web-T&C1..3.png · home-web-privacy-policy1..2.png
@@ -22,7 +23,7 @@ export function LegalDocument({ document }: { document: LegalDocumentType }) {
           {document.title}
         </h1>
 
-        <p className="mt-3 flex items-center gap-2 text-sm text-primary">
+        <p className="mt-3 flex items-center gap-2 text-sm text-accent">
           <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-primary" />
           {document.lastUpdated}
         </p>
@@ -78,7 +79,7 @@ export function LegalDocument({ document }: { document: LegalDocumentType }) {
             <a
               key={section.id}
               href={`#${section.id}`}
-              className="block text-sm text-body transition-colors hover:text-primary"
+              className="block text-sm text-body transition-colors hover:text-accent"
             >
               {section.tocLabel}
             </a>
@@ -86,17 +87,9 @@ export function LegalDocument({ document }: { document: LegalDocumentType }) {
 
           <a
             href="#top"
-            className="inline-flex items-center gap-2 pt-6 text-sm text-heading transition-colors hover:text-primary"
+            className="inline-flex items-center gap-2 pt-6 text-sm text-heading transition-colors hover:text-accent"
           >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-4">
-              <path
-                d="M12 19V5m0 0-6 6m6-6 6 6"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ArrowUpIcon className="size-4" />
             Back to Top
           </a>
         </nav>

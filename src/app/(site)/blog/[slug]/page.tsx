@@ -8,6 +8,7 @@ import { Section } from "@/components/site/Section";
 import { ReadOtherArticles } from "@/components/site/blog/ReadOtherArticles";
 import { getArticle } from "@/content/articles";
 import { ALL_POSTS, getPostBySlug } from "@/content/posts";
+import { ArrowLeftIcon } from "@/components/site/icons";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -68,17 +69,9 @@ export default async function BlogDetailPage({ params }: Params) {
         */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-primary lg:text-base"
+          className="inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-accent lg:text-base"
         >
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-5">
-            <path
-              d="M19 12H5m0 0 6-6m-6 6 6 6"
-              stroke="currentColor"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ArrowLeftIcon className="size-5" />
           Go Back
         </Link>
 
