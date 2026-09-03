@@ -75,7 +75,12 @@ export default function HomePage() {
         <AccessControls />
       </Section>
 
-      <Section tone="dark" aria-labelledby="still-on-paper-title">
+      {/* The band opens with a 13px dashed rule — see `dash-rule-top`. */}
+      <Section
+        tone="dark"
+        aria-labelledby="still-on-paper-title"
+        className="dash-rule-top py-10 lg:py-20"
+      >
         <StillOnPaper />
       </Section>
 
