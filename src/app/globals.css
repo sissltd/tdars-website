@@ -25,7 +25,9 @@
   --body: #4d4d4d; /* Gray/Gray 2 */
   --muted: #999999; /* Gray/Gray 3 — step numerals, chips, placeholders */
   --prose: #606060; /* Grey 11/Text2 — long-form article body, lighter than --body */
-  --border: #e6e6e6; /* Gray/Gray 4 */
+  --border: #e6e6e6; /* Gray/Gray 4 — card hairlines */
+  --divider: #d9d9d9; /* Grey/3 — the rules between the Mock/CBT columns. A step
+                         darker than --border; the frame names them separately. */
 
   /* ── Surfaces ──────────────────────────────────────────────────────────── */
   --background: #ffffff;
@@ -81,6 +83,7 @@
   --color-surface-subtle: var(--surface-subtle);
   --color-gray-5: var(--gray-5);
   --color-border: var(--border);
+  --color-divider: var(--divider);
 
   --color-dark-panel: var(--dark-panel);
   --color-footer: var(--footer);
@@ -163,9 +166,16 @@
   --text-h5--font-weight: 500;
 
   /* H4 — card titles ("Scan", "Government", "Capture"); same at both breakpoints. */
-  --text-h4: 1.125rem; /* 18px */
+  --text-h4: 1.125rem; /* 18px — mobile */
   --text-h4--line-height: 1.5rem; /* 24px */
   --text-h4--font-weight: 600;
+
+  /* Desktop H4, measured on the "Mock Exams & CBT" column headings: 576 x 64
+     over two lines = 32px leading, and the frame labels it H4/BOLD (700), not
+     the 600 the mobile ramp carries. */
+  --text-h4-lg: 1.5rem; /* 24px */
+  --text-h4-lg--line-height: 2rem; /* 32px */
+  --text-h4-lg--font-weight: 700;
 
   /* Micro — 11px chrome: the audience chips and the product mock-up UI in the
      "Access controls" / "Still running on paper" sections. Below Tailwind's 12px

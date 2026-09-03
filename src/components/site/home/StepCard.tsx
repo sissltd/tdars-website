@@ -15,8 +15,11 @@ import { cn } from "@/lib/cn";
   Both frames park the numeral at the top and the title + copy at the bottom with a
   deliberate void between, so the card is a `justify-between` column.
 
-  The FIXED heights apply to `solid` only — that is the tone I have numbers for.
-  `outline` keeps a minimum so the unmeasured Mock Exam frame is not regressed.
+  The `outline` tone is measured off "Prepare with TDARS Mock Exam":
+    Card      Fill 302 x FIXED 231 · padding 20   (mobile: Fill 358 x FIXED 162 · padding 20)
+
+  Note the two tones DIFFER on mobile — 157 tall at 12px padding on the dark
+  panel, 162 at 20px here — so they cannot share one set of classes.
 */
 type StepCardProps = {
   number: string;
@@ -30,8 +33,8 @@ export function StepCard({ number, title, description, tone = "solid" }: StepCar
   return (
     <li
       className={cn(
-        "flex flex-col justify-between rounded-md border border-border bg-surface p-3 lg:p-5",
-        tone === "solid" ? "h-[157px] lg:h-[231px]" : "h-full min-h-52",
+        "flex flex-col justify-between rounded-md border border-border bg-surface lg:p-5",
+        tone === "solid" ? "h-[157px] p-3 lg:h-[231px]" : "h-[162px] p-5 lg:h-[231px]",
       )}
     >
       {/* H3/Bold — 18/26 mobile, 30/38 desktop. Not `--text-h3-lg` (20/28); see
@@ -47,6 +50,7 @@ export function StepCard({ number, title, description, tone = "solid" }: StepCar
         <h4 className="text-sm leading-5 font-bold text-heading lg:text-base lg:leading-6">
           {title}
         </h4>
+        {/* 8px under the title in both frames. */}
         <p className="mt-2 text-xs leading-[18px] text-body lg:text-sm lg:leading-5">
           {description}
         </p>

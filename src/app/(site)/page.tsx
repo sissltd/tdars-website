@@ -47,7 +47,8 @@ export default function HomePage() {
         <HowItWorks />
       </Section>
 
-      <Section aria-labelledby="mock-exams-title">
+      {/* 40 mobile / 80 desktop — this section's own padding. */}
+      <Section aria-labelledby="mock-exams-title" className="py-10 lg:py-20">
         <MockExamsCbt />
       </Section>
 
