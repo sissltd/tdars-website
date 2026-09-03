@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/cn";
+import { Reveal } from "@/components/site/Reveal";
 
 /*
   design/site/web/home-web8.png · design/site/mobile/home-mobile15-17.png
@@ -63,26 +64,30 @@ const PILLARS = [
 export function StillOnPaper() {
   return (
     <div className="flex flex-col gap-15">
-      <header className="flex flex-col gap-5 lg:max-w-[720px]">
-        <h2
-          id="still-on-paper-title"
-          className="font-heading text-h2 font-bold text-grey-5 lg:text-h2-lg"
-        >
-          Still running on paper? Now you found a better way.
-        </h2>
+      <Reveal>
+        <header className="flex flex-col gap-5 lg:max-w-[720px]">
+          <h2
+            id="still-on-paper-title"
+            className="font-heading text-h2 font-bold text-grey-5 lg:text-h2-lg"
+          >
+            Still running on paper? Now you found a better way.
+          </h2>
 
-        <p className="text-sm leading-5 font-medium text-gray-5 lg:text-base lg:leading-6">
-          Government agencies, security institutions, and large organisations lose time,
-          money, and trust when records live in filing cabinets and spreadsheets. TDARS
-          changes that.
-        </p>
-      </header>
+          <p className="text-sm leading-5 font-medium text-gray-5 lg:text-base lg:leading-6">
+            Government agencies, security institutions, and large organisations
+            lose time, money, and trust when records live in filing cabinets and
+            spreadsheets. TDARS changes that.
+          </p>
+        </header>
+      </Reveal>
 
       {/* No gap between columns — the 1px right rules ARE the dividers. */}
       <ul className="lg:grid lg:grid-cols-3">
         {PILLARS.map(({ slug, title, description, desktop, mobile }, index) => (
-          <li
+          <Reveal
+            as="li"
             key={slug}
+            delay={index * 90}
             className={cn(
               "flex flex-col gap-10 px-3 py-10 lg:border-t lg:border-divider lg:px-8",
               // Stacked, the first column opens the list and needs no rule above it.
@@ -114,7 +119,7 @@ export function StillOnPaper() {
                 className="hidden w-full lg:block"
               />
             </div>
-          </li>
+          </Reveal>
         ))}
       </ul>
     </div>

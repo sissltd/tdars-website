@@ -21,8 +21,11 @@ type BadgeTone = "soft" | "dark";
 type BadgeShape = "pill" | "rect";
 
 const toneClass: Record<BadgeTone, string> = {
-  soft: "border border-primary-2 bg-primary-soft text-primary",
-  dark: "bg-heading text-primary-foreground",
+  soft: "border border-primary-2 bg-primary-soft text-accent",
+  // Its ground is the rust card, which does not change theme — so neither
+  // does the pill. `bg-heading` would have inverted to near-white under
+  // white text.
+  dark: "bg-on-rust-chip text-primary-foreground",
 };
 
 const shapeClass: Record<BadgeShape, string> = {
@@ -37,7 +40,12 @@ type BadgeProps = {
   className?: string;
 };
 
-export function Badge({ children, tone = "soft", shape = "pill", className }: BadgeProps) {
+export function Badge({
+  children,
+  tone = "soft",
+  shape = "pill",
+  className,
+}: BadgeProps) {
   return (
     <span
       className={cn(

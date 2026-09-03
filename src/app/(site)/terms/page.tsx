@@ -17,7 +17,7 @@ export default function TermsPage() {
   return (
     <>
       {/* `#top` is the "Back to Top" target in the contents rail. */}
-      <Section id="top" className="pt-10 md:pt-14 lg:pt-16">
+      <Section reveal="load" id="top" className="pt-10 md:pt-14 lg:pt-16">
         <LegalDocument document={TERMS} />
       </Section>
 

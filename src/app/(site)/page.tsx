@@ -24,14 +24,24 @@ import { TrustStrip } from "@/components/site/home/TrustStrip";
 export default function HomePage() {
   return (
     <>
-      <Section bleed aria-labelledby="hero-title" className="overflow-hidden bg-hero">
+      <Section
+        bleed
+        reveal={false}
+        aria-labelledby="hero-title"
+        className="overflow-hidden bg-hero"
+      >
         <Hero />
       </Section>
 
       <TrustStrip />
 
       {/* 60px mobile / 80px desktop — the frame's own section padding. */}
-      <Section id="solutions" aria-labelledby="solutions-title" className="py-15 lg:py-20">
+      <Section
+        reveal={false}
+        id="solutions"
+        aria-labelledby="solutions-title"
+        className="py-15 lg:py-20"
+      >
         <Solutions />
       </Section>
 
@@ -58,6 +68,7 @@ export default function HomePage() {
         precisely because the band continues into the next.
       */}
       <Section
+        reveal={false}
         tone="subtle"
         aria-labelledby="audiences-title"
         className="pt-10 pb-5 lg:pt-20 lg:pb-10"
@@ -68,6 +79,7 @@ export default function HomePage() {
       {/* 40 mobile / 120 desktop — this section's padding is half again the 80
           the rest of the page uses. */}
       <Section
+        reveal={false}
         tone="subtle"
         aria-labelledby="access-controls-title"
         className="py-10 lg:py-30"
@@ -77,6 +89,7 @@ export default function HomePage() {
 
       {/* The band opens with a 13px dashed rule — see `dash-rule-top`. */}
       <Section
+        reveal={false}
         tone="dark"
         aria-labelledby="still-on-paper-title"
         className="dash-rule-top py-10 lg:py-20"

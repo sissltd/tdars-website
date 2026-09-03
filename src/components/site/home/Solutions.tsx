@@ -4,7 +4,8 @@ import {
   MockExamModuleIcon,
   RecordsModuleIcon,
   ScanModuleIcon,
-} from "./moduleIcons";
+} from "@/components/site/icons";
+import { Reveal } from "@/components/site/Reveal";
 
 /*
   design/site/web/home-web2.png · design/site/mobile/home-mobile3-4.png
@@ -53,25 +54,31 @@ const MODULES = [
 export function Solutions() {
   return (
     <>
-      <Badge>Our solutions</Badge>
+      <Reveal>
+        <Badge>Our solutions</Badge>
 
-      <h2
-        id="solutions-title"
-        className="mt-5 max-w-[720px] font-heading text-h2 font-bold text-heading lg:text-h2-lg"
-      >
-        Four modules. One platform. Everything connected.
-      </h2>
+        <h2
+          id="solutions-title"
+          className="mt-5 max-w-[720px] font-heading text-h2 font-bold text-heading lg:text-h2-lg"
+        >
+          Four modules. One platform. Everything connected.
+        </h2>
 
-      <p className="mt-4 max-w-[720px] text-sm font-medium leading-5 text-heading lg:text-base lg:leading-6">
-        Disconnected tools create gaps. TDARS brings scanning, records, training, and
-        testing into one secure system.
-      </p>
+        <p className="mt-4 max-w-[720px] text-sm font-medium leading-5 text-heading lg:text-base lg:leading-6">
+          Disconnected tools create gaps. TDARS brings scanning, records,
+          training, and testing into one secure system.
+        </p>
+      </Reveal>
 
       {/* 60px below the header block at desktop, 40px on mobile — the section's gap. */}
       <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mt-15 lg:grid-cols-4 lg:gap-6">
-        {MODULES.map(({ name, description, Icon }) => (
-          <li
+        {MODULES.map(({ name, description, Icon }, index) => (
+          // 70ms apart: the four land in 210ms, read as one gesture rather than
+          // four separate events.
+          <Reveal
+            as="li"
             key={name}
+            delay={index * 70}
             className="flex flex-col gap-5 rounded-md border border-border bg-surface p-3 lg:h-[218px] lg:p-5"
           >
             {/*
@@ -91,7 +98,7 @@ export function Solutions() {
                 {description}
               </p>
             </div>
-          </li>
+          </Reveal>
         ))}
       </ul>
     </>

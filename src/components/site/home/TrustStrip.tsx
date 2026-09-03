@@ -36,7 +36,14 @@ const TRUST_ITEMS: TrustItem[] = [
 
 export function TrustStrip() {
   return (
-    <section aria-label="Why teams trust TDARS" className="bg-gray-5 py-6 lg:py-2">
+    /* In the first screen, so it enters on LOAD in CSS rather than waiting for
+       the observer. Last in the hero's stagger. */
+    <section
+      data-enter="up"
+      style={{ "--enter-delay": "240ms" } as React.CSSProperties}
+      aria-label="Why teams trust TDARS"
+      className="bg-gray-5 py-6 lg:py-2"
+    >
       <Container>
         {/* Mobile columns hug their labels so "Cloud / on-premises / air-gapped" keeps
             the two lines the frame gives it; desktop is four even cells. */}

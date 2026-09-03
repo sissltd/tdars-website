@@ -29,17 +29,20 @@ const STEPS = [
   {
     number: "01",
     title: "Capture",
-    description: "Scan, upload, or import from email and USB. TDARS handles the rest.",
+    description:
+      "Scan, upload, or import from email and USB. TDARS handles the rest.",
   },
   {
     number: "02",
     title: "Recognise",
-    description: "Reads text from scans, classifies each document, and flags anomalies.",
+    description:
+      "Reads text from scans, classifies each document, and flags anomalies.",
   },
   {
     number: "03",
     title: "Link",
-    description: "Matches documents to the right person using names, IDs, and biometrics.",
+    description:
+      "Matches documents to the right person using names, IDs, and biometrics.",
   },
   {
     number: "04",
@@ -105,8 +108,8 @@ export function HowItWorks() {
           </h2>
 
           <p className="text-sm leading-5 font-medium text-footer-foreground lg:text-base lg:leading-6">
-            TDARS handles the heavy lifting, scanning, classifying, linking, and storing, so
-            your team can focus on the work that matters.
+            TDARS handles the heavy lifting, scanning, classifying, linking, and
+            storing, so your team can focus on the work that matters.
           </p>
         </header>
 

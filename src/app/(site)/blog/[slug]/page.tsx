@@ -8,6 +8,7 @@ import { Section } from "@/components/site/Section";
 import { ReadOtherArticles } from "@/components/site/blog/ReadOtherArticles";
 import { getArticle } from "@/content/articles";
 import { ALL_POSTS, getPostBySlug } from "@/content/posts";
+import { ArrowLeftIcon } from "@/components/site/icons";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -56,7 +57,8 @@ export default async function BlogDetailPage({ params }: Params) {
     <>
       {/*
         ONE section, not two. Measured off the frame: 60px above the "Go Back"
-        link, 40px below it, then the card. Two stacked <Section>s each
+        link, 40px below it, then the card. Two stacked <Section
+        reveal="load">s each
         contributed their own vertical rhythm on top of that, which was the extra
         gap at the top.
       */}
@@ -68,17 +70,9 @@ export default async function BlogDetailPage({ params }: Params) {
         */}
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-primary lg:text-base"
+          className="inline-flex items-center gap-2 text-sm font-medium text-body transition-colors hover:text-accent lg:text-base"
         >
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-5">
-            <path
-              d="M19 12H5m0 0 6-6m-6 6 6 6"
-              stroke="currentColor"
-              strokeWidth="1.75"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ArrowLeftIcon className="size-5" />
           Go Back
         </Link>
 
@@ -91,51 +85,51 @@ export default async function BlogDetailPage({ params }: Params) {
         */}
         <article className="mt-10 lg:rounded-lg lg:bg-surface-subtle lg:py-10">
           <div className="mx-auto w-full lg:max-w-[907px]">
-          {article ? (
-            <p className="text-sm font-medium leading-5 text-body lg:text-base lg:leading-6">
-              {article.date}
-            </p>
-          ) : null}
+            {article ? (
+              <p className="text-sm font-medium leading-5 text-body lg:text-base lg:leading-6">
+                {article.date}
+              </p>
+            ) : null}
 
-          <h1 className="mt-2 font-heading text-h2 font-semibold text-heading lg:text-h2-lg">
-            {post.title}
-          </h1>
+            <h1 className="mt-2 font-heading text-h2 font-semibold text-heading lg:text-h2-lg">
+              {post.title}
+            </h1>
 
-          <PostImage
-            src={post.image}
-            alt={post.title}
-            sizes="(min-width: 1024px) 60vw, 100vw"
-            className="mt-6 aspect-[358/216] w-full lg:mt-8 lg:aspect-[907/525]"
-            priority
-          />
+            <PostImage
+              src={post.image}
+              alt={post.title}
+              sizes="(min-width: 1024px) 60vw, 100vw"
+              className="mt-6 aspect-[358/216] w-full lg:mt-8 lg:aspect-[907/525]"
+              priority
+            />
 
-          {article ? (
-            article.sections.map((section) => (
-              <section key={section.heading} className="mt-8 lg:mt-10">
-                <h2 className="font-heading text-h2 font-semibold text-heading lg:text-h2-lg">
-                  {section.heading}
-                </h2>
-                {section.paragraphs.map((paragraph) => (
-                  <p
-                    key={paragraph.slice(0, 48)}
-                    className="mt-4 text-sm leading-[1.4] tracking-[-0.02em] text-prose"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
-              </section>
-            ))
-          ) : (
-            /*
+            {article ? (
+              article.sections.map((section) => (
+                <section key={section.heading} className="mt-8 lg:mt-10">
+                  <h2 className="font-heading text-h2 font-semibold text-heading lg:text-h2-lg">
+                    {section.heading}
+                  </h2>
+                  {section.paragraphs.map((paragraph) => (
+                    <p
+                      key={paragraph.slice(0, 48)}
+                      className="mt-4 text-sm leading-[1.4] tracking-[-0.02em] text-prose"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </section>
+              ))
+            ) : (
+              /*
               No body copy exists for this post anywhere in the design — see
               src/content/articles.ts. The excerpt stands in as the lead so the
               page is never blank, and the article renders in full the moment
               copy is added.
             */
-            <p className="mt-8 text-sm leading-[1.4] tracking-[-0.02em] text-prose lg:mt-10">
-              {post.excerpt}
-            </p>
-          )}
+              <p className="mt-8 text-sm leading-[1.4] tracking-[-0.02em] text-prose lg:mt-10">
+                {post.excerpt}
+              </p>
+            )}
           </div>
         </article>
       </Section>

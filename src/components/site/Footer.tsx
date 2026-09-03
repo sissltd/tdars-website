@@ -11,7 +11,7 @@ import {
   LinkedInIcon,
   WhatsAppIcon,
   XIcon,
-} from "./icons";
+} from "@/components/site/icons";
 import { FOOTER_LINKS } from "./nav-links";
 
 const LANGUAGES = ["Eng", "Yor", "Igb", "Hau", "Fre"];
@@ -31,7 +31,7 @@ const labelClass = "mb-1.5 block text-sm font-medium text-footer-foreground";
 
 function RequiredMark() {
   return (
-    <span aria-hidden="true" className="text-primary">
+    <span aria-hidden="true" className="text-accent">
       {" "}
       *
     </span>
@@ -40,7 +40,10 @@ function RequiredMark() {
 
 function ContactCard() {
   return (
-    <div id="contact" className="scroll-mt-24 flex flex-col rounded-md border-2 border-footer-border bg-footer-card px-3 pt-3 pb-5 lg:justify-between lg:rounded-lg lg:p-5">
+    <div
+      id="contact"
+      className="scroll-mt-24 flex flex-col rounded-md border-2 border-footer-border bg-footer-card px-3 pt-3 pb-5 lg:justify-between lg:rounded-lg lg:p-5"
+    >
       {/*
         The label, heading and form are ONE child of the card's space-between
         column; only the Privacy / Terms row is the second. Leaving all four as
@@ -56,7 +59,9 @@ function ContactCard() {
             the frame's own text box; without it the line breaks somewhere else. */}
         <h2 className="mt-8 max-w-[526px] font-heading text-h2 font-medium lg:text-h2-footer">
           <span className="text-muted">Looking for tailored assistance?</span>{" "}
-          <span className="text-footer-foreground">Make a contact with our team.</span>
+          <span className="text-footer-foreground">
+            Make a contact with our team.
+          </span>
         </h2>
 
         {/*
@@ -196,11 +201,17 @@ function ContactCard() {
           this row to the bottom — measured rather than derived, because the
           column only stretches to 747 when the taller right-hand column says so.
         */}
-        <div className="mt-10 flex items-center justify-between text-xs leading-[18px] text-footer-foreground lg:mt-0">
-        <Link href="/privacy" className="rounded-sm hover:text-white/70">
+      <div className="mt-10 flex items-center justify-between text-xs leading-[18px] text-footer-foreground lg:mt-0">
+        <Link
+          href="/privacy"
+          className="rounded-sm hover:text-footer-foreground/70"
+        >
           Privacy
         </Link>
-        <Link href="/terms" className="rounded-sm hover:text-white/70">
+        <Link
+          href="/terms"
+          className="rounded-sm hover:text-footer-foreground/70"
+        >
           Terms and Conditions
         </Link>
       </div>
@@ -219,8 +230,9 @@ function SiteInfo() {
       />
 
       <p className="mt-5 max-w-[478px] text-base leading-6 text-footer-body">
-        Secure digital archive and career dossier systems engineered specifically for
-        national agencies, military commands, and security structures.
+        Secure digital archive and career dossier systems engineered
+        specifically for national agencies, military commands, and security
+        structures.
       </p>
 
       <ul className="mt-5 flex flex-wrap gap-x-10 gap-y-2">
@@ -228,7 +240,7 @@ function SiteInfo() {
           <li key={link.label}>
             <Link
               href={link.href}
-              className="rounded-sm text-base leading-6 font-semibold text-primary-soft hover:opacity-80"
+              className="rounded-sm text-base leading-6 font-semibold text-on-rust-body hover:opacity-80"
             >
               {link.label}
             </Link>
@@ -249,10 +261,16 @@ function SiteInfo() {
             Contact Us
           </h3>
           <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
-            <a href="tel:+19998887766" className="block rounded-sm hover:text-white/70">
+            <a
+              href="tel:+19998887766"
+              className="block rounded-sm hover:text-footer-foreground/70"
+            >
               +1 (999) 888-77-66
             </a>
-            <a href="mailto:hello@cK.com" className="block rounded-sm hover:text-white/70">
+            <a
+              href="mailto:hello@cK.com"
+              className="block rounded-sm hover:text-footer-foreground/70"
+            >
               hello@cK.com
             </a>
           </address>

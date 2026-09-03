@@ -1,9 +1,14 @@
 @import "tailwindcss";
 
+/* next-themes puts `class="dark"` on <html>; this teaches Tailwind's `dark:`
+   variant to follow that class rather than the OS setting, exactly as the
+   application (tdars-frontend) does. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ──────────────────────────────────────────────────────────────────────────
    TDARS marketing-site design tokens (from Yemi's Figma — see design/TOKENS.md).
    Components reference the SEMANTIC tokens below (bg-surface, text-heading,
-   text-primary, …), never raw hex — so a design tweak is a one-file change.
+   text-accent, …), never raw hex — so a design tweak is a one-file change.
 
    Every value here is either straight from the Figma inspector (TOKENS.md) or
    sampled off the exported screenshots; nothing is invented. Anything new goes
@@ -11,9 +16,28 @@
    ────────────────────────────────────────────────────────────────────────── */
 
 :root {
+  /*
+    Tells the browser which theme the page is in, so the things WE do not paint
+    match the ones we do: native form controls, the scrollbar, spellcheck
+    underlines, the canvas behind a rubber-band overscroll. Without it a dark
+    page still gets light scrollbars and light select/date widgets — which this
+    site has, in both forms.
+  */
+  color-scheme: light;
+
   /* ── Brand ─────────────────────────────────────────────────────────────── */
-  --primary: #b93a2c; /* Primary/Primary 1 — CTAs, active nav, links */
+  --primary: #b93a2c; /* Primary/Primary 1 — CTA and button FILLS */
   --primary-hover: #9c3025;
+  /*
+    The same rust, used as TEXT rather than as a fill: links, the active nav
+    pill, eyebrow copy. Identical to --primary here, so light mode is unchanged.
+
+    They separate in dark mode because a fill and a label on a dark ground need
+    OPPOSITE adjustments, and one token cannot give both. Measured: lifting the
+    single token to #D9584A left white-on-fill at 3.86:1 and the active nav pill
+    at 3.99:1 — two WCAG AA failures pulling in opposite directions.
+  */
+  --accent: #b93a2c;
   --primary-foreground: #ffffff;
   --primary-soft: #faecea; /* Primary/Primary 4 — eyebrow pills, active nav, footer links */
   --primary-wash: #fdf7f7; /* Primary/Primary 5 — light button on the rust CTA card */
@@ -42,6 +66,11 @@
   --grey-4: #f9f9f9; /* Grey/4 — column body copy on the dark band */
   --grey-5: #fcfcfc; /* Grey/5 — headings on the dark band */
   --dark-panel: #2d2d2d; /* "How it works" card, "Still running on paper" */
+  /* Cards that sit ON a dark panel. They cannot use --surface: on a dark page
+     --surface is DARKER than the panel, which would sink them into it instead
+     of raising them off it. */
+  --panel-surface: #ffffff;
+  --panel-border: #e6e6e6;
   --footer: #151515; /* footer / contact section */
   --footer-card: #1a1a1a; /* contact-form card inside the footer */
   /* Gray/Gray 5. The footer's copy is NOT pure white — measured #FAFAFA. */
@@ -53,6 +82,24 @@
      so at low opacity it lifts the rust rather than darkening it — which is what
      makes the waves read as pale rather than as shadow. */
   --cta-wave: #ff8e75;
+
+  /* ── On rust / on dark ─────────────────────────────────────────────────── */
+  /*
+    These four are DELIBERATELY ABSENT from the .dark block, and that is the
+    point: they name colours whose GROUND never changes theme. The "Ready to go
+    digital" card is rust in both themes and the footer is near-black in both,
+    so anything drawn on them must stay put.
+
+    Each replaces a token that was quietly doing two jobs. `--primary-soft`, for
+    instance, is both the pale eyebrow-pill FILL (which must darken in dark
+    mode) and pale rust TEXT on the footer (which must not). Sharing one value
+    worked until the theme flipped, at which point the footer links turned
+    #33201d on #0d0d0d and vanished.
+  */
+  --on-rust-body: #faecea; /* Primary 4 — pale rust copy on rust or on the footer */
+  --on-rust-chip: #373737; /* the near-black "Get started" pill on the rust card */
+  --on-rust-button: #fdf7f7; /* Primary 5 — the light button on the rust card */
+  --on-rust-button-text: #b93a2c; /* Primary 1, unlifted: its ground is near-white */
 
   /* ── Feedback ──────────────────────────────────────────────────────────── */
   --success: #0e9f6e;
@@ -72,9 +119,111 @@
   );
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+   Dark theme.
+
+   Yemi did not draw a dark version of this site, so these values are DERIVED,
+   not measured — the one block in this file that is. The rules followed:
+
+   1. Only the SEMANTIC tokens are redefined. Because every component draws from
+      them and never from raw hex, redefining ~25 values here flips the whole
+      site; no component needs a `dark:` class for colour.
+   2. The grey ramp INVERTS in place (heading is the lightest, muted the
+      dimmest) so contrast relationships survive rather than being re-invented.
+   3. Rust stays rust. #B93A2C is the brand and does not change hue; it is
+      lifted to #D9584A for text and hairlines, because the measured rust fails
+      contrast against a dark ground.
+   4. The three DARK PANELS are the interesting case. "How it works", "Still
+      running on paper?" and the footer are deliberately near-black on a white
+      page. Left alone in dark mode they would dissolve into the background and
+      stop reading as panels at all, so they LIFT instead — the surfaces around
+      them go dark, and the panels become the lighter, raised element. Their
+      relationship to the page is preserved by inverting it.
+   ────────────────────────────────────────────────────────────────────────── */
+.dark {
+  color-scheme: dark;
+
+  /*
+    Rust, split by role — see the note beside --accent above.
+
+    --primary is a FILL under white text, so it must stay DEEP: white on
+    #C2402F is 5.16:1, where the brighter #D9584A managed only 3.86:1. Hover
+    goes darker rather than lighter for the same reason, mirroring light mode.
+
+    --accent is TEXT on a dark ground, so it must go BRIGHT: #F0897C reads
+    5.95:1 on the eyebrow pill and 7.65:1 on the page.
+  */
+  --primary: #c2402f;
+  --primary-hover: #ad3826;
+  --accent: #f0897c;
+  --primary-foreground: #ffffff;
+  --primary-soft: #3a231f; /* eyebrow pill fill */
+  --primary-wash: #2a1a18;
+  --primary-2: #7a3a32; /* the eyebrow pill's ring */
+  --primary-3: #c9776c;
+
+  /* The grey ramp, inverted: heading brightest, muted dimmest. */
+  --heading: #f2f2f2;
+  --body: #c4c4c4;
+  --muted: #8a8a8a;
+  --prose: #b8b8b8;
+  --border: #2e2e2e;
+  --divider: #3a3a3a;
+
+  /* Surfaces. `surface` sits one step above `background` so cards separate from
+     the page without needing a border to do the work. */
+  --background: #121212;
+  --surface: #1a1a1a;
+  --surface-subtle: #1e1e1e;
+  --gray-5: #171717; /* the band behind "Who is TDARS built for?" */
+  --grey-4: #c4c4c4; /* body copy ON a panel — stays light, the panel is dark */
+  --grey-5: #f2f2f2; /* headings on a panel */
+
+  /* The three panels LIFT rather than darken — see (4) above. */
+  --dark-panel: #242424;
+  /* And the cards on them lift again, so the stack still reads
+     page < panel < card rather than collapsing into one flat tone. */
+  --panel-surface: #303030;
+  --panel-border: #3d3d3d;
+  --footer: #0d0d0d; /* the one exception: the footer anchors the page bottom */
+  --footer-card: #1a1a1a;
+  --footer-foreground: #f2f2f2;
+  --footer-body: #c4c4c4;
+  --footer-border: #2e2e2e;
+  --cta-border: #4a5568;
+  --cta-wave: #ff8e75;
+
+  /* ── On rust / on dark ─────────────────────────────────────────────────── */
+  /*
+    These four are DELIBERATELY ABSENT from the .dark block, and that is the
+    point: they name colours whose GROUND never changes theme. The "Ready to go
+    digital" card is rust in both themes and the footer is near-black in both,
+    so anything drawn on them must stay put.
+
+    Each replaces a token that was quietly doing two jobs. `--primary-soft`, for
+    instance, is both the pale eyebrow-pill FILL (which must darken in dark
+    mode) and pale rust TEXT on the footer (which must not). Sharing one value
+    worked until the theme flipped, at which point the footer links turned
+    #33201d on #0d0d0d and vanished.
+  */
+  --on-rust-body: #faecea; /* Primary 4 — pale rust copy on rust or on the footer */
+  --on-rust-chip: #373737; /* the near-black "Get started" pill on the rust card */
+  --on-rust-button: #fdf7f7; /* Primary 5 — the light button on the rust card */
+  --on-rust-button-text: #b93a2c; /* Primary 1, unlifted: its ground is near-white */ /* unchanged: it sits on the rust card, which is unchanged */
+
+  --success: #34d399;
+  --success-soft: #14352a;
+
+  /* The hero wash cools and deepens rather than disappearing, so the headline
+     still sits in a pool of light the way the frame intends. */
+  --hero-tint: #16202b;
+  --hero-tint-soft: #141a21;
+}
+
 @theme inline {
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-accent: var(--accent);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
   --color-primary-wash: var(--primary-wash);
@@ -94,6 +243,8 @@
   --color-divider: var(--divider);
 
   --color-dark-panel: var(--dark-panel);
+  --color-panel-surface: var(--panel-surface);
+  --color-panel-border: var(--panel-border);
   --color-footer: var(--footer);
   --color-footer-card: var(--footer-card);
   --color-footer-foreground: var(--footer-foreground);
@@ -103,6 +254,10 @@
   --color-primary-3: var(--primary-3);
   --color-cta-border: var(--cta-border);
   --color-cta-wave: var(--cta-wave);
+  --color-on-rust-body: var(--on-rust-body);
+  --color-on-rust-chip: var(--on-rust-chip);
+  --color-on-rust-button: var(--on-rust-button);
+  --color-on-rust-button-text: var(--on-rust-button-text);
 
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
@@ -241,6 +396,121 @@
   13px thickness renders as long slabs rather than the frame's short ticks. A
   repeating gradient states the 4/4 exactly.
 */
+/* ──────────────────────────────────────────────────────────────────────────
+   Entrance animations. Paired with <Reveal>, which flips `data-revealed` when
+   an element enters the viewport. See that component for the reasoning.
+
+   Only opacity and transform are animated — both composite on the GPU, so no
+   number of simultaneous reveals costs layout or paint.
+
+   The easing is a soft overshoot-free decelerate: fast to begin, settling
+   slowly. On a marketing page that reads as the content arriving, where a
+   linear or ease-in-out curve reads as the page being slow.
+   ────────────────────────────────────────────────────────────────────────── */
+/*
+  ── ON LOAD, above the fold ───────────────────────────────────────────────
+  A CSS animation, deliberately NOT the observer below.
+
+  `data-reveal` holds an element at opacity 0 until JS hydrates and the
+  IntersectionObserver fires. For anything below the fold that is invisible —
+  the reader has not reached it. For the HERO it is a bug: on Slow 4G the first
+  screen stayed blank for the ~3.8s it took to hydrate, because the LCP element
+  was waiting on a script to be told it could appear.
+
+  A CSS animation starts as soon as the stylesheet parses, which is
+  render-blocking and therefore already there. No JS involved, and no client
+  component either — `data-enter` goes on plain server-rendered markup.
+
+  Delays are kept short and the heading takes none: with `fill-mode: both` an
+  element sits at opacity 0 through its delay, and an element at opacity 0 does
+  not count as painted for LCP.
+*/
+[data-enter] {
+  animation: enter-up 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+[data-enter="left"] {
+  animation-name: enter-left;
+}
+
+[data-enter="right"] {
+  animation-name: enter-right;
+}
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+}
+
+@keyframes enter-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-32px, 0, 0);
+  }
+}
+
+@keyframes enter-right {
+  from {
+    opacity: 0;
+    transform: translate3d(32px, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-enter] {
+    animation: none;
+  }
+}
+
+/* ── ON SCROLL, below the fold ─────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="up"] {
+  transform: translate3d(0, 28px, 0);
+}
+
+/* The horizontal pair is deliberately shorter than it looks in a mock-up: a
+   large slide re-flows the reader's eye across the page and draws attention to
+   the motion instead of the copy. */
+[data-reveal="left"] {
+  transform: translate3d(-32px, 0, 0);
+}
+
+[data-reveal="right"] {
+  transform: translate3d(32px, 0, 0);
+}
+
+[data-reveal="fade"] {
+  transform: none;
+}
+
+[data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+  Not a nicety — vestibular disorders make large sliding motion genuinely
+  unpleasant, and this is a government-facing site. Everything is simply
+  present, with no transition to interrupt.
+*/
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @utility dash-rule-top {
   position: relative;
 

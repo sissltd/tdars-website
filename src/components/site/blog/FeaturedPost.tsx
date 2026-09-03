@@ -45,7 +45,7 @@ export function FeaturedPost({ post }: { post: Post }) {
 
         {/* Body 2/Regular, Gray/Gray 2. 18px leading on mobile (358 x 108 over
             six lines), 20px at desktop (494 x 100 over five). */}
-        <p className="mt-4 text-sm leading-[18px] text-text-2 lg:leading-5">
+        <p className="mt-4 text-sm leading-[18px] text-prose lg:leading-5">
           {post.excerpt}
         </p>
 
@@ -58,7 +58,7 @@ export function FeaturedPost({ post }: { post: Post }) {
           href={`/blog/${post.slug}`}
           variant="outline"
           size="lg"
-          className="mt-6 gap-2.5 border-[1.5px] border-primary text-primary lg:mt-10"
+          className="mt-6 gap-2.5 border-[1.5px] border-primary text-accent lg:mt-10"
         >
           Read more
           <ArrowRightIcon className="size-4" />

@@ -6,6 +6,7 @@ import { cn } from "@/lib/cn";
 import type { Post } from "@/content/posts";
 
 import { PostCard } from "./PostCard";
+import { ArrowRightIcon } from "@/components/site/icons";
 
 /*
   design/site/web/home-web-Blog-detail-page3.png
@@ -72,7 +73,11 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
             disabled={atStart}
             onClick={() => nudge(-1)}
           />
-          <RailButton direction="next" disabled={atEnd} onClick={() => nudge(1)} />
+          <RailButton
+            direction="next"
+            disabled={atEnd}
+            onClick={() => nudge(1)}
+          />
         </div>
       </div>
 
@@ -126,20 +131,9 @@ function RailButton({
           : "bg-primary text-primary-foreground hover:bg-primary-hover",
       )}
     >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        aria-hidden="true"
+      <ArrowRightIcon
         className={cn("size-5", direction === "prev" && "rotate-180")}
-      >
-        <path
-          d="M5 12h14m0 0-6-6m6 6-6 6"
-          stroke="currentColor"
-          strokeWidth="1.75"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      />
     </button>
   );
 }
