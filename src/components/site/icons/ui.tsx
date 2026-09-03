@@ -58,7 +58,14 @@ export function ArrowUpIcon(props: IconProps) {
 export function MenuIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 34 34" fill="none" aria-hidden="true" {...props}>
-      <rect x="0.5" y="0.5" width="33" height="33" rx="7.5" stroke="currentColor" />
+      <rect
+        x="0.5"
+        y="0.5"
+        width="33"
+        height="33"
+        rx="7.5"
+        stroke="currentColor"
+      />
       <path
         d="M8.25 17C8.25 16.586 8.586 16.25 9 16.25H25C25.414 16.25 25.75 16.586 25.75 17C25.75 17.414 25.414 17.75 25 17.75H9C8.586 17.75 8.25 17.414 8.25 17ZM11.25 10C11.25 9.586 11.586 9.25 12 9.25H22C22.414 9.25 22.75 9.586 22.75 10C22.75 10.414 22.414 10.75 22 10.75H12C11.586 10.75 11.25 10.414 11.25 10ZM12 23.25H22C22.414 23.25 22.75 23.586 22.75 24C22.75 24.414 22.414 24.75 22 24.75H12C11.586 24.75 11.25 24.414 11.25 24C11.25 23.586 11.586 23.25 12 23.25Z"
         fill="currentColor"
@@ -75,7 +82,14 @@ export function MenuIcon(props: IconProps) {
 export function CloseIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 34 34" fill="none" aria-hidden="true" {...props}>
-      <rect x="0.5" y="0.5" width="33" height="33" rx="7.5" stroke="currentColor" />
+      <rect
+        x="0.5"
+        y="0.5"
+        width="33"
+        height="33"
+        rx="7.5"
+        stroke="currentColor"
+      />
       <path
         d="M9.77151 9.29104C10.0528 9.00976 10.5078 9.00976 10.7891 9.29104L17.0003 15.5013L23.2115 9.29104C23.4928 9.00976 23.9478 9.00976 24.2291 9.29104C24.5104 9.57232 24.5104 10.0274 24.2291 10.3086L18.0189 16.5198L24.2291 22.731C24.5104 23.0123 24.5104 23.4674 24.2291 23.7486C23.9478 24.0299 23.4928 24.0299 23.2115 23.7486L17.0003 17.5384L10.7891 23.7486C10.5078 24.0299 10.0528 24.0299 9.77151 23.7486C9.49023 23.4674 9.49023 23.0123 9.77151 22.731L15.9817 16.5198L9.77151 10.3086C9.49023 10.0274 9.49023 9.57232 9.77151 9.29104Z"
         fill="currentColor"
@@ -150,7 +164,13 @@ export function InstagramIcon(props: IconProps) {
 */
 export function TenantIsolatedIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} strokeWidth={1.5} {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      {...base}
+      strokeWidth={1.5}
+      {...props}
+    >
       <path d="M13.0095 2.92031L18.9095 5.54031C20.6095 6.29031 20.6095 7.53031 18.9095 8.28031L13.0095 10.9003C12.3395 11.2003 11.2395 11.2003 10.5695 10.9003L4.66953 8.28031C2.96953 7.53031 2.96953 6.29031 4.66953 5.54031L10.5695 2.92031C11.2395 2.62031 12.3395 2.62031 13.0095 2.92031Z" />
       <path d="M3 11C3 11.84 3.63 12.81 4.4 13.15L11.19 16.17C11.71 16.4 12.3 16.4 12.81 16.17L19.6 13.15C20.37 12.81 21 11.84 21 11" />
       <path d="M3 16C3 16.93 3.55 17.77 4.4 18.15L11.19 21.17C11.71 21.4 12.3 21.4 12.81 21.17L19.6 18.15C20.45 17.77 21 16.93 21 16" />
@@ -160,7 +180,13 @@ export function TenantIsolatedIcon(props: IconProps) {
 
 export function AuditableIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} strokeWidth={1.5} {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      {...base}
+      strokeWidth={1.5}
+      {...props}
+    >
       <path d="M14 4.5H21" />
       <path d="M14 9.5H21" />
       <path d="M3 14.5H21" />
@@ -172,7 +198,14 @@ export function AuditableIcon(props: IconProps) {
 
 export function CloudDeploymentIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} strokeWidth={1.5} strokeMiterlimit={10} {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      {...base}
+      strokeWidth={1.5}
+      strokeMiterlimit={10}
+      {...props}
+    >
       <path d="M21.8995 13.9607C22.1695 15.6307 21.6995 17.4207 20.2695 18.6807C19.2795 19.5907 17.9795 20.0907 16.6295 20.0807H5.53945C0.869454 19.7407 0.859454 12.9407 5.53945 12.6007H5.58945C3.39945 6.47071 9.08945 2.87071 13.3795 4.25071" />
       <path d="M7.25984 13.0096C6.73984 12.7496 6.16984 12.6096 5.58984 12.5996" />
       <path d="M21.9707 8.5C21.9707 9.6 21.4607 10.59 20.6507 11.23C20.0607 11.71 19.2907 12 18.4707 12C16.5407 12 14.9707 10.43 14.9707 8.5C14.9707 7.54 15.3607 6.67 16.0007 6.04V6.03C16.6307 5.39 17.5107 5 18.4707 5C20.4007 5 21.9707 6.57 21.9707 8.5Z" />
@@ -273,7 +306,13 @@ export function ArrowLeftIcon(props: IconProps) {
     34x34 framed button. */
 export function CircleCloseIcon(props: IconProps) {
   return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...base} strokeWidth={1.5} {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      {...base}
+      strokeWidth={1.5}
+      {...props}
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="m9 9 6 6m0-6-6 6" />
     </svg>
@@ -299,7 +338,6 @@ export function SunIcon(props: IconProps) {
   );
 }
 
-
 /*
   The wave texture stroked across the "Ready to go digital" card.
 
@@ -314,7 +352,12 @@ export function WaveTexture() {
       className="pointer-events-none absolute inset-0 size-full text-cta-wave opacity-[0.08]"
     >
       <defs>
-        <pattern id="cta-wave" width="40" height="11" patternUnits="userSpaceOnUse">
+        <pattern
+          id="cta-wave"
+          width="40"
+          height="11"
+          patternUnits="userSpaceOnUse"
+        >
           {/* One cycle. `T` mirrors the control point, so tiles meet seamlessly. */}
           <path
             d="M0 5.5Q10 2 20 5.5T40 5.5"

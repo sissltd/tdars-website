@@ -396,6 +396,121 @@
   13px thickness renders as long slabs rather than the frame's short ticks. A
   repeating gradient states the 4/4 exactly.
 */
+/* ──────────────────────────────────────────────────────────────────────────
+   Entrance animations. Paired with <Reveal>, which flips `data-revealed` when
+   an element enters the viewport. See that component for the reasoning.
+
+   Only opacity and transform are animated — both composite on the GPU, so no
+   number of simultaneous reveals costs layout or paint.
+
+   The easing is a soft overshoot-free decelerate: fast to begin, settling
+   slowly. On a marketing page that reads as the content arriving, where a
+   linear or ease-in-out curve reads as the page being slow.
+   ────────────────────────────────────────────────────────────────────────── */
+/*
+  ── ON LOAD, above the fold ───────────────────────────────────────────────
+  A CSS animation, deliberately NOT the observer below.
+
+  `data-reveal` holds an element at opacity 0 until JS hydrates and the
+  IntersectionObserver fires. For anything below the fold that is invisible —
+  the reader has not reached it. For the HERO it is a bug: on Slow 4G the first
+  screen stayed blank for the ~3.8s it took to hydrate, because the LCP element
+  was waiting on a script to be told it could appear.
+
+  A CSS animation starts as soon as the stylesheet parses, which is
+  render-blocking and therefore already there. No JS involved, and no client
+  component either — `data-enter` goes on plain server-rendered markup.
+
+  Delays are kept short and the heading takes none: with `fill-mode: both` an
+  element sits at opacity 0 through its delay, and an element at opacity 0 does
+  not count as painted for LCP.
+*/
+[data-enter] {
+  animation: enter-up 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+[data-enter="left"] {
+  animation-name: enter-left;
+}
+
+[data-enter="right"] {
+  animation-name: enter-right;
+}
+
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+}
+
+@keyframes enter-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-32px, 0, 0);
+  }
+}
+
+@keyframes enter-right {
+  from {
+    opacity: 0;
+    transform: translate3d(32px, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-enter] {
+    animation: none;
+  }
+}
+
+/* ── ON SCROLL, below the fold ─────────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="up"] {
+  transform: translate3d(0, 28px, 0);
+}
+
+/* The horizontal pair is deliberately shorter than it looks in a mock-up: a
+   large slide re-flows the reader's eye across the page and draws attention to
+   the motion instead of the copy. */
+[data-reveal="left"] {
+  transform: translate3d(-32px, 0, 0);
+}
+
+[data-reveal="right"] {
+  transform: translate3d(32px, 0, 0);
+}
+
+[data-reveal="fade"] {
+  transform: none;
+}
+
+[data-reveal][data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
+/*
+  Not a nicety — vestibular disorders make large sliding motion genuinely
+  unpleasant, and this is a government-facing site. Everything is simply
+  present, with no transition to interrupt.
+*/
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 @utility dash-rule-top {
   position: relative;
 

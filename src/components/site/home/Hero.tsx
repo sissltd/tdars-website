@@ -15,7 +15,13 @@ export function Hero() {
   return (
     <div className="mx-auto flex max-w-site flex-col gap-10 pl-4 md:pl-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-14 lg:pl-20">
       <div className="pr-4 md:pr-10 lg:pr-0">
+        {/*
+          Animated on LOAD via CSS, not on scroll via JS — see `data-enter` in
+          globals.css. The heading takes NO delay: it is the LCP candidate, and
+          an element held at opacity 0 through a delay does not count as painted.
+        */}
         <h1
+          data-enter="left"
           id="hero-title"
           /*
             587 x 216 — three lines at the 72px H1 line, breaking after
@@ -38,10 +44,13 @@ export function Hero() {
           <br className="hidden lg:inline" /> for Every Record
           <br className="hidden lg:inline" /> That Matters
         </h1>
-
-        <p className="mt-5 max-w-xl text-base leading-relaxed text-body lg:mt-6">
-          Digitize, manage and retrieve your records, run examination practices and
-          conduct computer based examinations - all through TDARS
+        <p
+          data-enter="left"
+          style={{ "--enter-delay": "80ms" } as React.CSSProperties}
+          className="mt-5 max-w-xl text-base leading-relaxed text-body lg:mt-6"
+        >
+          Digitize, manage and retrieve your records, run examination practices
+          and conduct computer based examinations - all through TDARS
         </p>
 
         {/*
@@ -51,6 +60,8 @@ export function Hero() {
           does nothing. Say the word if it should post somewhere instead.
         */}
         <form
+          data-enter="left"
+          style={{ "--enter-delay": "160ms" } as React.CSSProperties}
           action={REQUEST_ACCESS_HREF}
           method="get"
           className="mt-8 max-w-xl lg:mt-10"
@@ -73,7 +84,12 @@ export function Hero() {
               placeholder="yemi@workforce.co"
               className="h-11 w-full rounded-md border border-border bg-surface px-4 text-sm text-heading placeholder:text-muted sm:flex-1 lg:h-12"
             />
-            <Button type="submit" size="md" fullWidth className="px-8 sm:w-auto lg:h-12">
+            <Button
+              type="submit"
+              size="md"
+              fullWidth
+              className="px-8 sm:w-auto lg:h-12"
+            >
               Get Started
             </Button>
           </div>
@@ -86,7 +102,10 @@ export function Hero() {
         responsive asset would be ~60KB lighter — happy to switch if you can export a
         single frame.
       */}
-      <div>
+      <div
+        data-enter="right"
+        style={{ "--enter-delay": "120ms" } as React.CSSProperties}
+      >
         <Image
           src="/images/hero-mobile.png"
           alt="The TDARS dashboard showing document ingest totals, an approval queue and live scanner status."

@@ -50,7 +50,12 @@ type ButtonAsLink = BaseProps & {
 
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-function buttonClasses({ variant = "primary", size = "lg", fullWidth, className }: BaseProps) {
+function buttonClasses({
+  variant = "primary",
+  size = "lg",
+  fullWidth,
+  className,
+}: BaseProps) {
   return cn(
     "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors disabled:cursor-not-allowed",
     variantClass[variant],
@@ -65,9 +70,17 @@ function isLink(props: ButtonProps): props is ButtonAsLink {
 }
 
 /** Styling props are consumed by `buttonClasses`; keep them out of the DOM. */
-const STYLING_PROPS = new Set(["children", "variant", "size", "fullWidth", "className"]);
+const STYLING_PROPS = new Set([
+  "children",
+  "variant",
+  "size",
+  "fullWidth",
+  "className",
+]);
 
-function domProps(props: ButtonAsButton): ButtonHTMLAttributes<HTMLButtonElement> {
+function domProps(
+  props: ButtonAsButton,
+): ButtonHTMLAttributes<HTMLButtonElement> {
   return Object.fromEntries(
     Object.entries(props).filter(([key]) => !STYLING_PROPS.has(key)),
   ) as ButtonHTMLAttributes<HTMLButtonElement>;

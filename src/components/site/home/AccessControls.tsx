@@ -1,4 +1,9 @@
-import { CheckCircleIcon, ChevronRightIcon, MinusCircleIcon } from "@/components/site/icons";
+import {
+  CheckCircleIcon,
+  ChevronRightIcon,
+  MinusCircleIcon,
+} from "@/components/site/icons";
+import { Reveal } from "@/components/site/Reveal";
 
 /*
   design/site/web/home-web7.png · design/site/mobile/home-mobile13-14.png
@@ -43,9 +48,21 @@ const POLICIES = [
     subtitle: "Records custodians",
     active: true,
   },
-  { number: "02", title: "Identity documents", subtitle: "Restricted review group" },
-  { number: "02", title: "Service history", subtitle: "Benefits assessment team" },
-  { number: "02", title: "Executive records", subtitle: "Named individuals only" },
+  {
+    number: "02",
+    title: "Identity documents",
+    subtitle: "Restricted review group",
+  },
+  {
+    number: "02",
+    title: "Service history",
+    subtitle: "Benefits assessment team",
+  },
+  {
+    number: "02",
+    title: "Executive records",
+    subtitle: "Named individuals only",
+  },
 ];
 
 const PERMISSIONS = [
@@ -59,12 +76,14 @@ const CONTROLS = [
   {
     number: "01",
     title: "Role-based access",
-    description: "Set exactly who can view, edit, or export each type of record.",
+    description:
+      "Set exactly who can view, edit, or export each type of record.",
   },
   {
     number: "02",
     title: "Full audit trail",
-    description: "Every action on every record is logged, who did what, and when.",
+    description:
+      "Every action on every record is logged, who did what, and when.",
   },
   {
     number: "03",
@@ -141,14 +160,19 @@ function AccessReviewMockup() {
               </span>
             </div>
 
-            <p className="mt-5 text-micro font-semibold text-heading">Personnel records</p>
+            <p className="mt-5 text-micro font-semibold text-heading">
+              Personnel records
+            </p>
             <p className="mt-1 text-micro text-muted">
               Applies to all records in the personnel archive.
             </p>
 
             <ul className="mt-4 divide-y divide-border border-t border-border">
               {PERMISSIONS.map((permission) => (
-                <li key={permission.label} className="flex items-center gap-3 py-3.5">
+                <li
+                  key={permission.label}
+                  className="flex items-center gap-3 py-3.5"
+                >
                   <span className="min-w-0 flex-1 text-micro text-muted">
                     {permission.label}
                   </span>
@@ -176,12 +200,16 @@ function AccessReviewMockup() {
       */}
       <div className="absolute -bottom-11 left-[59%] w-[45.6%] rounded-sm border-[2.5px] border-dashed border-primary-2 bg-primary-wash p-3">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-[8px] text-accent uppercase">Audit event · 09:42</span>
+          <span className="text-[8px] text-accent uppercase">
+            Audit event · 09:42
+          </span>
           <span className="rounded-full bg-success-soft px-2 py-0.5 text-[8px] text-success uppercase">
             Recorded
           </span>
         </div>
-        <p className="mt-2 text-micro font-bold text-body">Export permission approved</p>
+        <p className="mt-2 text-micro font-bold text-body">
+          Export permission approved
+        </p>
         <p className="mt-1 text-[8px] leading-3 text-body">
           Policy 01 · Authorised reviewer
         </p>
@@ -203,9 +231,15 @@ export function AccessControls() {
       40px gap is the frame's 40px gap.
     */
     <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-15">
-      <AccessReviewMockup />
+      <Reveal from="left">
+        <AccessReviewMockup />
+      </Reveal>
 
-      <div className="flex flex-col gap-5 lg:max-w-[584px]">
+      <Reveal
+        from="right"
+        delay={120}
+        className="flex flex-col gap-5 lg:max-w-[584px]"
+      >
         <h2
           id="access-controls-title"
           className="font-heading text-h2 font-bold text-heading lg:text-h2-lg"
@@ -214,8 +248,8 @@ export function AccessControls() {
         </h2>
 
         <p className="text-sm leading-5 font-medium text-heading lg:text-base lg:leading-6">
-          With TDARS, permissions, evidence, and accountability are part of everyday
-          work, not a separate checklist people skip.
+          With TDARS, permissions, evidence, and accountability are part of
+          everyday work, not a separate checklist people skip.
         </p>
 
         <ul className="divide-y divide-border border-y border-border">
@@ -243,7 +277,7 @@ export function AccessControls() {
             </li>
           ))}
         </ul>
-      </div>
+      </Reveal>
     </div>
   );
 }

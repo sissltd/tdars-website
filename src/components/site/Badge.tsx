@@ -40,7 +40,12 @@ type BadgeProps = {
   className?: string;
 };
 
-export function Badge({ children, tone = "soft", shape = "pill", className }: BadgeProps) {
+export function Badge({
+  children,
+  tone = "soft",
+  shape = "pill",
+  className,
+}: BadgeProps) {
   return (
     <span
       className={cn(

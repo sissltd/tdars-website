@@ -73,7 +73,11 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
             disabled={atStart}
             onClick={() => nudge(-1)}
           />
-          <RailButton direction="next" disabled={atEnd} onClick={() => nudge(1)} />
+          <RailButton
+            direction="next"
+            disabled={atEnd}
+            onClick={() => nudge(1)}
+          />
         </div>
       </div>
 
@@ -127,7 +131,9 @@ function RailButton({
           : "bg-primary text-primary-foreground hover:bg-primary-hover",
       )}
     >
-      <ArrowRightIcon className={cn("size-5", direction === "prev" && "rotate-180")} />
+      <ArrowRightIcon
+        className={cn("size-5", direction === "prev" && "rotate-180")}
+      />
     </button>
   );
 }

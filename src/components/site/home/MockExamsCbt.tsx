@@ -67,7 +67,10 @@ type FeatureColumn = {
 
 const COLUMNS: FeatureColumn[] = [
   {
-    heading: ["Practice with TDARS Mock. Measure and improve", "before it counts."],
+    heading: [
+      "Practice with TDARS Mock. Measure and improve",
+      "before it counts.",
+    ],
     intro:
       "Mock Exam gives candidates a structured practice environment to prepare for examinations, understand their performance and improve over time.",
     features: [
@@ -174,9 +177,9 @@ export function MockExamsCbt() {
         </h2>
 
         <p className="text-sm leading-5 font-medium text-heading lg:text-base lg:leading-6">
-          TDARS gives institutions the tools to run structured computer-based assessments
-          while giving candidates a dedicated environment to practice, measure their
-          readiness, and improve.
+          TDARS gives institutions the tools to run structured computer-based
+          assessments while giving candidates a dedicated environment to
+          practice, measure their readiness, and improve.
         </p>
       </header>
 
@@ -236,8 +239,8 @@ export function MockExamsCbt() {
         </h2>
 
         <p className="text-sm leading-5 font-medium text-heading lg:text-base lg:leading-6">
-          TDARS Mock Exam helps candidates prepare. TDARS CBT gives institutions the
-          controlled environment to deliver the official assessment.
+          TDARS Mock Exam helps candidates prepare. TDARS CBT gives institutions
+          the controlled environment to deliver the official assessment.
         </p>
       </header>
 

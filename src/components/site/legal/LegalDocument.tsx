@@ -24,7 +24,10 @@ export function LegalDocument({ document }: { document: LegalDocumentType }) {
         </h1>
 
         <p className="mt-3 flex items-center gap-2 text-sm text-accent">
-          <span aria-hidden="true" className="size-2 shrink-0 rounded-full bg-primary" />
+          <span
+            aria-hidden="true"
+            className="size-2 shrink-0 rounded-full bg-primary"
+          />
           {document.lastUpdated}
         </p>
 
@@ -33,7 +36,11 @@ export function LegalDocument({ document }: { document: LegalDocumentType }) {
         </p>
 
         {document.sections.map((section, index) => (
-          <section key={section.id} id={section.id} className="mt-10 scroll-mt-24">
+          <section
+            key={section.id}
+            id={section.id}
+            className="mt-10 scroll-mt-24"
+          >
             <h2 className="font-heading text-h4 text-heading lg:text-h3">
               {document.numbered ? `${index + 1}. ` : ""}
               {section.heading}

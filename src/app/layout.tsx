@@ -86,6 +86,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${inter.variable} ${bricolage.variable} h-full antialiased`}
     >
+      <head>
+        {/*
+          Without JS the IntersectionObserver never runs and every revealed
+          element would stay at opacity 0 — the page would look empty rather
+          than un-animated. This makes the content unconditionally visible in
+          that case.
+        */}
+        <noscript>
+          <style>{`[data-reveal]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
+      </head>
       <body className="flex min-h-full flex-col bg-background">
         <Providers>{children}</Providers>
       </body>

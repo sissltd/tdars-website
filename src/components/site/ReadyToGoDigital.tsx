@@ -26,7 +26,9 @@ export function ReadyToGoDigital() {
 
       {/* Above the texture. */}
       <div className="relative">
-        <Badge tone="dark" shape="rect">Get started</Badge>
+        <Badge tone="dark" shape="rect">
+          Get started
+        </Badge>
 
         <h2
           id="ready-title"
@@ -36,8 +38,8 @@ export function ReadyToGoDigital() {
         </h2>
 
         <p className="mx-auto mt-4 max-w-[640px] font-heading text-base font-medium text-on-rust-body lg:text-h5">
-          Replace paper files and scattered spreadsheets with a secure, searchable
-          archive your whole organisation can trust.
+          Replace paper files and scattered spreadsheets with a secure,
+          searchable archive your whole organisation can trust.
         </p>
 
         <Button

@@ -57,7 +57,8 @@ function useActiveSection(enabled: boolean) {
       // its top may never reach the line. Hitting the bottom of the page always
       // counts as reaching the last section.
       const atBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 2;
       if (atBottom) current = SECTION_IDS[SECTION_IDS.length - 1];
 
       setActive(current);
@@ -97,7 +98,9 @@ function useIsActive() {
     // Home is current on the home page until the reader reaches a section.
     if (href === "/") return onHome && !activeSection ? "page" : undefined;
 
-    return pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined;
+    return pathname === href || pathname.startsWith(`${href}/`)
+      ? "page"
+      : undefined;
   };
 }
 

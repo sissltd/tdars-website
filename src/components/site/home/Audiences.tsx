@@ -10,6 +10,7 @@ import {
   LargeEnterprisesIcon,
   PensionsBenefitsIcon,
 } from "@/components/site/icons";
+import { Reveal } from "@/components/site/Reveal";
 
 /*
   design/site/web/home-web6.png · design/site/mobile/home-mobile10-13.png
@@ -101,31 +102,38 @@ export function Audiences() {
   return (
     /* gap 60 desktop / 40 mobile between the header and the card wrapper. */
     <div className="flex flex-col gap-10 lg:gap-15">
-      <header className="flex flex-col gap-3 lg:max-w-[720px]">
-        <Badge className="self-start">Who is TDARS built for?</Badge>
+      <Reveal>
+        <header className="flex flex-col gap-3 lg:max-w-[720px]">
+          <Badge className="self-start">Who is TDARS built for?</Badge>
 
-        <h2
-          id="audiences-title"
-          className="font-heading text-h2 font-bold text-heading lg:text-h2-lg"
-        >
-          <HeadingLines
-            lines={["Built for organisations that can’t afford to", "lose a record"]}
-          />
-        </h2>
+          <h2
+            id="audiences-title"
+            className="font-heading text-h2 font-bold text-heading lg:text-h2-lg"
+          >
+            <HeadingLines
+              lines={[
+                "Built for organisations that can’t afford to",
+                "lose a record",
+              ]}
+            />
+          </h2>
 
-        <p className="text-sm leading-5 font-medium text-heading lg:text-base lg:leading-6">
-          Whether you manage personnel files, citizen records, or classified documents,
-          TDARS gives every team a single source of truth with the right controls built
-          in.
-        </p>
-      </header>
+          <p className="text-sm leading-5 font-medium text-heading lg:text-base lg:leading-6">
+            Whether you manage personnel files, citizen records, or classified
+            documents, TDARS gives every team a single source of truth with the
+            right controls built in.
+          </p>
+        </header>
+      </Reveal>
 
       {/* The wrapper's rule is 2px where the cards inside it are 1px. */}
       <div className="rounded-lg border-2 border-border p-3">
         <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-10">
-          {AUDIENCES.map(({ name, description, tags, Icon }) => (
-            <li
+          {AUDIENCES.map(({ name, description, tags, Icon }, index) => (
+            <Reveal
+              as="li"
               key={name}
+              delay={index * 60}
               className="flex flex-col gap-4 rounded-md border border-border p-3 lg:gap-10 lg:px-5 lg:py-[30px]"
             >
               <Icon className="size-10 shrink-0" />
@@ -154,7 +162,7 @@ export function Audiences() {
                   </li>
                 ))}
               </ul>
-            </li>
+            </Reveal>
           ))}
         </ul>
       </div>

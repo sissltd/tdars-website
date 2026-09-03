@@ -41,7 +41,8 @@ export function PostFilter({
   const [active, setActive] = useState<Category>("All");
 
   const visible = useMemo(
-    () => (active === "All" ? posts : posts.filter((p) => p.category === active)),
+    () =>
+      active === "All" ? posts : posts.filter((p) => p.category === active),
     [posts, active],
   );
 

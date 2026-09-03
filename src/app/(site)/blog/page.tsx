@@ -35,13 +35,23 @@ export default function BlogPage() {
   return (
     <>
       {/* Tightened: the frame runs the heading close under the header rule. */}
-      <Section aria-labelledby="blog-title" className="pb-0 pt-8 lg:pt-10">
-        <h1 id="blog-title" className="font-heading text-h1 text-heading lg:text-h1-lg">
+      <Section
+        reveal="load"
+        aria-labelledby="blog-title"
+        className="pb-0 pt-8 lg:pt-10"
+      >
+        <h1
+          id="blog-title"
+          className="font-heading text-h1 text-heading lg:text-h1-lg"
+        >
           Blog &amp; articles
         </h1>
 
         <div className="mt-6 lg:mt-8">
-          <PostFilter posts={POSTS} featured={<FeaturedPost post={FEATURED_POST} />} />
+          <PostFilter
+            posts={POSTS}
+            featured={<FeaturedPost post={FEATURED_POST} />}
+          />
         </div>
       </Section>
 

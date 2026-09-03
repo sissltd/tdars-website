@@ -39,12 +39,17 @@ export function PostCard({ post }: { post: Post }) {
         <h3 className="line-clamp-2 text-sm font-semibold leading-5 text-heading lg:text-base lg:leading-6">
           {/* Stretched link: the whole card is the target, but only the title is
               the accessible name — a card with several links reads as noise. */}
-          <Link href={`/blog/${post.slug}`} className="after:absolute after:inset-0">
+          <Link
+            href={`/blog/${post.slug}`}
+            className="after:absolute after:inset-0"
+          >
             {post.title}
           </Link>
         </h3>
 
-        <p className="line-clamp-2 text-sm leading-5 text-prose">{post.excerpt}</p>
+        <p className="line-clamp-2 text-sm leading-5 text-prose">
+          {post.excerpt}
+        </p>
       </div>
     </article>
   );

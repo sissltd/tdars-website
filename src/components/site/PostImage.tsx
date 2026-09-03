@@ -52,7 +52,10 @@ export function PostImage({
       ) : (
         // Decorative: the heading and excerpt beside it already carry the
         // meaning, so an empty box must not announce itself to a screen reader.
-        <span aria-hidden="true" className="absolute inset-0 border border-border" />
+        <span
+          aria-hidden="true"
+          className="absolute inset-0 border border-border"
+        />
       )}
     </div>
   );

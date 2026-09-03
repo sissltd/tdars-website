@@ -43,7 +43,11 @@ export function ThemeToggle({ className }: { className?: string }) {
         className,
       )}
     >
-      {isDark ? <SunIcon className="size-5" /> : <MoonIcon className="size-5" />}
+      {isDark ? (
+        <SunIcon className="size-5" />
+      ) : (
+        <MoonIcon className="size-5" />
+      )}
     </button>
   );
 }
