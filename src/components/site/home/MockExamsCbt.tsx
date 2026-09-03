@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { cn } from "@/lib/cn";
 
 import { Badge } from "@/components/site/Badge";
+import { HeadingLines } from "@/components/site/HeadingLines";
 import {
   ExaminationManagementIcon,
   GradingWorkflowsIcon,
@@ -53,14 +54,20 @@ type Feature = {
 };
 
 type FeatureColumn = {
-  heading: string;
+  /*
+    Split where the FRAME breaks the line, not where 576px happens to wrap.
+    "before it counts." and "control." each sit alone on the second line, which
+    natural wrapping does not reliably produce — a few pixels either way and
+    "improve" drops down with them.
+  */
+  heading: [string, string];
   intro: string;
   features: Feature[];
 };
 
 const COLUMNS: FeatureColumn[] = [
   {
-    heading: "Practice with TDARS Mock. Measure and improve before it counts.",
+    heading: ["Practice with TDARS Mock. Measure and improve", "before it counts."],
     intro:
       "Mock Exam gives candidates a structured practice environment to prepare for examinations, understand their performance and improve over time.",
     features: [
@@ -92,7 +99,7 @@ const COLUMNS: FeatureColumn[] = [
     ],
   },
   {
-    heading: "Secure assessments with complete operational control.",
+    heading: ["Secure assessments with complete operational", "control."],
     intro:
       "Create, deliver, monitor, grade and manage computer-based examinations from one controlled assessment environment.",
     features: [
@@ -182,7 +189,7 @@ export function MockExamsCbt() {
       <div className="lg:grid lg:grid-cols-2">
         {COLUMNS.map((column, index) => (
           <div
-            key={column.heading}
+            key={column.heading[0]}
             className={cn(
               "flex flex-col gap-5 lg:gap-10 lg:border-t lg:border-divider lg:px-8 lg:py-10",
               index === 0
@@ -192,7 +199,7 @@ export function MockExamsCbt() {
           >
             <div className="flex flex-col gap-4">
               <h3 className="font-heading text-h4 font-bold text-heading lg:text-h4-lg">
-                {column.heading}
+                <HeadingLines lines={column.heading} />
               </h3>
 
               {/* Subheading/Regular — 16/24 at BOTH sizes, and Gray 1 not Gray 2. */}

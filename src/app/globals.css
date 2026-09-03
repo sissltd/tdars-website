@@ -194,6 +194,12 @@
   /* Content container: max 1440px, 80px desktop gutter / 16px mobile. */
   --container-site: 1440px;
 
+  /* The design width itself, as a breakpoint. Some of Yemi's line breaks only
+     hold at 1440 — below it the container is narrower than the frame and the
+     text must be free to wrap. `site:` gates those to the width they were
+     measured at. */
+  --breakpoint-site: 1440px;
+
   --radius-sm: 8px;
   --radius-md: 12px; /* buttons */
   --radius-lg: 20px; /* CTA card */

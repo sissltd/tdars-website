@@ -6,6 +6,27 @@ import { CheckCircleIcon, ChevronRightIcon, MinusCircleIcon } from "./icons";
   Mock-up left, copy right on desktop; stacked on mobile, mock-up first (same DOM
   order either way).
 
+  Measured off the frame:
+    Section   Fill 1440 x Hug 698 · HORIZONTAL · padding 120/80 · gap 60 · #FAFAFA
+              (mobile: 390 · vertical · padding 40/16 · gap 40)
+              Note the 120px vertical padding — half again the 80 used elsewhere.
+    Copy      FIXED 584 x Hug 455.94 · gap 20
+      H2        584 x 88 (2 lines/44) — H2/Bold, Gray/Gray 1
+      Body      584 x 48 (2 lines/24) — Body 1/MEDIUM, ALSO Gray/Gray 1
+      Row title Body 1/SEMI BOLD — Inter 600, NOT the Bricolage H4 it was using
+      Row body  Caption/Regular — 11/16 mobile, 12/18 desktop, Gray/Gray 2
+      Numeral   CONSOLAS 12px/150%, Gray/Gray 2 — a monospace, unlike every other
+                numeral on the page
+    Panel     FIXED 583 x 414 · radius 12 · border 1.5px #E6E6E6 · #FFFFFF
+      columns   260 fixed + 323 fill · padding 32/20 · gap 12 · 1px rule between
+    Audit     FIXED 266 x Hug 77 at top 381 / left 344 of a 610 x 458 group
+              radius 8 · border 2.5px DASHED #E28D83 · #FDF7F7 · padding 12
+              label 8px #B93A2C · title 11px BOLD #4D4D4D · meta 8px/12 #4D4D4D
+
+  ⚠️ INFERRED: the control rows' vertical padding. The copy column's 455.94 total
+  back-solves to ~24px top and bottom once the H2, body, gaps and four hairlines
+  are removed, but the inspector never states it.
+
   TODO(review): the access-review panel is a product mock-up drawn in Figma but never
   exported, so it is rebuilt here in markup rather than shipped as a grey box — every
   colour comes from a token. Two consequences worth a look:
@@ -55,9 +76,11 @@ const CONTROLS = [
 
 function AccessReviewMockup() {
   return (
-    <div aria-hidden="true" className="relative mb-14 lg:mb-16">
-      <div className="overflow-hidden rounded-md border border-border bg-surface">
-        <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
+    /* The audit card hangs 44px below the panel (top 381 + 77 tall against a
+       414 panel), so the wrapper reserves exactly that much. */
+    <div aria-hidden="true" className="relative mb-11">
+      <div className="rounded-md border-[1.5px] border-border bg-surface">
+        <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-5">
           <span className="text-micro tracking-widest text-muted uppercase">
             Security / Access review
           </span>
@@ -69,8 +92,9 @@ function AccessReviewMockup() {
 
         {/* The frame splits the panel ~46/54, which is what lets the permission rows
             sit on one line at 11px. */}
-        <div className="grid divide-y divide-border sm:grid-cols-[0.85fr_1fr] sm:divide-x sm:divide-y-0">
-          <div className="p-5">
+        {/* 260 fixed against 323 fill — kept as a ratio so the panel still scales. */}
+        <div className="grid divide-y divide-border sm:grid-cols-[260fr_323fr] sm:divide-x sm:divide-y-0">
+          <div className="px-5 py-8">
             <div className="flex items-center justify-between gap-4">
               <span className="text-micro tracking-widest text-muted uppercase">
                 Access policies
@@ -107,7 +131,7 @@ function AccessReviewMockup() {
 
           {/* The extra bottom padding is the slack home-web7 leaves under the last
               row — it is what the audit-event card overhangs into. */}
-          <div className="p-5 pb-16">
+          <div className="px-5 pt-8 pb-16">
             <div className="flex items-center justify-between gap-4">
               <span className="text-micro tracking-widest text-heading uppercase">
                 Policy 01
@@ -143,21 +167,24 @@ function AccessReviewMockup() {
         </div>
       </div>
 
-      {/* Overhangs the panel's bottom-right corner, as in home-web7 — the wrapper's
-          bottom margin is what keeps it clear of the copy below. */}
-      <div className="absolute right-0 bottom-0 w-4/5 translate-y-1/2 rounded-md border border-dashed border-primary/30 bg-primary-wash p-4 sm:w-3/5 lg:w-1/2">
+      {/*
+        Placed by the frame's own coordinates rather than by eye: left 344 and
+        width 266 against the 583px panel, hanging 44px past its bottom edge.
+        That is what puts it 27px clear of the panel's right side.
+
+        The rule is 2.5px DASHED in Primary 2, not the hairline it was.
+      */}
+      <div className="absolute -bottom-11 left-[59%] w-[45.6%] rounded-sm border-[2.5px] border-dashed border-primary-2 bg-primary-wash p-3">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-micro tracking-widest text-primary uppercase">
-            Audit event · 09:42
-          </span>
-          <span className="rounded-full bg-success-soft px-2 py-0.5 text-micro tracking-wide text-success uppercase">
+          <span className="text-[8px] text-primary uppercase">Audit event · 09:42</span>
+          <span className="rounded-full bg-success-soft px-2 py-0.5 text-[8px] text-success uppercase">
             Recorded
           </span>
         </div>
-        <p className="mt-2 text-micro font-semibold text-heading">
-          Export permission approved
+        <p className="mt-2 text-micro font-bold text-body">Export permission approved</p>
+        <p className="mt-1 text-[8px] leading-3 text-body">
+          Policy 01 · Authorised reviewer
         </p>
-        <p className="mt-1 text-micro text-muted">Policy 01 · Authorised reviewer</p>
       </div>
     </div>
   );
@@ -165,31 +192,51 @@ function AccessReviewMockup() {
 
 export function AccessControls() {
   return (
-    <div className="lg:grid lg:grid-cols-2 lg:items-center lg:gap-16">
+    /*
+      1280 less the 60px gap is 610 per column — the frame's left group exactly.
+      The copy sits at 584 inside its own 610.
+
+      FLEX, not plain blocks, on mobile. The mock-up reserves 44px below itself
+      for the audit card's overhang, and a sibling top margin would COLLAPSE
+      against that reserve rather than adding to it — leaving the card sitting
+      flush on the heading. A flex container does not collapse margins, so the
+      40px gap is the frame's 40px gap.
+    */
+    <div className="flex flex-col gap-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-15">
       <AccessReviewMockup />
 
-      <div>
+      <div className="flex flex-col gap-5 lg:max-w-[584px]">
         <h2
           id="access-controls-title"
-          className="max-w-md font-heading text-h2 text-heading lg:text-h2-lg"
+          className="font-heading text-h2 font-bold text-heading lg:text-h2-lg"
         >
           Access controls that actually work.
         </h2>
 
-        <p className="mt-4 text-base leading-relaxed text-body">
+        <p className="text-sm leading-5 font-medium text-heading lg:text-base lg:leading-6">
           With TDARS, permissions, evidence, and accountability are part of everyday
           work, not a separate checklist people skip.
         </p>
 
-        <ul className="mt-8 divide-y divide-border border-y border-border">
+        <ul className="divide-y divide-border border-y border-border">
           {CONTROLS.map((control) => (
-            <li key={control.number} className="flex gap-5 py-5">
-              <span aria-hidden="true" className="pt-1 text-xs text-muted">
+            <li key={control.number} className="flex gap-4 py-5 lg:py-6">
+              {/*
+                Consolas 12/18 — the frame sets these numerals in a MONOSPACE,
+                where every other numeral on the page is Bricolage. It keeps the
+                three digits on a fixed 14px column so the titles line up.
+              */}
+              <span
+                aria-hidden="true"
+                className="pt-0.5 font-mono text-xs leading-[18px] text-body"
+              >
                 {control.number}
               </span>
               <div>
-                <h3 className="font-heading text-h4 text-heading">{control.title}</h3>
-                <p className="mt-1 text-base leading-relaxed text-body lg:text-sm lg:leading-normal">
+                <h3 className="text-sm leading-5 font-semibold text-heading lg:text-base lg:leading-6">
+                  {control.title}
+                </h3>
+                <p className="mt-1 text-micro text-body lg:text-xs lg:leading-[18px]">
                   {control.description}
                 </p>
               </div>

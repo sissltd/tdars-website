@@ -5,14 +5,18 @@ import { Container } from "./Container";
 
 /**
  * `surface` — white page background (most sections).
- * `subtle`  — #F8F8F8 band ("Who is TDARS built for?", "Access controls…").
+ * `subtle`  — the #FAFAFA band ("Who is TDARS built for?", "Access controls…").
+ *             Gray/Gray 5, NOT `--surface-subtle` (#F8F8F8): the two are 2/255
+ *             apart and Figma names them separately, and this frame states
+ *             #FAFAFA explicitly. `--surface-subtle` stays what it is — the
+ *             fill behind form fields and inset cards.
  * `dark`    — #2D2D2D panel ("Still running on paper?").
  */
 type SectionTone = "surface" | "subtle" | "dark";
 
 const toneClass: Record<SectionTone, string> = {
   surface: "bg-surface",
-  subtle: "bg-surface-subtle",
+  subtle: "bg-gray-5",
   dark: "bg-dark-panel text-white",
 };
 

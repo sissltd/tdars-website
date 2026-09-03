@@ -52,12 +52,26 @@ export default function HomePage() {
         <MockExamsCbt />
       </Section>
 
-      {/* web6 and web7 both sample #FAFAFA — one continuous band, two sections. */}
-      <Section tone="subtle" aria-labelledby="audiences-title">
+      {/*
+        web6 and web7 both sample #FAFAFA — one continuous band, two sections.
+        This one's bottom padding is HALF its top (40/80, 20/40 on mobile)
+        precisely because the band continues into the next.
+      */}
+      <Section
+        tone="subtle"
+        aria-labelledby="audiences-title"
+        className="pt-10 pb-5 lg:pt-20 lg:pb-10"
+      >
         <Audiences />
       </Section>
 
-      <Section tone="subtle" aria-labelledby="access-controls-title">
+      {/* 40 mobile / 120 desktop — this section's padding is half again the 80
+          the rest of the page uses. */}
+      <Section
+        tone="subtle"
+        aria-labelledby="access-controls-title"
+        className="py-10 lg:py-30"
+      >
         <AccessControls />
       </Section>
 
