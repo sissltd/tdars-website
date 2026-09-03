@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Raw Figma exports pasted into .tsx files — reference, not source.
+    "design/**",
   ]),
 ]);
 

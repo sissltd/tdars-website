@@ -30,11 +30,20 @@ export default function HomePage() {
 
       <TrustStrip />
 
-      <Section id="solutions" aria-labelledby="solutions-title">
+      {/* 60px mobile / 80px desktop — the frame's own section padding. */}
+      <Section id="solutions" aria-labelledby="solutions-title" className="py-15 lg:py-20">
         <Solutions />
       </Section>
 
-      <Section id="how-it-works" aria-labelledby="how-it-works-title">
+      {/* Only the MOBILE gutter changes: the frame insets the panel by 12px, not
+          the site-wide 16. At lg the container's own 80px already yields the
+          panel's measured 1280 width, so it is restated rather than replaced. */}
+      <Section
+        id="how-it-works"
+        aria-labelledby="how-it-works-title"
+        className="py-10 lg:py-20"
+        containerClassName="px-3 md:px-10 lg:px-20"
+      >
         <HowItWorks />
       </Section>
 

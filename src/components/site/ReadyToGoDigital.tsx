@@ -69,7 +69,7 @@ export function ReadyToGoDigital() {
 
       {/* Above the texture. */}
       <div className="relative">
-        <Badge tone="dark">Get started</Badge>
+        <Badge tone="dark" shape="rect">Get started</Badge>
 
         <h2
           id="ready-title"

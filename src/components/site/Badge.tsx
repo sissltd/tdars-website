@@ -11,29 +11,41 @@ import { cn } from "@/lib/cn";
  */
 type BadgeTone = "soft" | "dark";
 
+/**
+ * The two eyebrows are NOT the same shape, which is easy to miss.
+ *
+ *   pill — Home's section eyebrows: radius 26 on a 32px-tall pill, i.e. fully
+ *          rounded. Measured on "How it works" (124 x 32 desktop, 111 x 28 mobile).
+ *   rect — the CTA's "Get started": radius 12, a rounded rectangle.
+ */
+type BadgeShape = "pill" | "rect";
+
 const toneClass: Record<BadgeTone, string> = {
-  soft: "border border-primary/30 bg-primary-soft text-primary",
+  soft: "border border-primary-2 bg-primary-soft text-primary",
   dark: "bg-heading text-primary-foreground",
+};
+
+const shapeClass: Record<BadgeShape, string> = {
+  pill: "rounded-full",
+  rect: "rounded-md",
 };
 
 type BadgeProps = {
   children: ReactNode;
   tone?: BadgeTone;
+  shape?: BadgeShape;
   className?: string;
 };
 
-export function Badge({ children, tone = "soft", className }: BadgeProps) {
+export function Badge({ children, tone = "soft", shape = "pill", className }: BadgeProps) {
   return (
     <span
       className={cn(
-        // Hug 90 x 26 · radius 12 · padding 4 top/bottom, 12 left/right.
-        // A rounded rectangle, NOT a pill — `rounded-full` read as a capsule and
-        // sat taller than the 26px the frame draws.
-        // TODO(review): measured on the CTA's "Get started". Home's lighter
-        // eyebrows are almost certainly the same component, but were not
-        // measured — worth confirming they are 12px too.
-        "inline-flex items-center rounded-md px-3 py-1 text-xs font-medium",
+        // Padding 4 top/bottom, 12 left/right around Body 1/Medium — which is
+        // what produces the measured 28px (mobile) and 32px (desktop) heights.
+        "inline-flex items-center px-3 py-1 text-sm leading-5 font-medium lg:text-base lg:leading-6",
         toneClass[tone],
+        shapeClass[shape],
         className,
       )}
     >

@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Design reference — Figma screenshots and raw exports. Kept on disk for
+# measuring against, but not part of the shipped source tree.
+design/
+
+# Agent instruction files — local to whoever is working on the repo.
+AGENTS.md
+CLAUDE.md

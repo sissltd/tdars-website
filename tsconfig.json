@@ -30,5 +30,10 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    // Reference material from Figma, not source: raw SVG pasted into a .tsx
+    // file is not valid TSX and must not be type-checked or linted.
+    "design"
+  ]
 }

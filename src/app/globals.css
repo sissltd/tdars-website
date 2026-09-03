@@ -17,6 +17,7 @@
   --primary-foreground: #ffffff;
   --primary-soft: #faecea; /* Primary/Primary 4 — eyebrow pills, active nav, footer links */
   --primary-wash: #fdf7f7; /* Primary/Primary 5 — light button on the rust CTA card */
+  --primary-2: #e28d83; /* Primary/Primary 2 — the 1px ring on every eyebrow pill */
   --primary-3: #ebb3ad; /* Primary/Primary 3 — the footer's "CONTACT US" label */
 
   /* ── Gray ramp (Figma Gray/1–4) ────────────────────────────────────────── */
@@ -87,6 +88,7 @@
   --color-footer-foreground: var(--footer-foreground);
   --color-footer-body: var(--footer-body);
   --color-footer-border: var(--footer-border);
+  --color-primary-2: var(--primary-2);
   --color-primary-3: var(--primary-3);
   --color-cta-border: var(--cta-border);
   --color-cta-wave: var(--cta-wave);
