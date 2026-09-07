@@ -13,8 +13,25 @@ import { REQUEST_ACCESS_HREF } from "@/components/site/nav-links";
 */
 export function Hero() {
   return (
-    <div className="mx-auto flex max-w-site flex-col gap-10 pl-4 md:pl-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-14 lg:pl-20">
-      <div className="pr-4 md:pr-10 lg:pr-0">
+    <div
+      /*
+        `lg:items-start`, and the copy takes its own top offset below.
+
+        Yemi's frame gives the two columns DIFFERENT offsets from the hero top:
+        the image at 77px, the headline at 120px. Centring cannot express that —
+        it derives one from the other — and every attempt to force it either
+        pushed the copy down or pulled the image into the navbar.
+
+        Top-aligning makes the two independent: the section's padding sets the
+        image gap, `lg:pt-10` below sets the extra 40px on the copy.
+      */
+      className="mx-auto flex max-w-site flex-col gap-10 pl-4 md:pl-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-14 lg:pl-20"
+    >
+      {/*
+        +40px on the COPY ONLY. Section padding (80) + this (40) = 120 below the
+        header, which is where Yemi's headline sits. The image keeps the 80.
+      */}
+      <div className="pr-4 md:pr-10 lg:pt-10 lg:pr-0">
         {/*
           Animated on LOAD via CSS, not on scroll via JS — see `data-enter` in
           globals.css. The heading takes NO delay: it is the LCP candidate, and
@@ -102,9 +119,28 @@ export function Hero() {
         responsive asset would be ~60KB lighter — happy to switch if you can export a
         single frame.
       */}
+      {/*
+        Full-bleed RIGHT from `lg` up — Yemi, 07/09. Mobile already reaches the
+        edge because the container has no right padding there.
+
+        The container is `max-w-site` and centred, so on a viewport wider than
+        1440 it leaves (100vw - 1440) / 2 of dead space on the right. A negative
+        margin of exactly that pulls the image out to the edge.
+
+        `min(0px, …)` is the guard: below 1440 the expression turns POSITIVE,
+        which would indent the image instead of bleeding it. Clamping at 0 makes
+        the rule inert at narrow widths rather than actively wrong.
+
+        The usual `calc(50% - 50vw)` trick does NOT work here — margin
+        percentages resolve against the containing block, which is the grid
+        COLUMN (~650px), not the container. It would pull ~465px too far.
+
+        Safe against horizontal scroll: the section is `overflow-hidden`.
+      */}
       <div
         data-enter="right"
         style={{ "--enter-delay": "120ms" } as React.CSSProperties}
+        className="lg:mr-[min(0px,calc((var(--container-site)-100vw)/2))]"
       >
         <Image
           src="/images/hero-mobile.png"
