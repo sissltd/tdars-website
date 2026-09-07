@@ -25,7 +25,34 @@ export function Hero() {
         Top-aligning makes the two independent: the section's padding sets the
         image gap, `lg:pt-10` below sets the extra 40px on the copy.
       */
-      className="mx-auto flex max-w-site flex-col gap-10 pl-4 md:pl-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-14 lg:pl-20"
+      /*
+        ⚠️ `lg:gap-28` (112px), NOT the 56px it was — the centre rule in
+        page.tsx depends on it, and the arithmetic is not obvious.
+
+        The hero has LEFT padding only (80px, no right gutter), so with two
+        equal columns:
+
+            copy column right edge = W/2 + 40 - gap/2
+            the rule sits at       = W/2                  (the viewport centre)
+            clearance              = gap/2 - 40
+
+        Clearance does not vary with viewport width — it is a property of the
+        gap alone. At 56px it was MINUS 12, so the rule sat 12px inside the copy
+        column at every size, cutting through the headline on anything below
+        ~1374px. Any gap under 80px does that; it is not a small-screen bug.
+
+        The frame's own gap is 158px, which would give its designed 39px of
+        clearance. It is unreachable here: that leaves a 601px column, and our
+        headline's longest line measures 607px at 60px Bricolage where the frame
+        assumes 587 — so it would drop to four lines and lose the break Yemi drew.
+
+        Between the headline's 607px and the rule at 720 there are only 33px to
+        spend, and they have to cover BOTH the clearance and the headline's
+        safety margin. 112px splits them evenly: 16px of clearance, 17px before
+        the headline wraps. Raising this toward 158 buys clearance out of that
+        margin — 128px is the most that still leaves any.
+      */
+      className="mx-auto flex max-w-site flex-col gap-10 pl-4 md:pl-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-28 lg:pl-20"
     >
       {/*
         +40px on the COPY ONLY. Section padding (80) + this (40) = 120 below the

@@ -47,7 +47,31 @@ export function TrustStrip() {
       <Container>
         {/* Mobile columns hug their labels so "Cloud / on-premises / air-gapped" keeps
             the two lines the frame gives it; desktop is four even cells. */}
-        <ul className="grid grid-cols-[auto_auto_1fr] gap-x-6 gap-y-8 lg:h-24 lg:grid-cols-4 lg:gap-y-0 lg:divide-x lg:divide-border">
+        {/*
+          ⚠️ The desktop cells are NOT four equal columns, and they must not be.
+
+          The frame makes the first cell narrower than the other three — it is a
+          label, where the rest are icon + feature — and that is what places the
+          middle separator to the LEFT of the hero rule above, rather than under
+          it. Measured off the frame at 1440 (content 1280): 275 / 334 / 334 /
+          337, so the last three are one width and the first is ~60px short of
+          it. Modelled here as 275 + 3x335, which puts the three borders at
+          355 / 690 / 1025 against the 355 / 689 / 1023 measured — and the middle
+          one 30px left of the rule at 720, which is the offset the frame shows.
+          `fr` rather than px so the proportion holds below 1440.
+
+          ⚠️ `lg:gap-x-0` matters too: the mobile `gap-x-6` had no `lg:` override,
+          and `divide-x` draws each border on the LEFT EDGE of the next cell —
+          the far side of the gap, not down its middle. A gap of `g` therefore
+          shifts every border right by `g/2` on top of the column maths, which is
+          not something the frame has. Closing it also makes the space around
+          each border symmetric (the cells' own `lg:px-4` on both sides, where
+          before it was 24px left and 16px right).
+
+          Mobile keeps `gap-x-6` and its own `auto auto 1fr`: no dividers there,
+          so the gap is what separates the columns.
+        */}
+        <ul className="grid grid-cols-[auto_auto_1fr] gap-x-6 gap-y-8 lg:h-24 lg:grid-cols-[275fr_335fr_335fr_335fr] lg:gap-x-0 lg:gap-y-0 lg:divide-x lg:divide-border">
           {TRUST_ITEMS.map(({ label, Icon }, index) => (
             <li
               key={label}
