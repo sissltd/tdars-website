@@ -71,10 +71,18 @@ export function Hero() {
         </p>
 
         {/*
-          TODO(review): the Figma has no destination for "Get Started". The site is
-          static (no API), so the form GETs the email over to /request-access — the
-          same place the nav CTA points — rather than dead-ending on a button that
-          does nothing. Say the word if it should post somewhere instead.
+          The Figma gives "Get Started" no destination. It is NOT a separate
+          lead capture: it GETs the address over to /request-access — where the
+          nav CTA also points — and that form reads `?email=` and fills its own
+          Work Email field in. So this is the first field of the access request,
+          asked early because one input converts better than a seven-field form,
+          and it needs no endpoint of its own.
+
+          ⚠️ If it is ever made a standalone capture instead, an email with no
+          organisation, size or modules cannot be actioned by whoever answers
+          within the promised 2 business days — they would have to write back
+          asking exactly what the form already asks. That is a product decision
+          with a consent question attached, not a wiring change.
         */}
         <form
           data-enter="left"
