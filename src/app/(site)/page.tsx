@@ -24,11 +24,20 @@ import { TrustStrip } from "@/components/site/home/TrustStrip";
 export default function HomePage() {
   return (
     <>
+      {/*
+        The gap under the navbar is the SECTION's top padding, and it is what
+        keeps the dashboard image off the header — Yemi's frame puts the image
+        top 77px below the header, not flush against it.
+
+        80px here, against the site default of 96. The copy is lifted
+        separately, by its own offset in Hero.tsx — NOT by removing this. Taking
+        this to 0 shoves the image into the navbar, which is wrong.
+      */}
       <Section
         bleed
         reveal={false}
         aria-labelledby="hero-title"
-        className="overflow-hidden bg-hero"
+        className="overflow-hidden bg-hero pt-6 pb-14 md:pt-8 md:pb-20 lg:pt-20 lg:pb-24"
       >
         <Hero />
       </Section>
