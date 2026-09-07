@@ -6,6 +6,12 @@ import Link from "next/link";
 
 import { Button } from "@/components/site/Button";
 import { cn } from "@/lib/cn";
+import {
+  ESTIMATED_USERS,
+  MODULES,
+  ORG_TYPES,
+  type Option,
+} from "@/lib/requestAccess";
 import { CircleCloseIcon, SuccessBurstIcon } from "@/components/site/icons";
 
 /*
@@ -25,34 +31,22 @@ import { CircleCloseIcon, SuccessBurstIcon } from "@/components/site/icons";
   dashboard, and Home is the frame it points at.
 */
 
-const ORGANISATION_TYPES = [
-  // TODO(review): only "Government ministry" is legible in the frame — the
-  // select is shown closed. The rest are drawn from the audiences on Home
-  // ("Who is TDARS built for?") so the list is at least the product's own
-  // vocabulary rather than invented. Confirm the real options.
-  "Government ministry",
-  "Military command",
-  "Security agency",
-  "Parastatal or agency",
-  "Educational institution",
-  "Other",
-];
+/*
+  The three option lists now come from `@/lib/requestAccess`, generated from the
+  endpoint's own schema.
 
-const USER_COUNTS = [
-  // The frame shows "50 - 300". These bands are the subscription tiers as the
-  // Terms define them (Essential up to 50 · Business up to 300 · Executive
-  // unlimited), so the form and the pricing agree.
-  "Up to 50",
-  "50 - 300",
-  "300+",
-];
+  ⚠️ They REPLACE the lists this file used to carry, which were placeholders —
+  six organisation types inferred from the audiences on Home, and three user
+  bands taken from the subscription tiers in the Terms. The API accepts 26 and 8
+  respectively, so every one of the old strings would have come back a 400.
 
-const MODULES = [
-  "Scan Terminal",
-  "Records System",
-  "MockRadar",
-  "Proctored CBT",
-];
+  Two things for Yemi/Ben, since the form no longer matches the frame:
+    · the frame's "50 - 300" band does not exist upstream; the API's middle band
+      is 50 - 200, and the bands no longer line up with the Essential/Business/
+      Executive tiers the Terms describe.
+    · 26 organisation types is a long native select. It is still the right
+      control on mobile, but the frame was drawn against a list of six.
+*/
 
 const fieldClass =
   "h-11 w-full rounded-md border border-border bg-surface-subtle px-3 text-sm text-heading outline-none placeholder:text-muted focus:border-primary";
@@ -60,6 +54,8 @@ const fieldClass =
 export function RequestAccessForm() {
   const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -93,6 +89,53 @@ export function RequestAccessForm() {
         : [...current, module],
     );
 
+  const submit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (sending) return; // a second click would file a second request
+    setSending(true);
+    setError(null);
+
+    try {
+      /*
+        Posted to our OWN route, not to the API. The backend is on plain HTTP
+        while this site is HTTPS, so a direct call is blocked as mixed content —
+        see the note in `app/api/request-access/route.ts`.
+      */
+      const response = await fetch("/api/request-access", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          email: email.trim(),
+          org_type: organisationType,
+          estimated_users: userCount,
+          modules_interested: modules,
+          notes: notes.trim(),
+        }),
+      });
+
+      if (!response.ok) {
+        // Only the success path shows the confirmation. Showing it on a failure
+        // would leave someone waiting for a reply to a request nobody received.
+        setError(
+          response.status === 429
+            ? "Too many requests from this network. Please try again shortly."
+            : "We could not submit your request just now. Please try again, or email us if it keeps happening.",
+        );
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError(
+        "We could not reach our servers. Please check your connection and try again.",
+      );
+    } finally {
+      setSending(false);
+    }
+  };
+
   return (
     <>
       {/* Hug 684 · 32px padding · 12px radius · hairline. Full-bleed below `sm`. */}
@@ -117,18 +160,7 @@ export function RequestAccessForm() {
           2 business days.
         </p>
 
-        <form
-          className="mt-8"
-          onSubmit={(event) => {
-            event.preventDefault();
-            /*
-            TODO(review): no endpoint exists yet — same open question as the
-            footer's contact form. The success state is shown so the flow can be
-            reviewed end to end; wire this to the real handler when there is one.
-          */
-            setSubmitted(true);
-          }}
-        >
+        <form className="mt-8" onSubmit={submit}>
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="First Name" htmlFor="first-name">
               <input
@@ -169,8 +201,8 @@ export function RequestAccessForm() {
                 id="organisation-type"
                 value={organisationType}
                 onChange={setOrganisationType}
-                placeholder="Government ministry"
-                options={ORGANISATION_TYPES}
+                placeholder="Select organisation type"
+                options={ORG_TYPES}
               />
             </Field>
           </div>
@@ -181,8 +213,8 @@ export function RequestAccessForm() {
                 id="user-count"
                 value={userCount}
                 onChange={setUserCount}
-                placeholder="50 - 300"
-                options={USER_COUNTS}
+                placeholder="Select a range"
+                options={ESTIMATED_USERS}
               />
             </Field>
           </div>
@@ -195,16 +227,16 @@ export function RequestAccessForm() {
             <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6">
               {MODULES.map((module) => (
                 <label
-                  key={module}
+                  key={module.value}
                   className="flex cursor-pointer items-center gap-2 text-sm text-body"
                 >
                   <input
                     type="checkbox"
-                    checked={modules.includes(module)}
-                    onChange={() => toggleModule(module)}
+                    checked={modules.includes(module.value)}
+                    onChange={() => toggleModule(module.value)}
                     className="size-4 rounded-sm accent-primary"
                   />
-                  {module}
+                  {module.label}
                 </label>
               ))}
             </div>
@@ -223,14 +255,25 @@ export function RequestAccessForm() {
             </Field>
           </div>
 
+          {/* Announced, not just coloured: someone whose submission failed has
+              to be told, and they may not be looking at this part of the page. */}
+          {error ? (
+            <p
+              role="alert"
+              className="mt-6 rounded-md border border-accent/40 bg-primary-wash px-4 py-3 text-sm text-accent"
+            >
+              {error}
+            </p>
+          ) : null}
+
           {/* 80px above Submit — the frame's container gap. */}
           <Button
             type="submit"
-            disabled={!complete}
+            disabled={!complete || sending}
             fullWidth
-            className="mt-12 lg:mt-20"
+            className={error ? "mt-6" : "mt-12 lg:mt-20"}
           >
-            Submit
+            {sending ? "Submitting…" : "Submit"}
           </Button>
         </form>
       </div>
@@ -278,7 +321,7 @@ function Select({
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
-  options: string[];
+  options: Option[];
 }) {
   return (
     <select
@@ -303,9 +346,11 @@ function Select({
       <option value="" disabled>
         {placeholder}
       </option>
+      {/* value is the API's enum, the text is what the reader reads — the two
+          are not the same string, which is why Option carries both. */}
       {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
+        <option key={option.value} value={option.value}>
+          {option.label}
         </option>
       ))}
     </select>

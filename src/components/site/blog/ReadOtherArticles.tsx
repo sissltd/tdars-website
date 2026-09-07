@@ -21,11 +21,42 @@ import { ArrowRightIcon } from "@/components/site/icons";
   keyboard, trackpad and touch behaviour for free, and the buttons just nudge
   `scrollLeft`. The rail is focusable and labelled so it is reachable without a
   pointer.
+
+  AUTO-ADVANCE
+
+  The rail moves on by itself, and it is the same `scrollBy` the buttons use —
+  so dragging, swiping, the scrollbar and the arrows all keep working exactly as
+  they did. It is deliberately easy to stop:
+
+    · it STOPS FOR GOOD the moment the reader takes control — a button, a swipe,
+      a wheel, an arrow key. Auto-advance is a hint that the rail scrolls, not a
+      thing to fight someone who has understood the hint.
+    · it PAUSES while the pointer is over it or focus is inside it (someone is
+      reading), while it is off screen, and while the tab is in the background.
+    · it never starts under `prefers-reduced-motion`.
+
+  Between them those are the WCAG 2.2.2 "pause, stop, hide" mechanism: any of
+  hovering, focusing, touching or clicking halts the movement.
 */
+
+/**
+ * How long a card rests before the rail advances.
+ *
+ * Long enough to read a headline and the first line of the excerpt. Below ~4s
+ * this reads as the page twitching; much above ~7s and it looks broken rather
+ * than automatic.
+ */
+const AUTO_ADVANCE_MS = 5000;
+
 export function ReadOtherArticles({ posts }: { posts: Post[] }) {
   const railRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
+  /** The reader has driven the rail themselves — do not move it again. */
+  const [userTookControl, setUserTookControl] = useState(false);
+  /** Temporarily held: hovered, focused, scrolled out of view, or tab hidden. */
+  const [isPaused, setIsPaused] = useState(false);
 
   const sync = useCallback(() => {
     const rail = railRef.current;
@@ -45,7 +76,7 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
     return () => observer.disconnect();
   }, [sync]);
 
-  const nudge = (direction: -1 | 1) => {
+  const nudge = useCallback((direction: -1 | 1) => {
     const rail = railRef.current;
     if (!rail) return;
     // One card plus its gap, derived from the rail rather than hardcoded so it
@@ -53,12 +84,78 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
     const card = rail.firstElementChild as HTMLElement | null;
     const step = card ? card.offsetWidth + 20 : rail.clientWidth * 0.8;
     rail.scrollBy({ left: direction * step, behavior: "smooth" });
-  };
+  }, []);
+
+  /* Pause while the rail is off screen or the tab is hidden. Neither is a
+     nicety: a rail that keeps advancing out of sight has silently run to its
+     end by the time the reader scrolls back to it, and a background tab throttles
+     the timer into a burst of jumps when it is foregrounded again. */
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    let onScreen = true;
+    const apply = () => setIsPaused(!onScreen || document.hidden);
+
+    const observer = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      apply();
+    });
+    observer.observe(section);
+    document.addEventListener("visibilitychange", apply);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", apply);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Nothing to advance THROUGH with one card, and on a wide screen every card
+    // may already be visible — `atEnd` covers that, since the rail cannot scroll.
+    if (userTookControl || isPaused || posts.length < 2) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const timer = window.setInterval(() => {
+      const rail = railRef.current;
+      if (!rail) return;
+      // Read the DOM rather than the `atEnd` state: the interval closes over
+      // whatever that was when it was created, which goes stale as it scrolls.
+      const isAtEnd =
+        rail.scrollLeft + rail.clientWidth >= rail.scrollWidth - 1;
+      if (isAtEnd) {
+        rail.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        nudge(1);
+      }
+    }, AUTO_ADVANCE_MS);
+
+    return () => window.clearInterval(timer);
+  }, [userTookControl, isPaused, posts.length, nudge]);
+
+  /* Intent, not scroll position. `onScroll` cannot tell the reader's swipe from
+     our own `scrollBy`, so the handover is detected from the input itself. */
+  const takeControl = useCallback(() => setUserTookControl(true), []);
 
   if (posts.length === 0) return null;
 
   return (
-    <section aria-labelledby="other-articles-title">
+    <section
+      ref={sectionRef}
+      aria-labelledby="other-articles-title"
+      /* Hovering or focusing anything in here means someone is reading it.
+         React's onFocus/onBlur are focusin/focusout, so they cover descendants;
+         the relatedTarget check stops focus moving BETWEEN two cards from
+         reading as having left the section. */
+      onPointerEnter={() => setIsPaused(true)}
+      onPointerLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setIsPaused(false);
+        }
+      }}
+    >
       <div className="flex items-center justify-between gap-4">
         <h2
           id="other-articles-title"
@@ -71,12 +168,18 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
           <RailButton
             direction="prev"
             disabled={atStart}
-            onClick={() => nudge(-1)}
+            onClick={() => {
+              takeControl();
+              nudge(-1);
+            }}
           />
           <RailButton
             direction="next"
             disabled={atEnd}
-            onClick={() => nudge(1)}
+            onClick={() => {
+              takeControl();
+              nudge(1);
+            }}
           />
         </div>
       </div>
@@ -84,6 +187,12 @@ export function ReadOtherArticles({ posts }: { posts: Post[] }) {
       <div
         ref={railRef}
         onScroll={sync}
+        /* A swipe, a trackpad flick or an arrow key is the reader driving the
+           rail — hand it over permanently. Deliberately NOT `onScroll`, which
+           fires for our own auto-advance too and would stop it on its first tick. */
+        onPointerDown={takeControl}
+        onWheel={takeControl}
+        onKeyDown={takeControl}
         tabIndex={0}
         role="group"
         aria-label="Other articles"
