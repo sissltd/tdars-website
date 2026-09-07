@@ -51,7 +51,18 @@ import { CircleCloseIcon, SuccessBurstIcon } from "@/components/site/icons";
 const fieldClass =
   "h-11 w-full rounded-md border border-border bg-surface-subtle px-3 text-sm text-heading outline-none placeholder:text-muted focus:border-primary";
 
-export function RequestAccessForm() {
+export function RequestAccessForm({
+  /**
+   * Address carried over from the hero's "Enter your work email to get started".
+   *
+   * That hero is a GET form pointing at this page, so it has always arrived as
+   * `?email=` — it was simply never read, and the reader was asked to type it a
+   * second time on the screen they had just been sent to.
+   */
+  defaultEmail = "",
+}: {
+  defaultEmail?: string;
+}) {
   const router = useRouter();
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
@@ -59,7 +70,13 @@ export function RequestAccessForm() {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  /*
+    Seeded from the hero's `?email=` — see the prop's note. Read on the SERVER
+    and handed down, so the value is in the HTML on first paint: no effect, no
+    flash of an empty field, and nothing that could differ between the server
+    render and hydration.
+  */
+  const [email, setEmail] = useState(defaultEmail);
   const [organisationType, setOrganisationType] = useState("");
   const [userCount, setUserCount] = useState("");
   const [modules, setModules] = useState<string[]>([]);

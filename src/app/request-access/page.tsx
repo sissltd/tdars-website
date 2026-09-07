@@ -22,7 +22,28 @@ export const metadata: Metadata = {
   `sm` — a fixed 684 card on a 375 phone would simply overflow, and the mobile
   frame runs the form to the edges.
 */
-export default function RequestAccessPage() {
+/**
+ * The hero's email arrives as `?email=`, so it is read here, on the server, and
+ * handed to the form as its starting value.
+ *
+ * ⚠️ Reading `searchParams` opts this page out of prerendering — it is now
+ * rendered per request. That is the right trade for a form behind a CTA: it is
+ * not a content page, it is already fully interactive, and the alternative
+ * (filling the field from the client after mount) either flashes an empty box
+ * or risks a hydration mismatch, since the prerendered HTML would say "".
+ */
+export default async function RequestAccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ email?: string | string[] }>;
+}) {
+  const { email } = await searchParams;
+  // A repeated param arrives as an array; take the first and ignore the rest.
+  const raw = Array.isArray(email) ? email[0] : email;
+  // Capped: the value is reflected into an input, and there is no reason to
+  // echo an arbitrarily long query string back at the reader.
+  const defaultEmail = (raw ?? "").trim().slice(0, 254);
+
   return (
     /*
       The card lives INSIDE the form component, not here: on success the form is
@@ -31,7 +52,7 @@ export default function RequestAccessPage() {
       floating inside a large empty one.
     */
     <main className="flex min-h-dvh justify-center px-5 py-12 md:py-20">
-      <RequestAccessForm />
+      <RequestAccessForm defaultEmail={defaultEmail} />
     </main>
   );
 }
