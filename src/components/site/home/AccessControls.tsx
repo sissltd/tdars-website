@@ -197,8 +197,15 @@ function AccessReviewMockup() {
         That is what puts it 27px clear of the panel's right side.
 
         The rule is 2.5px DASHED in Primary 2, not the hairline it was.
+
+        ⚠️ `left-[59%]` + `w-[45.6%]` is 104.6% — the overhang is deliberate, and
+        on desktop it lands in the 80px gutter (or the 60px column gap) with room
+        to spare. On MOBILE the gutter is only 16px, so the same 4.6% runs past
+        the viewport and the page becomes draggable sideways: at 430px it is
+        398 x 1.046 = 416px of card inside a 398px column, which clears the
+        gutter by 2px. Flush right below `lg`, the frame's position above it.
       */}
-      <div className="absolute -bottom-11 left-[59%] w-[45.6%] rounded-sm border-[2.5px] border-dashed border-primary-2 bg-primary-wash p-3">
+      <div className="absolute -bottom-11 right-0 w-[45.6%] rounded-sm border-[2.5px] border-dashed border-primary-2 bg-primary-wash p-3 lg:right-auto lg:left-[59%]">
         <div className="flex items-center justify-between gap-3">
           <span className="text-[8px] text-accent uppercase">
             Audit event · 09:42

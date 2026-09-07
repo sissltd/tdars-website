@@ -498,6 +498,40 @@
   transform: none;
 }
 
+/* ── Horizontal entrances are a DESKTOP-ONLY effect ─────────────────────────
+   ⚠️ A RIGHTWARD transform on a full-width element makes the whole PAGE
+   draggable sideways. Overflow past the right edge grows the scrollable area
+   (overflow past the left edge does not), so an element sitting at
+   `translate3d(32px, 0, 0)` while it waits to be revealed hangs 32px beyond the
+   container — and at 390px the container is already the full screen less a 16px
+   gutter. The page can then be dragged left and right, and it stops the moment
+   the reveal fires and the transform goes to zero. That was the bug on
+   /#access-controls, and only that section had it because it holds the site's
+   one `from="right"`.
+
+   These slides only ever made sense as a two-column effect — copy arriving from
+   the right of a mock-up on its left. Below `lg` both columns are full-width and
+   stacked, so there is no side to arrive from; the element just jerks sideways.
+   So below `lg` they rise like everything else, which removes the overflow at
+   its source rather than clipping it away.
+
+   ⚠️ NOT fixed with `overflow-x: clip/hidden` on a wrapper. Either one makes
+   that element a containing block for fixed/sticky descendants, which would
+   quietly break the sticky header. */
+@media (max-width: 63.999rem) {
+  [data-reveal="left"],
+  [data-reveal="right"] {
+    transform: translate3d(0, 28px, 0);
+  }
+
+  /* Same rule for the on-load pair — the hero's image comes in from the right,
+     so the page is draggable for the 600ms that animation runs. */
+  [data-enter="left"],
+  [data-enter="right"] {
+    animation-name: enter-up;
+  }
+}
+
 /*
   Not a nicety — vestibular disorders make large sliding motion genuinely
   unpleasant, and this is a government-facing site. Everything is simply
