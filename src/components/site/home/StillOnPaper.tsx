@@ -73,7 +73,23 @@ export function StillOnPaper() {
             Still running on paper? Now you found a better way.
           </h2>
 
-          <p className="text-sm leading-5 font-medium text-gray-5 lg:text-base lg:leading-6">
+          {/*
+            ⚠️ `grey-5`, NOT the `gray-5` the frame names — and this was not a
+            typo. The frame specifies this line as "Gray/Gray 5 #FAFAFA", which
+            was transcribed faithfully; the trouble is that Figma uses that one
+            token for two unrelated jobs, a near-white BAND BACKGROUND elsewhere
+            on the page and body copy HERE, on a panel that is dark in both
+            themes. Dark mode has to invert it for the background job:
+
+              --gray-5  #fafafa → #171717   inverts, it is a background
+              --grey-5  #fcfcfc → #f2f2f2   stays light, it is text on this panel
+
+            So the line was near-white and correct in light mode, and near-black
+            on a near-black panel the moment dark mode existed. The heading above
+            and the column copy below were already on the non-inverting ramp;
+            this one line was not.
+          */}
+          <p className="text-sm leading-5 font-medium text-grey-5 lg:text-base lg:leading-6">
             Government agencies, security institutions, and large organisations
             lose time, money, and trust when records live in filing cabinets and
             spreadsheets. TDARS changes that.
@@ -89,10 +105,15 @@ export function StillOnPaper() {
             key={slug}
             delay={index * 90}
             className={cn(
-              "flex flex-col gap-10 px-3 py-10 lg:border-t lg:border-divider lg:px-8",
+              /* `divider-on-dark`, not `divider`: this band is dark in BOTH
+                 themes, and plain `--divider` inverts to #3a3a3a — about 1.4:1
+                 against the panel, so the rules all but vanished in dark mode.
+                 Same cause as the body copy above. */
+              "flex flex-col gap-10 px-3 py-10 lg:border-t lg:border-divider-on-dark lg:px-8",
               // Stacked, the first column opens the list and needs no rule above it.
-              index === 0 ? "pt-0 lg:pt-10" : "border-t border-divider",
-              index < PILLARS.length - 1 && "lg:border-r lg:border-r-divider",
+              index === 0 ? "pt-0 lg:pt-10" : "border-t border-divider-on-dark",
+              index < PILLARS.length - 1 &&
+                "lg:border-r lg:border-r-divider-on-dark",
             )}
           >
             <div className="flex flex-col gap-[11px]">
