@@ -52,6 +52,15 @@
   --border: #e6e6e6; /* Gray/Gray 4 — card hairlines */
   --divider: #d9d9d9; /* Grey/3 — the rules between the Mock/CBT columns. A step
                          darker than --border; the frame names them separately. */
+  /* The SAME Grey/3 the frame gives the columns on the dark "Still running on
+     paper?" band — but a separate token, because that band is dark in BOTH
+     themes and this must NOT invert.
+     ⚠️ Deliberately absent from the `.dark` block below. That is the whole
+     point of it: `--divider` drops to #3a3a3a there, which against the #242424
+     panel is roughly 1.4:1 and effectively invisible. Do not "complete" this by
+     adding a dark override. Same reasoning as --grey-4 / --grey-5, which stay
+     light for the same panel. */
+  --divider-on-dark: #d9d9d9;
 
   /* ── Surfaces ──────────────────────────────────────────────────────────── */
   --background: #ffffff;
@@ -241,6 +250,7 @@
   --color-grey-5: var(--grey-5);
   --color-border: var(--border);
   --color-divider: var(--divider);
+  --color-divider-on-dark: var(--divider-on-dark);
 
   --color-dark-panel: var(--dark-panel);
   --color-panel-surface: var(--panel-surface);

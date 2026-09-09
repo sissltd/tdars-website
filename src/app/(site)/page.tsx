@@ -37,8 +37,35 @@ export default function HomePage() {
         bleed
         reveal={false}
         aria-labelledby="hero-title"
-        className="overflow-hidden bg-hero pt-6 pb-14 md:pt-8 md:pb-20 lg:pt-20 lg:pb-24"
+        className="relative overflow-hidden bg-hero pt-6 pb-14 md:pt-8 md:pb-20 lg:pt-20 lg:pb-24"
       >
+        {/*
+          The vertical rule between the copy and the mock-up.
+
+          ⚠️ It hangs off the SECTION, not off <Hero>, and that is the whole
+          trick. The frame runs it the full height of the band — flush under the
+          header, down to where the trust strip starts — and the section is the
+          only box with exactly those two edges, because its top and bottom
+          padding are INSIDE it. <Hero>'s container begins after that padding, so
+          anchoring the line there leaves it short at both ends however it is
+          styled. `inset-y-0` here is those two edges by definition.
+
+          50% is not a guess at "the middle". The trust strip immediately below
+          is four equal columns inside the same 1440 container, which puts its
+          centre separator at 720 — the same place. The two are meant to read as
+          ONE line carrying through both bands, so this tracks the viewport
+          centre rather than the midpoint of the column gap.
+
+          `bg-border` is what the trust strip's own separators use, so they match
+          in both themes rather than only in light.
+
+          lg only: below that the hero stacks into one column and the trust strip
+          drops its dividers too, so a centre rule would cut through the content.
+        */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-border lg:block"
+        />
         <Hero />
       </Section>
 
