@@ -5,20 +5,19 @@ import { validateRequestAccess } from "@/lib/requestAccess";
 /*
   Proxy for POST /api/v1/onboarding/requests-access.
 
-  WHY A PROXY AND NOT A FETCH FROM THE FORM — three reasons, and the first one
-  forces it:
+  WHY A PROXY AND NOT A FETCH FROM THE FORM — two reasons:
 
-  1. The temporary backend is served over PLAIN HTTP
-     (http://tdars-api-…sslip.io). tdars.org is HTTPS, and a browser blocks an
-     HTTPS page from calling an HTTP endpoint as mixed content — silently, in
-     the console, with no response for the form to handle. The SERVER has no
-     such rule, so the request has to leave from here. This is not a temporary
-     inconvenience to route around: it is the whole reason the form cannot call
-     the API directly today.
-  2. `TDARS_API_URL` stays server-only. A `NEXT_PUBLIC_` variable is compiled
-     into the client bundle, which would publish the internal host.
-  3. The endpoint is public and unauthenticated, so it is worth validating and
+  1. `TDARS_API_URL` stays server-only. A `NEXT_PUBLIC_` variable is compiled
+     into the client bundle, which would publish the API host.
+  2. The endpoint is public and unauthenticated, so it is worth validating and
      rate-limiting on our own side before passing anything on.
+
+  A third reason applied until 10/09/2026 and no longer does: the stand-in
+  backend was plain HTTP, and an HTTPS page may not call an HTTP endpoint — the
+  browser blocks it as mixed content, silently, with no response for the form to
+  handle. `api.tdars.org` is HTTPS, so that constraint is gone. Recorded because
+  it was what made the proxy UNAVOIDABLE; the two reasons above are why it is
+  still the right shape, so the proxy stays.
 */
 
 /** Never prerender or cache — this is a write. */
