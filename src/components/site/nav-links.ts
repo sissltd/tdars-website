@@ -31,8 +31,12 @@ export const NAV_LINKS: NavLink[] = [
  *
  * Absolute, so it must render as a plain `<a>`: a next/link would try to prefetch
  * a route this app does not have.
+ *
+ * The application is served from the `app.` subdomain (confirmed 10/09/2026), not
+ * `www.` — the marketing site owns the apex, so the previous `www.tdars.org/login`
+ * pointed the login button back at this site, which has no /login route.
  */
-export const LOGIN_HREF = "https://www.tdars.org/login";
+export const LOGIN_HREF = "https://app.tdars.org/login";
 
 export const REQUEST_ACCESS_HREF = "/request-access";
 
