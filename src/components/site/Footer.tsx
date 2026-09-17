@@ -5,13 +5,13 @@ import { Button } from "./Button";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
 import {
-  ChevronDownIcon,
   FacebookIcon,
   InstagramIcon,
   LinkedInIcon,
   WhatsAppIcon,
   XIcon,
 } from "@/components/site/icons";
+import { ContactForm } from "./ContactForm";
 import { FOOTER_LINKS } from "./nav-links";
 
 const LANGUAGES = ["Eng", "Yor", "Igb", "Hau", "Fre"];
@@ -23,20 +23,6 @@ const SOCIALS = [
   { label: "TDARS on X", href: "#", Icon: XIcon },
   { label: "TDARS on Instagram", href: "#", Icon: InstagramIcon },
 ];
-
-const fieldClass =
-  "h-11 w-full rounded-md bg-surface-subtle px-3 text-sm text-heading placeholder:text-muted";
-
-const labelClass = "mb-1.5 block text-sm font-medium text-footer-foreground";
-
-function RequiredMark() {
-  return (
-    <span aria-hidden="true" className="text-accent">
-      {" "}
-      *
-    </span>
-  );
-}
 
 function ContactCard() {
   return (
@@ -65,134 +51,11 @@ function ContactCard() {
         </h2>
 
         {/*
-          TODO(review): this form has no endpoint — the brief is a static marketing
-          site with no API calls, and the Figma has no success/error state for it
-          (unlike Request access). Left as a plain, unwired form; tell me where the
-          submission should go and I will wire it up.
-
-          The name field is RESPONSIVE, not inconsistent between frames: the
-          desktop footer is one "Full Name" beside "Email Address", while the
-          mobile footer stacks separate "First Name" and "Last Name". Both are
-          rendered and swapped at `lg`.
+          Wired to POST /api/v1/support/ through `app/api/support/route.ts`
+          (17/09/2026). The form moved into `ContactForm` because it needs state
+          and this footer is a server component; the markup is unchanged.
         */}
-        <form className="mt-8 space-y-4">
-          {/*
-            Mobile: First Name and Last Name as separate stacked fields.
-            Desktop: a single Full Name beside Email Address.
-
-            Both are in the markup and swapped at `lg` rather than one being
-            relabelled, because they are genuinely different fields — a desktop
-            submission carries `name`, a mobile one carries `firstName` +
-            `lastName`. `hidden` also removes them from the tab order and from the
-            form's submitted values, so the inactive pair cannot post empty
-            strings alongside the active one.
-          */}
-          <div className="grid gap-4 lg:hidden">
-            <div>
-              <label htmlFor="footer-first-name" className={labelClass}>
-                First Name
-                <RequiredMark />
-              </label>
-              <input
-                id="footer-first-name"
-                name="firstName"
-                type="text"
-                placeholder="Placeholder"
-                className={fieldClass}
-              />
-            </div>
-            <div>
-              <label htmlFor="footer-last-name" className={labelClass}>
-                Last Name
-                <RequiredMark />
-              </label>
-              <input
-                id="footer-last-name"
-                name="lastName"
-                type="text"
-                placeholder="Placeholder"
-                className={fieldClass}
-              />
-            </div>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-2">
-            <div className="hidden lg:block">
-              <label htmlFor="footer-name" className={labelClass}>
-                Full Name
-                <RequiredMark />
-              </label>
-              <input
-                id="footer-name"
-                name="name"
-                type="text"
-                placeholder="Placeholder"
-                className={fieldClass}
-              />
-            </div>
-            <div>
-              <label htmlFor="footer-email" className={labelClass}>
-                Email Address
-                <RequiredMark />
-              </label>
-              <input
-                id="footer-email"
-                name="email"
-                type="email"
-                required
-                placeholder="Placeholder"
-                className={fieldClass}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="footer-phone" className={labelClass}>
-              Phone Number
-              <RequiredMark />
-            </label>
-            <div className="flex w-full overflow-hidden rounded-md bg-surface-subtle sm:w-2/3">
-              <div className="relative flex shrink-0 items-center border-r border-border">
-                <select
-                  id="footer-phone-country"
-                  name="phoneCountry"
-                  aria-label="Country dialling code"
-                  className="h-11 appearance-none bg-transparent pr-8 pl-3 text-sm text-heading"
-                >
-                  <option value="US">US</option>
-                </select>
-                <ChevronDownIcon className="pointer-events-none absolute right-2 size-4 text-heading" />
-              </div>
-              <input
-                id="footer-phone"
-                name="phone"
-                type="tel"
-                required
-                placeholder="Placeholder"
-                className="h-11 w-full bg-transparent px-3 text-sm text-heading placeholder:text-muted"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor="footer-message" className={labelClass}>
-              Message
-              <RequiredMark />
-            </label>
-            <textarea
-              id="footer-message"
-              name="message"
-              required
-              rows={4}
-              placeholder="Enter your message here"
-              className="w-full resize-y rounded-md bg-surface-subtle p-3 text-sm text-heading placeholder:text-muted"
-            />
-          </div>
-
-          <Button type="submit" fullWidth className="mt-2">
-            Send Message
-          </Button>
-        </form>
+        <ContactForm />
       </div>
 
       {/*
