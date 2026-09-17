@@ -47,3 +47,6 @@ design/
 # Agent instruction files — local to whoever is working on the repo.
 AGENTS.md
 CLAUDE.md
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
