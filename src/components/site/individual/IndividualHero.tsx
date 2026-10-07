@@ -75,16 +75,16 @@ export function IndividualHero() {
       <div
         data-enter="right"
         style={{ "--enter-delay": "120ms" } as React.CSSProperties}
-        className="lg:mr-[min(0px,calc((var(--container-site)-100vw)/2))]"
+        className="lg:mt-5 lg:mr-[min(0px,calc((var(--container-site)-100vw)/2))]"
       >
         <Image
           src="/images/individual/hero-desktop.png"
           alt="The TDARS individual dashboard: mock exams taken, average score, recent attempts and recommended practice."
-          width={683}
-          height={625}
+          width={673}
+          height={607}
           preload
           sizes="(min-width: 1024px) 50vw, 100vw"
-          className="ml-auto h-auto w-full max-w-[683px]"
+          className="ml-auto h-auto w-full max-w-[673px]"
         />
       </div>
     </div>
