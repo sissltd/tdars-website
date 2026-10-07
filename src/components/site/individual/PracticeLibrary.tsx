@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { Badge } from "@/components/site/Badge";
-import { Button } from "@/components/site/Button";
-import { ArrowRightIcon, SearchIcon } from "@/components/site/icons";
+import { ArrowRightIcon, CartIcon, ChevronDownIcon, SearchIcon } from "@/components/site/icons";
 import { INDIVIDUAL_START_HREF } from "@/components/site/nav-links";
 import { cn } from "@/lib/cn";
 import {
@@ -17,33 +16,50 @@ import {
 } from "@/content/individual";
 
 /*
-  design/site/individual/10-library1.png … 12-library3.png
+  Yemi's updated "Practice library" (07/10/2026), now the section right after the
+  trusted band. Measured:
+    Band     1440 x Hug · #2D2D2D · 13px dashed top rule (4/4, Gray 3) · padding 80 · gap 60
+    Card     Fill 1280 · #FFFFFF · radius 20 · padding 32/40 · gap 40
+    Header   badge, H2 and lead all CENTRED
+    Search   Gray 5 panel: label, then input + Type / Category / Year + cart on one row,
+             filter chips centred beneath (All active: rust ring on Primary 4)
+    Grid     4 columns of 165px cards · "View all practice →" as a rust text link
 
-  Measured:
-    Section  1440 x Hug 1342 · padding 80 · gap 40
-    Search   Fill 1280 · Gray 5 panel, label "Search for an exam, subject or topic",
-             input, then filter chips (All active: rust ring on Primary 4)
-    Grid     4 columns · gap 24 → cards FIXED 310 x 165
-    Card     radius 8 · 1px Gray 4 · #F7F7F7 · padding 12 · space-between
-             provider in rust Caption/Semi Bold, NEW tag, title Body 1/Semi Bold,
-             meta Caption Gray 3, price + download count on the bottom row
-    CTA      "View all practice →" centred under the grid
-
-  Search and chips filter the sample list in the browser — see the note at the
-  top of content/individual.ts.
+  The band and its dashed rule come from <Section tone="dark" className="dash-rule-top">
+  in the page; this component is the white card. Search, dropdowns and chips filter the
+  sample list in the browser (see content/individual.ts).
 */
+const ANY = "";
+const categoryOf = (item: PracticeItem) => item.meta.split("•")[0].trim();
+const yearOf = (item: PracticeItem) => item.title.match(/\((\d{4})\)/)?.[1] ?? null;
+
+const PROVIDERS = [...new Set(PRACTICE_ITEMS.map((i) => i.provider))];
+const CATEGORIES = [...new Set(PRACTICE_ITEMS.map(categoryOf))];
+const YEARS = [...new Set(PRACTICE_ITEMS.map(yearOf).filter((y): y is string => !!y))];
+
 export function PracticeLibrary() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<PracticeFilter>("All");
+  const [provider, setProvider] = useState(ANY);
+  const [category, setCategory] = useState(ANY);
+  const [year, setYear] = useState(ANY);
+
   const items = useMemo(
-    () => PRACTICE_ITEMS.filter((item) => matchesFilter(item, filter, query)),
-    [filter, query],
+    () =>
+      PRACTICE_ITEMS.filter(
+        (item) =>
+          matchesFilter(item, filter, query) &&
+          (!provider || item.provider === provider) &&
+          (!category || categoryOf(item) === category) &&
+          (!year || yearOf(item) === year),
+      ),
+    [filter, query, provider, category, year],
   );
 
   return (
-    <div className="flex flex-col gap-8 lg:gap-10">
-      <header className="flex flex-col gap-4">
-        <Badge className="self-start">Practice library</Badge>
+    <div className="flex flex-col gap-8 rounded-lg bg-surface px-4 py-6 md:px-6 lg:gap-10 lg:px-10 lg:py-8">
+      <header className="flex flex-col items-center gap-4 text-center">
+        <Badge>Practice library</Badge>
         <h2 id="library-title" className="font-heading text-h2 text-heading lg:text-h2-lg">
           Find something to practise
         </h2>
@@ -57,18 +73,38 @@ export function PracticeLibrary() {
           <label htmlFor="practice-search" className="text-sm leading-5 text-heading">
             Search for an exam, subject or topic
           </label>
-          <div className="relative mt-2">
-            <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted" />
-            <input
-              id="practice-search"
-              type="search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search practice exams..."
-              className="h-10 w-full rounded-sm border border-border bg-surface pr-3 pl-9 text-sm text-heading placeholder:text-muted"
-            />
+          <div className="mt-2 flex flex-col gap-2 md:flex-row">
+            <div className="relative md:flex-1">
+              <SearchIcon className="pointer-events-none absolute top-1/2 left-3 size-5 -translate-y-1/2 text-body" />
+              <input
+                id="practice-search"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search practice exams..."
+                className="h-10 w-full rounded-sm border border-border bg-surface pr-3 pl-10 text-sm text-heading placeholder:text-muted"
+              />
+            </div>
+            <div className="flex gap-2">
+              <FilterSelect label="Type" value={provider} onChange={setProvider} options={PROVIDERS} width="md:w-[92px]" />
+              <FilterSelect label="Category" value={category} onChange={setCategory} options={CATEGORIES} width="md:w-[112px]" />
+              <FilterSelect label="Year" value={year} onChange={setYear} options={YEARS} width="md:w-[80px]" />
+              <a
+                href={INDIVIDUAL_START_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open your practice cart"
+                className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-border bg-surface text-body transition-colors hover:border-primary-2"
+              >
+                <CartIcon className="size-5" />
+              </a>
+            </div>
           </div>
-          <div role="group" aria-label="Filter practice exams" className="mt-4 flex flex-wrap gap-2">
+          <div
+            role="group"
+            aria-label="Filter practice exams"
+            className="mt-4 flex flex-wrap justify-center gap-2"
+          >
             {PRACTICE_FILTERS.map((f) => (
               <button
                 key={f}
@@ -89,7 +125,7 @@ export function PracticeLibrary() {
         </div>
 
         {items.length ? (
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {items.map((item) => (
               <li key={`${item.provider}-${item.title}`}>
                 <PracticeCard item={item} />
@@ -103,10 +139,49 @@ export function PracticeLibrary() {
         )}
       </div>
 
-      <Button href={INDIVIDUAL_START_HREF} external className="self-center px-8">
+      <a
+        href={INDIVIDUAL_START_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 self-center text-sm font-medium text-accent hover:underline"
+      >
         View all practice
         <ArrowRightIcon className="size-4" />
-      </Button>
+      </a>
+    </div>
+  );
+}
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+  width,
+}: {
+  // Fixed per frame on desktop: a native select otherwise grows to its longest option.
+  width: string;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: string[];
+}) {
+  return (
+    <div className={cn("relative min-w-0 flex-1 md:flex-none", width)}>
+      <select
+        aria-label={label}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="h-10 w-full appearance-none rounded-sm border border-border bg-surface pr-8 pl-3 text-sm text-heading"
+      >
+        <option value={ANY}>{label}</option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+      <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-2 size-4 -translate-y-1/2 text-body" />
     </div>
   );
 }

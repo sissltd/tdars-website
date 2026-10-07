@@ -633,6 +633,24 @@
   size and repeats. Lifted from the TDARS app's payment-success modal so the two
   surfaces animate identically (same product, same brand).
 */
+/* Trusted-by logo marquee (Individual page): the track holds the list twice, so -50% loops seamlessly. */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee-left 32s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 @keyframes grow-shrink {
   0% {
     transform: scale(0);

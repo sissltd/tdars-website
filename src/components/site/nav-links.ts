@@ -61,7 +61,7 @@ export const INDIVIDUAL_HREF = "/individuals";
 
 export const INDIVIDUAL_NAV_LINKS: NavLink[] = [
   { label: "Home", href: INDIVIDUAL_HREF },
-  { label: "How it works", href: `${INDIVIDUAL_HREF}#how-it-works` },
+  { label: "Practice library", href: `${INDIVIDUAL_HREF}#practice-library` },
   { label: "Blog", href: "/blog" },
   { label: "Contact Us", href: `${INDIVIDUAL_HREF}#contact` },
 ];

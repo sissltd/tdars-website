@@ -283,11 +283,24 @@ export function MinusCircleIcon(props: IconProps) {
   );
 }
 
+/** Search — Yemi's 24px export (Practice library field), #646464 → currentColor. */
 export function SearchIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
-      <circle cx="11" cy="11" r="6.5" />
-      <path d="m16 16 4.5 4.5" />
+      <path d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z" />
+      <path d="M22 22L20 20" />
+    </svg>
+  );
+}
+
+/** Cart — the Practice library search row's basket button. */
+export function CartIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" {...stroked} {...props}>
+      <path d="M2 3h2.2c.6 0 1.1.4 1.2 1l1.4 9.6c.1.7.7 1.2 1.4 1.2h9.4c.6 0 1.2-.4 1.4-1l1.9-6.2c.2-.6-.3-1.3-1-1.3H6.1" />
+      <path d="M9 7.3h12" />
+      <circle cx="9.5" cy="19" r="1.4" />
+      <circle cx="17" cy="19" r="1.4" />
     </svg>
   );
 }
