@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { Badge } from "./Badge";
 import { Button } from "./Button";
 import { WaveTexture } from "@/components/site/icons";
@@ -19,7 +21,18 @@ import { WaveTexture } from "@/components/site/icons";
   body copy — that 500 weight is what stops it reading as a paragraph.
 */
 
-export function ReadyToGoDigital() {
+type ReadyToGoDigitalProps = {
+  title?: ReactNode;
+  body?: string;
+  // Replaces the single "Talk to our team" button (the Individual CTA has two).
+  actions?: ReactNode;
+};
+
+export function ReadyToGoDigital({
+  title = "Ready to go digital?",
+  body = "Replace paper files and scattered spreadsheets with a secure, searchable archive your whole organisation can trust.",
+  actions,
+}: ReadyToGoDigitalProps = {}) {
   return (
     <div className="relative overflow-hidden rounded-lg border border-cta-border bg-primary px-6 py-14 text-center lg:rounded-2xl lg:py-20">
       <WaveTexture />
@@ -34,22 +47,23 @@ export function ReadyToGoDigital() {
           id="ready-title"
           className="mt-6 font-heading text-h1 text-primary-foreground lg:text-h1-lg"
         >
-          Ready to go digital?
+          {title}
         </h2>
 
         <p className="mx-auto mt-4 max-w-[640px] font-heading text-base font-medium text-on-rust-body lg:text-h5">
-          Replace paper files and scattered spreadsheets with a secure,
-          searchable archive your whole organisation can trust.
+          {body}
         </p>
 
-        <Button
-          href="/#contact"
-          variant="wash"
-          size="lg"
-          className="mt-8 w-full max-w-[298px]"
-        >
-          Talk to our team
-        </Button>
+        {actions ?? (
+          <Button
+            href="/#contact"
+            variant="wash"
+            size="lg"
+            className="mt-8 w-full max-w-[298px]"
+          >
+            Talk to our team
+          </Button>
+        )}
       </div>
     </div>
   );

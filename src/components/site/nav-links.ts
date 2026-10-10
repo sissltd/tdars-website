@@ -51,3 +51,22 @@ export const FOOTER_LINKS: NavLink[] = [
   { label: "Solutions.", href: "/#solutions" },
   { label: "How it works.", href: "/#how-it-works" },
 ];
+
+/*
+  The Individual audience (Yemi, 05/10/2026) — its own page at /individuals, reached
+  through the Organizations | Individual toggle on both heroes. Its nav drops
+  Solutions (an organisation section) and swaps "Request Access" for "Get Started".
+*/
+export const INDIVIDUAL_HREF = "/individuals";
+
+export const INDIVIDUAL_NAV_LINKS: NavLink[] = [
+  { label: "Home", href: INDIVIDUAL_HREF },
+  { label: "Practice library", href: `${INDIVIDUAL_HREF}#practice-library` },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact Us", href: `${INDIVIDUAL_HREF}#contact` },
+];
+
+// Individual "Sign up or Log in" screen in the TDARS app; the hero form appends `?email=`.
+// Set NEXT_PUBLIC_INDIVIDUAL_START_URL per environment (local: http://localhost:3002/individual-login).
+export const INDIVIDUAL_START_HREF =
+  process.env.NEXT_PUBLIC_INDIVIDUAL_START_URL ?? "https://app.tdars.org/individual-login";

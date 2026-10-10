@@ -44,7 +44,7 @@ type ButtonAsButton = BaseProps &
 
 type ButtonAsLink = BaseProps & {
   href: string;
-  /** Renders a plain `<a>` for off-site destinations (e.g. the app's login). */
+  /** Renders a plain `<a>` in a new tab for off-site destinations (e.g. the app's login). */
   external?: boolean;
 };
 
@@ -93,7 +93,7 @@ export function Button(props: ButtonProps) {
   if (isLink(props)) {
     if (props.external) {
       return (
-        <a href={props.href} className={classes} rel="noreferrer">
+        <a href={props.href} className={classes} target="_blank" rel="noopener noreferrer">
           {children}
         </a>
       );

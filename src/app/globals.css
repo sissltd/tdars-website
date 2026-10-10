@@ -119,6 +119,12 @@
      design/site/web/home-web1.png — white at the edges, peaking #eef5fd
      top-centre, back to white before the trust strip. */
   --hero-tint: #eef5fd;
+  /* ── Individual page (05/10) ── practice cards, Quick Practice chip, Mock Exam card */
+  --practice-card: #f7f7f7;
+  --success-chip: #008500;
+  --success-chip-bg: #e5ffe5;
+  --panel-card-dark: #3a3a3a;
+  --media-card: #f6f6f6; /* illustration cards on the dark bands */
   --hero-tint-soft: #f7fafd;
   --gradient-hero: radial-gradient(
     120% 100% at 52% 0%,
@@ -226,6 +232,11 @@
   /* The hero wash cools and deepens rather than disappearing, so the headline
      still sits in a pool of light the way the frame intends. */
   --hero-tint: #16202b;
+  --practice-card: #1e1e1e;
+  --success-chip: #4ade80;
+  --success-chip-bg: #12301c;
+  --panel-card-dark: #303030;
+  --media-card: #303030;
   --hero-tint-soft: #141a21;
 }
 
@@ -271,6 +282,11 @@
 
   --color-success: var(--success);
   --color-success-soft: var(--success-soft);
+  --color-practice-card: var(--practice-card);
+  --color-success-chip: var(--success-chip);
+  --color-success-chip-bg: var(--success-chip-bg);
+  --color-panel-card-dark: var(--panel-card-dark);
+  --color-media-card: var(--media-card);
 
   /* Bricolage Grotesque for headings, Inter for body/UI (loaded in layout.tsx) */
   --font-heading: var(--font-bricolage);
@@ -617,6 +633,24 @@
   size and repeats. Lifted from the TDARS app's payment-success modal so the two
   surfaces animate identically (same product, same brand).
 */
+/* Trusted-by logo marquee (Individual page): the track holds the list twice, so -50% loops seamlessly. */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee-left 32s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
 @keyframes grow-shrink {
   0% {
     transform: scale(0);

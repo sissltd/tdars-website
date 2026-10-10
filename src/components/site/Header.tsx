@@ -10,7 +10,14 @@ import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { ArrowRightIcon, CloseIcon, MenuIcon } from "@/components/site/icons";
-import { LOGIN_HREF, NAV_LINKS, REQUEST_ACCESS_HREF } from "./nav-links";
+import {
+  INDIVIDUAL_HREF,
+  INDIVIDUAL_NAV_LINKS,
+  INDIVIDUAL_START_HREF,
+  LOGIN_HREF,
+  NAV_LINKS,
+  REQUEST_ACCESS_HREF,
+} from "./nav-links";
 
 /*
   Three of the five nav links are ANCHORS on the home page, not routes —
@@ -85,18 +92,21 @@ function useActiveSection(enabled: boolean) {
 
 function useIsActive() {
   const pathname = usePathname();
-  const onHome = pathname === "/";
+  // Each audience landing page is a "home" with its own section anchors.
+  const home = pathname === INDIVIDUAL_HREF ? INDIVIDUAL_HREF : "/";
+  const onHome = pathname === home;
   const activeSection = useActiveSection(onHome);
 
   return (href: string): "page" | "true" | undefined => {
-    const hash = href.startsWith("/#") ? href.slice(2) : null;
+    const prefix = home === "/" ? "/#" : `${home}#`;
+    const hash = href.startsWith(prefix) ? href.slice(prefix.length) : null;
 
     // A section link is current only while that section is under the header.
     // `aria-current="true"` rather than "page": the page has not changed.
     if (hash) return onHome && activeSection === hash ? "true" : undefined;
 
     // Home is current on the home page until the reader reaches a section.
-    if (href === "/") return onHome && !activeSection ? "page" : undefined;
+    if (href === home) return onHome && !activeSection ? "page" : undefined;
 
     return pathname === href || pathname.startsWith(`${href}/`)
       ? "page"
@@ -106,6 +116,14 @@ function useIsActive() {
 
 export function Header() {
   const isActive = useIsActive();
+  // The Individual audience gets its own nav and a "Get Started" CTA (Yemi, 05/10).
+  const individual = usePathname() === INDIVIDUAL_HREF;
+  const links = individual ? INDIVIDUAL_NAV_LINKS : NAV_LINKS;
+  const cta = individual
+    ? { label: "Get Started", href: INDIVIDUAL_START_HREF }
+    : { label: "Request Access", href: REQUEST_ACCESS_HREF };
+  // The toggle decides which app sign-in Log In opens: hub staff login or the individual one.
+  const loginHref = individual ? INDIVIDUAL_START_HREF : LOGIN_HREF;
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
 
@@ -137,7 +155,7 @@ export function Header() {
             {/* Desktop nav */}
             <nav aria-label="Main" className="hidden lg:block">
               <ul className="flex items-center gap-2">
-                {NAV_LINKS.map((link) => {
+                {links.map((link) => {
                   const active = isActive(link.href);
                   return (
                     <li key={link.href}>
@@ -163,26 +181,26 @@ export function Header() {
             <div className="hidden items-center gap-6 lg:flex">
               <ThemeToggle />
 
-              {/* Plain <a>: LOGIN_HREF is the TDARS app on another host. */}
+              {/* Plain <a>: both login targets are the TDARS app on another host. */}
               <a
-                href={LOGIN_HREF}
+                href={loginHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-sm text-sm font-medium text-accent hover:text-accent"
               >
                 Log In
               </a>
-              <Button href={REQUEST_ACCESS_HREF} className="px-7">
-                Request Access
-                <ArrowRightIcon className="size-4" />
+              <Button href={cta.href} external={individual} className="px-7">
+                {cta.label}
+                {individual ? null : <ArrowRightIcon className="size-4" />}
               </Button>
             </div>
 
             {/* Mobile actions */}
             <div className="flex items-center gap-2 lg:hidden">
               <ThemeToggle />
-              <Button href={REQUEST_ACCESS_HREF} size="sm">
-                Request Access
+              <Button href={cta.href} external={individual} size="sm">
+                {cta.label}
               </Button>
               <button
                 type="button"
@@ -228,7 +246,7 @@ export function Header() {
           <Container className="flex-1 overflow-y-auto pt-6 pb-10">
             <nav aria-label="Mobile">
               <ul className="flex flex-col gap-1">
-                {NAV_LINKS.map((link) => {
+                {links.map((link) => {
                   const active = isActive(link.href);
                   return (
                     <li key={link.href}>
@@ -252,7 +270,7 @@ export function Header() {
             </nav>
 
             <a
-              href={LOGIN_HREF}
+              href={loginHref}
               target="_blank"
               rel="noopener noreferrer"
               onClick={closeMenu}

@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { AudienceToggle } from "@/components/site/AudienceToggle";
 import { Button } from "@/components/site/Button";
 import { REQUEST_ACCESS_HREF } from "@/components/site/nav-links";
 
@@ -23,7 +24,7 @@ export function Hero() {
         pushed the copy down or pulled the image into the navbar.
 
         Top-aligning makes the two independent: the section's padding sets the
-        image gap, `lg:pt-10` below sets the extra 40px on the copy.
+        image gap, `lg:pt-4` below sets the extra 16px on the copy (was 40, Kaz 05/10).
       */
       /*
         ⚠️ `lg:gap-28` (112px), NOT the 56px it was — the centre rule in
@@ -58,7 +59,11 @@ export function Hero() {
         +40px on the COPY ONLY. Section padding (80) + this (40) = 120 below the
         header, which is where Yemi's headline sits. The image keeps the 80.
       */}
-      <div className="pr-4 md:pr-10 lg:pt-10 lg:pr-0">
+      <div className="pr-4 md:pr-10 lg:pt-4 lg:pr-0">
+        {/* Organizations | Individual (Yemi, 05/10). No enter delay, same as the headline. */}
+        <div data-enter="left" className="mb-6 flex justify-center lg:mb-8 lg:max-w-[440px]">
+          <AudienceToggle active="Organizations" />
+        </div>
         {/*
           Animated on LOAD via CSS, not on scroll via JS — see `data-enter` in
           globals.css. The heading takes NO delay: it is the LCP candidate, and
