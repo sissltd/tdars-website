@@ -29,7 +29,8 @@ export default function HomePage() {
         keeps the dashboard image off the header — Yemi's frame puts the image
         top 77px below the header, not flush against it.
 
-        80px here, against the site default of 96. The copy is lifted
+        48px here (was 80; Kaz 05/10 so the email form clears the fold on big
+        screens), against the site default of 96. The copy is lifted
         separately, by its own offset in Hero.tsx — NOT by removing this. Taking
         this to 0 shoves the image into the navbar, which is wrong.
       */}
@@ -37,7 +38,7 @@ export default function HomePage() {
         bleed
         reveal={false}
         aria-labelledby="hero-title"
-        className="relative overflow-hidden bg-hero pt-6 pb-14 md:pt-8 md:pb-20 lg:pt-20 lg:pb-24"
+        className="relative overflow-hidden bg-hero pt-6 pb-14 md:pt-8 md:pb-20 lg:pt-12 lg:pb-24"
       >
         {/*
           The vertical rule between the copy and the mock-up.
