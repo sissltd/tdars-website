@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { FrontDeskWidget } from "@/components/site/FrontDeskWidget";
 
 // Inter — body / UI. Bricolage Grotesque — headings (matches the TDARS brand).
 const inter = Inter({
@@ -100,6 +101,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="flex min-h-full flex-col bg-background">
         <Providers>{children}</Providers>
+        <FrontDeskWidget />
       </body>
     </html>
   );
