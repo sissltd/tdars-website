@@ -408,15 +408,19 @@ function SuccessModal() {
       >
         <SuccessBurstIcon className="animate-grow-shrink" />
 
-        <h1 className="font-heading text-h4 leading-8 text-heading">
-          Request submitted
-        </h1>
+        {/* Title + text share one block with no gap: 32 + 64 + 24 + 32 + 80 + 32 = the
+            frame's Hug 264. H4 is the 24/32 desktop size at every width here. */}
+        <div>
+          <h1 className="font-heading text-h4-lg font-semibold text-heading">
+            Request submitted
+          </h1>
 
-        <p className="text-sm leading-5 text-body">
-          Thank you for your interest in TDARS. Our team will review your
-          request and reach out within 2 business days to schedule a
-          walkthrough.
-        </p>
+          <p className="text-sm leading-5 text-body">
+            Thank you for your interest in TDARS. Our team will review your
+            request and reach out within 2 business days to schedule a
+            walkthrough.
+          </p>
+        </div>
       </div>
     </div>
   );

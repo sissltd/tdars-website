@@ -12,9 +12,7 @@ import {
   XIcon,
 } from "@/components/site/icons";
 import { ContactForm } from "./ContactForm";
-import { FOOTER_LINKS } from "./nav-links";
-
-const LANGUAGES = ["Eng", "Yor", "Igb", "Hau", "Fre"];
+import { FOOTER_COLUMNS } from "./nav-links";
 
 const SOCIALS = [
   { label: "TDARS on LinkedIn", href: "#", Icon: LinkedInIcon },
@@ -82,91 +80,65 @@ function ContactCard() {
   );
 }
 
+/*
+  Yemi's footer frame (29/10/2026): the right column is the brand block (574 wide),
+  the Menu / Company / Individual link row, then the socials and copyright.
+  Address and phone are Body 2 in Gray 5; the description is Body 1 in Gray 4.
+*/
 function SiteInfo() {
   return (
-    <div className="flex flex-col">
-      <Logo
-        href={null}
-        className="text-footer-foreground"
-        wordmarkClassName="text-2xl md:text-3xl"
-        markClassName="h-8"
-      />
+    <div className="flex min-w-0 flex-col lg:justify-between">
+      <div>
+        <Logo
+          href={null}
+          className="text-footer-foreground"
+          wordmarkClassName="text-2xl md:text-3xl"
+          markClassName="h-8"
+        />
 
-      <p className="mt-5 max-w-[478px] text-base leading-6 text-footer-body">
-        Secure digital archive and career dossier systems engineered
-        specifically for national agencies, military commands, and security
-        structures.
-      </p>
+        <address className="mt-3 text-sm leading-5 text-footer-foreground not-italic">
+          <span className="block">483920, Abuja, Nigeria 22/2/5, Office 4</span>
+          <a
+            href="tel:+19998887766"
+            className="mt-2 block w-fit rounded-sm hover:text-footer-foreground/70"
+          >
+            +1 (999) 888-77-66
+          </a>
+        </address>
 
-      <ul className="mt-5 flex flex-wrap gap-x-10 gap-y-2">
-        {FOOTER_LINKS.map((link) => (
-          <li key={link.label}>
-            <Link
-              href={link.href}
-              className="rounded-sm text-base leading-6 font-semibold text-on-rust-body hover:opacity-80"
-            >
-              {link.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+        <p className="mt-6 max-w-[574px] text-base leading-6 text-footer-body">
+          Secure digital records management and computer-based examinations. It
+          helps organizations digitize, organize, manage, and retrieve records,
+          while providing examination practice and assessment tools for
+          institutions and individual candidates.
+        </p>
 
-      {/*
-        Contact Us and Location are ONE block in the frame — 632 x 200 with
-        space-between — NOT two siblings separated by a gap. That block sits
-        120px below the Platform./Solutions./How it works. block above it, and
-        145px above the social row below it. Treating them as siblings put the
-        spacing between them instead of around them.
-      */}
-      <div className="mt-12 lg:mt-[120px] lg:flex lg:h-[200px] lg:flex-col lg:justify-between">
-        <div>
-          <h3 className="text-base leading-6 font-semibold text-footer-foreground">
-            Contact Us
-          </h3>
-          <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
-            <a
-              href="tel:+19998887766"
-              className="block rounded-sm hover:text-footer-foreground/70"
-            >
-              +1 (999) 888-77-66
-            </a>
-            <a
-              href="mailto:hello@cK.com"
-              className="block rounded-sm hover:text-footer-foreground/70"
-            >
-              hello@cK.com
-            </a>
-          </address>
-        </div>
-
-        {/* Location left / Languages right stays side-by-side on mobile too — see
-            design/site/mobile/home-mobile21.png. */}
-        <div className="mt-10 flex items-start justify-between gap-6 lg:mt-0">
-          <div>
-            <h3 className="text-base leading-6 font-semibold text-footer-foreground">
-              Location
-            </h3>
-            <address className="mt-3 text-sm leading-relaxed text-footer-foreground not-italic">
-              483920, Abuja, Nigeria
-              <br />
-              22/2/5, Office 4
-            </address>
-          </div>
-
-          <div className="text-right">
-            <h3 className="text-xs text-footer-foreground">Languages</h3>
-            <ul className="mt-3 flex gap-3 text-sm whitespace-nowrap text-footer-foreground md:gap-4">
-              {LANGUAGES.map((language) => (
-                <li key={language}>{language}</li>
-              ))}
-            </ul>
-          </div>
+        {/* 574 wide, three 153px columns spread space-between. */}
+        <div className="mt-12 grid max-w-[574px] grid-cols-2 gap-x-6 gap-y-8 sm:flex sm:justify-between lg:mt-32">
+          {FOOTER_COLUMNS.map((column) => (
+            <div key={column.heading} className="sm:w-[153px]">
+              <h3 className="text-base leading-6 font-semibold text-footer-foreground">
+                {column.heading}
+              </h3>
+              <ul className="mt-2 flex flex-col gap-2">
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      className="rounded-sm text-sm leading-5 text-footer-body hover:text-footer-foreground"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* 145px below the address at desktop — the same space-between result on the
-          right-hand column. */}
-      <div className="mt-14 flex flex-wrap items-end justify-between gap-6 lg:mt-[145px]">
+      {/* Pinned to the bottom of the column at desktop — the frame's space-between. */}
+      <div className="mt-14 flex max-w-[574px] flex-wrap items-end justify-between gap-6 lg:mt-12">
         <ul className="grid grid-cols-2 gap-3 [--chip:32.73px]">
           {SOCIALS.map(({ label, href, Icon }, index) => (
             <li
@@ -201,8 +173,8 @@ export function Footer() {
     <footer className="bg-footer text-footer-foreground">
       {/* 64px top/bottom; the 80px side gutter is Container's own. */}
       <Container className="py-8 lg:py-16">
-        {/* 566 + 82 + 632 = 1280 — space-between, not an even split. */}
-        <div className="grid items-stretch gap-[60px] lg:grid-cols-[566fr_632fr] lg:gap-[82px]">
+        {/* Contact card + 574px info column, space-between across 1280. */}
+        <div className="grid items-stretch gap-[60px] lg:grid-cols-[minmax(0,606fr)_minmax(0,574fr)] lg:gap-[100px]">
           <ContactCard />
           <SiteInfo />
         </div>

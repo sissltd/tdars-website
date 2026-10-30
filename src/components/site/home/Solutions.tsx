@@ -41,13 +41,13 @@ const MODULES = [
     name: "Mock Exam",
     Icon: MockExamModuleIcon,
     description:
-      "Help your team prepare with practice exams, track their progress, and assess readiness before the real test.",
+      "Create practice exams for your team. Track their readiness and performance. Ensure candidates are fully prepared for the actual test.",
   },
   {
     name: "CBT",
     Icon: CbtModuleIcon,
     description:
-      "Run proctored computer-based tests with anti-cheat monitoring and instant, reliable results.",
+      "Create and manage computer-based examinations, from candidate setup to grading and results.",
   },
 ];
 
@@ -71,7 +71,8 @@ export function Solutions() {
       </Reveal>
 
       {/* 60px below the header block at desktop, 40px on mobile — the section's gap. */}
-      <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mt-15 lg:grid-cols-4 lg:gap-6">
+      {/* Modules Card Row (Yemi 29/10): Fill 1280 · gap 20 at every width. */}
+      <ul className="mt-10 grid gap-5 md:grid-cols-2 lg:mt-15 lg:grid-cols-4">
         {MODULES.map(({ name, description, Icon }, index) => (
           // 70ms apart: the four land in 210ms, read as one gesture rather than
           // four separate events.
@@ -79,18 +80,19 @@ export function Solutions() {
             as="li"
             key={name}
             delay={index * 70}
-            className="flex flex-col gap-5 rounded-md border border-border bg-surface p-3 lg:h-[218px] lg:p-5"
+            className="flex flex-col rounded-md border border-border bg-surface p-3 lg:min-h-[218px] lg:p-5"
           >
-            {/*
-              CBT is 37 wide where the others are 27; 28 tall is the constant.
+            {/* Icon, title and text are ONE vertical frame at gap 10 (Hug 140). */}
+            <div className="flex flex-col gap-2.5">
+              {/*
+                CBT is 37 wide where the others are 27; 28 tall is the constant.
 
-              `self-start` is load-bearing: the card is a flex COLUMN, so its
-              children stretch to the full card width by default. `w-auto` does
-              not opt out of that — the SVGs silently centred themselves inside a
-              full-width box, and the one raster icon stretched into a smear.
-            */}
-            <Icon className="h-7 w-auto shrink-0 self-start" />
-            <div className="flex flex-col gap-2">
+                `self-start` is load-bearing: the card is a flex COLUMN, so its
+                children stretch to the full card width by default. `w-auto` does
+                not opt out of that — the SVGs silently centred themselves inside a
+                full-width box, and the one raster icon stretched into a smear.
+              */}
+              <Icon className="h-7 w-auto shrink-0 self-start" />
               <h3 className="font-heading text-base font-bold leading-[22px] text-heading lg:text-h5 lg:font-bold">
                 {name}
               </h3>
