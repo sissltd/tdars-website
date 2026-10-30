@@ -40,17 +40,6 @@ export const LOGIN_HREF = "https://app.tdars.org/login";
 
 export const REQUEST_ACCESS_HREF = "/request-access";
 
-/**
- * Footer link row, verbatim including the trailing full stops.
- *
- * TODO(review): "Platform." has no matching page in the screenshots or the nav.
- * Pointed at /solutions for now — confirm whether it should be its own route.
- */
-export const FOOTER_LINKS: NavLink[] = [
-  { label: "Platform.", href: "/#solutions" },
-  { label: "Solutions.", href: "/#solutions" },
-  { label: "How it works.", href: "/#how-it-works" },
-];
 
 /*
   The Individual audience (Yemi, 05/10/2026) — its own page at /individuals, reached
@@ -70,3 +59,29 @@ export const INDIVIDUAL_NAV_LINKS: NavLink[] = [
 // Set NEXT_PUBLIC_INDIVIDUAL_START_URL per environment (local: http://localhost:3002/individual-login).
 export const INDIVIDUAL_START_HREF =
   process.env.NEXT_PUBLIC_INDIVIDUAL_START_URL ?? "https://app.tdars.org/individual-login";
+
+// Footer link columns, verbatim from Yemi's footer frame (29/10/2026).
+export const FOOTER_COLUMNS: { heading: string; links: NavLink[] }[] = [
+  {
+    heading: "Menu",
+    links: [
+      { label: "Home", href: "/" },
+      { label: "Solutions", href: "/#solutions" },
+      { label: "How it works", href: "/#how-it-works" },
+    ],
+  },
+  {
+    heading: "Company",
+    links: [
+      { label: "Contact Us", href: "/#contact" },
+      { label: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    heading: "Individual",
+    links: [
+      { label: "Explore mock practice", href: INDIVIDUAL_HREF },
+      { label: "Practice library", href: `${INDIVIDUAL_HREF}#practice-library` },
+    ],
+  },
+];
